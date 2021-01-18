@@ -15449,6 +15449,14 @@ select {
   max-width: 1200px;
 }
 
+.max-w-1\/2 {
+  max-width: 50%;
+}
+
+.max-w-3\/5 {
+  max-width: 60%;
+}
+
 .min-h-0 {
   min-height: 0px;
 }
@@ -47410,6 +47418,14 @@ select {
     max-width: 1200px;
   }
 
+  .sm\:max-w-1\/2 {
+    max-width: 50%;
+  }
+
+  .sm\:max-w-3\/5 {
+    max-width: 60%;
+  }
+
   .sm\:min-h-0 {
     min-height: 0px;
   }
@@ -79291,6 +79307,14 @@ select {
 
   .md\:max-w-screen-xl {
     max-width: 1200px;
+  }
+
+  .md\:max-w-1\/2 {
+    max-width: 50%;
+  }
+
+  .md\:max-w-3\/5 {
+    max-width: 60%;
   }
 
   .md\:min-h-0 {
@@ -111176,6 +111200,14 @@ select {
     max-width: 1200px;
   }
 
+  .lg\:max-w-1\/2 {
+    max-width: 50%;
+  }
+
+  .lg\:max-w-3\/5 {
+    max-width: 60%;
+  }
+
   .lg\:min-h-0 {
     min-height: 0px;
   }
@@ -143057,6 +143089,14 @@ select {
 
   .xl\:max-w-screen-xl {
     max-width: 1200px;
+  }
+
+  .xl\:max-w-1\/2 {
+    max-width: 50%;
+  }
+
+  .xl\:max-w-3\/5 {
+    max-width: 60%;
   }
 
   .xl\:min-h-0 {

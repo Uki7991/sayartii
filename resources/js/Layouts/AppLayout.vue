@@ -30,11 +30,11 @@
 
 
                 <div class="flex space-x-6">
-                    <button class="flex items-center px-3 border border-gray-900 rounded">
+                    <button class="flex items-center px-3 border border-gray-900 rounded bg-white">
                         <img class="h-6 w-7 object-cover object-left" src="https://sayartii.com/static/img/flags/ae.svg" alt="">
                     </button>
 
-                    <button class="flex items-center px-5 border border-gray-900 rounded">
+                    <button class="flex items-center px-5 border border-gray-900 rounded bg-white">
                         Menu
                     </button>
                 </div>

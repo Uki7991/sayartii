@@ -34,6 +34,46 @@
                             <img class="object-cover w-full h-40" src="https://sayartii.com/uploads/cars/17592190885931/2cfa03d54d976494fe21e356c7131920d134f103_med.jpg" alt="">
                         </inertia-link>
                     </div>
+
+                    <div class="bg-white shadow-lg p-8 my-10 flex flex-col space-y-6">
+                        <div class="flex space-x-4 items-center border-b border-gray-500 pb-2">
+                            <img class="h-20 w-auto" src="https://sayartii.com/uploads/dealers/17592209246733/profile/202abde794a5117a96141cadf45ffb9ab3b720b5.jpg" alt="">
+                            <div>
+                                <inertia-link href="" class="text-lg text-blue-600">Royal Motors</inertia-link>
+                                <p class="">United Arab Emirates, Dubai</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-4">
+                            <p class="text-4xl">Mercedes-Benz G-Class</p>
+                            <p class="text-xl">Mercedes G63 2019 / GCC Spec / With Warranty</p>
+                            <pre>
+Mercedes G63 AMG
+2019
+Mileage : 30,000 kms
+GCC Spec
+With Warranty
+
+For more details call or whatsapp us at:
++971503411998
++971528542444
++97143332478
+
+We can do finance to All Leading Banks in UAE.
+And can do export to all country.
+
+Visit Us at Showroom 11, Blk 2 , New Automarket,
+Ras Al Khor, Dubai
+
+
+Follow us for latest update on available stocks on:
+• Website : www.uaeroyalmotors.com
+• Facebook Page : RoyalMotorsUAE
+• Instagram : royalmotorsuae
+• snapshot : royalmotors2019
+• Twitter : https:_Royal_Motors
+                            </pre>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="md:w-2/6">
@@ -47,6 +87,38 @@
                             Show number
                         </a>
                     </div>
+                    <ul class="my-8">
+                        <li class="flex justify-between text-lg my-2">
+                            <p>Year</p><p class="max-w-3/5">2019</p>
+                        </li>
+                        <li class="flex justify-between text-lg my-2">
+                            <p>Make</p><p class="max-w-3/5">Mercedes-Benz</p>
+                        </li>
+                        <li class="flex justify-between text-lg my-2">
+                            <p>Model</p><p class="max-w-3/5">X7</p>
+                        </li>
+                        <li class="flex justify-between text-lg my-2">
+                            <p>Mileage</p><p class="max-w-3/5">15,980</p>
+                        </li>
+                        <li class="flex justify-between text-lg my-2">
+                            <p>Cylinders</p><p class="max-w-3/5">8</p>
+                        </li>
+                        <li class="flex justify-between text-lg my-2">
+                            <p>Transmission</p><p class="max-w-3/5">automatic</p>
+                        </li>
+                        <li class="flex justify-between text-lg my-2">
+                            <p>Type</p><p class="max-w-3/5">suv</p>
+                        </li>
+                        <li class="flex justify-between text-lg my-2">
+                            <p>Doors</p><p class="max-w-3/5">5</p>
+                        </li>
+                        <li class="flex justify-between text-lg my-2">
+                            <p>Color</p><p class="max-w-3/5">black</p>
+                        </li>
+                        <li class="flex justify-between text-lg my-2">
+                            <p>Fuel</p><p class="max-w-3/5">petrol</p>
+                        </li>
+                    </ul>
                 </div>
 
             </section>

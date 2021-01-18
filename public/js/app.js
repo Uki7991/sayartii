@@ -3888,6 +3888,78 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -28771,7 +28843,8 @@ var staticRenderFns = [
       _c(
         "button",
         {
-          staticClass: "flex items-center px-3 border border-gray-900 rounded"
+          staticClass:
+            "flex items-center px-3 border border-gray-900 rounded bg-white"
         },
         [
           _c("img", {
@@ -28787,7 +28860,8 @@ var staticRenderFns = [
       _c(
         "button",
         {
-          staticClass: "flex items-center px-5 border border-gray-900 rounded"
+          staticClass:
+            "flex items-center px-5 border border-gray-900 rounded bg-white"
         },
         [_vm._v("\n                    Menu\n                ")]
       )
@@ -30615,6 +30689,66 @@ var render = function() {
                 ])
               ],
               1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "bg-white shadow-lg p-8 my-10 flex flex-col space-y-6"
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "flex space-x-4 items-center border-b border-gray-500 pb-2"
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "h-20 w-auto",
+                      attrs: {
+                        src:
+                          "https://sayartii.com/uploads/dealers/17592209246733/profile/202abde794a5117a96141cadf45ffb9ab3b720b5.jpg",
+                        alt: ""
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      [
+                        _c(
+                          "inertia-link",
+                          {
+                            staticClass: "text-lg text-blue-600",
+                            attrs: { href: "" }
+                          },
+                          [_vm._v("Royal Motors")]
+                        ),
+                        _vm._v(" "),
+                        _c("p", {}, [_vm._v("United Arab Emirates, Dubai")])
+                      ],
+                      1
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex flex-col space-y-4" }, [
+                  _c("p", { staticClass: "text-4xl" }, [
+                    _vm._v("Mercedes-Benz G-Class")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "text-xl" }, [
+                    _vm._v("Mercedes G63 2019 / GCC Spec / With Warranty")
+                  ]),
+                  _vm._v(" "),
+                  _c("pre", [
+                    _vm._v(
+                      "Mercedes G63 AMG\n2019\nMileage : 30,000 kms\nGCC Spec\nWith Warranty\n\nFor more details call or whatsapp us at:\n+971503411998\n+971528542444\n+97143332478\n\nWe can do finance to All Leading Banks in UAE.\nAnd can do export to all country.\n\nVisit Us at Showroom 11, Blk 2 , New Automarket,\nRas Al Khor, Dubai\n\n\nFollow us for latest update on available stocks on:\n• Website : www.uaeroyalmotors.com\n• Facebook Page : RoyalMotorsUAE\n• Instagram : royalmotorsuae\n• snapshot : royalmotors2019\n• Twitter : https:_Royal_Motors\n                            "
+                    )
+                  ])
+                ])
+              ]
             )
           ]),
           _vm._v(" "),
@@ -30664,7 +30798,7 @@ var render = function() {
                     ]
                   ),
                   _vm._v(
-                    "\n                        Whatsapp\n                    "
+                    "\n                            Whatsapp\n                        "
                   )
                 ]
               ),
@@ -30678,10 +30812,62 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\n                        Show number\n                    "
+                    "\n                            Show number\n                        "
                   )
                 ]
               )
+            ]),
+            _vm._v(" "),
+            _c("ul", { staticClass: "my-8" }, [
+              _c("li", { staticClass: "flex justify-between text-lg my-2" }, [
+                _c("p", [_vm._v("Year")]),
+                _c("p", { staticClass: "max-w-3/5" }, [_vm._v("2019")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "flex justify-between text-lg my-2" }, [
+                _c("p", [_vm._v("Make")]),
+                _c("p", { staticClass: "max-w-3/5" }, [_vm._v("Mercedes-Benz")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "flex justify-between text-lg my-2" }, [
+                _c("p", [_vm._v("Model")]),
+                _c("p", { staticClass: "max-w-3/5" }, [_vm._v("X7")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "flex justify-between text-lg my-2" }, [
+                _c("p", [_vm._v("Mileage")]),
+                _c("p", { staticClass: "max-w-3/5" }, [_vm._v("15,980")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "flex justify-between text-lg my-2" }, [
+                _c("p", [_vm._v("Cylinders")]),
+                _c("p", { staticClass: "max-w-3/5" }, [_vm._v("8")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "flex justify-between text-lg my-2" }, [
+                _c("p", [_vm._v("Transmission")]),
+                _c("p", { staticClass: "max-w-3/5" }, [_vm._v("automatic")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "flex justify-between text-lg my-2" }, [
+                _c("p", [_vm._v("Type")]),
+                _c("p", { staticClass: "max-w-3/5" }, [_vm._v("suv")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "flex justify-between text-lg my-2" }, [
+                _c("p", [_vm._v("Doors")]),
+                _c("p", { staticClass: "max-w-3/5" }, [_vm._v("5")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "flex justify-between text-lg my-2" }, [
+                _c("p", [_vm._v("Color")]),
+                _c("p", { staticClass: "max-w-3/5" }, [_vm._v("black")])
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "flex justify-between text-lg my-2" }, [
+                _c("p", [_vm._v("Fuel")]),
+                _c("p", { staticClass: "max-w-3/5" }, [_vm._v("petrol")])
+              ])
             ])
           ])
         ]
@@ -30690,7 +30876,7 @@ var render = function() {
       _c("section", { staticClass: "md:w-10/12 px-2 mx-auto py-8" }, [
         _c("div", { staticClass: "text-center" }, [
           _c("h2", [
-            _vm._v("\n                    Suggested\n                ")
+            _vm._v("\n                        Suggested\n                    ")
           ])
         ]),
         _vm._v(" "),
