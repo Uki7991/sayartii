@@ -70,9 +70,11 @@
                 this.$inertia.post(route('logout'));
             },
             openSidebar() {
+                this.hideBody();
                 this.activeSidebar = true;
             },
             closeSidebar() {
+                this.showBody();
                 this.activeSidebar = false;
             },
         },

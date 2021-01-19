@@ -7,6 +7,22 @@ import PortalVue from 'portal-vue';
 import VModal from 'vue-js-modal'
 
 Vue.mixin({ methods: { route } });
+Vue.mixin({
+    methods: {
+        hideBody() {
+            const body = document.querySelector('body');
+            if (!body.classList.contains('overflow-hidden')) {
+                body.classList.add('overflow-hidden');
+            }
+        },
+        showBody() {
+            const body = document.querySelector('body');
+            if (body.classList.contains('overflow-hidden')) {
+                body.classList.remove('overflow-hidden');
+            }
+        }
+    }
+});
 Vue.use(InertiaPlugin);
 Vue.use(PortalVue);
 Vue.use(VModal);

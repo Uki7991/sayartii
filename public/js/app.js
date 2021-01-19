@@ -2976,9 +2976,11 @@ __webpack_require__.r(__webpack_exports__);
       this.$inertia.post(route('logout'));
     },
     openSidebar: function openSidebar() {
+      this.hideBody();
       this.activeSidebar = true;
     },
     closeSidebar: function closeSidebar() {
+      this.showBody();
       this.activeSidebar = false;
     }
   },
@@ -5185,6 +5187,24 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // Import
 vue__WEBPACK_IMPORTED_MODULE_3__.default.mixin({
   methods: {
     route: route
+  }
+});
+vue__WEBPACK_IMPORTED_MODULE_3__.default.mixin({
+  methods: {
+    hideBody: function hideBody() {
+      var body = document.querySelector('body');
+
+      if (!body.classList.contains('overflow-hidden')) {
+        body.classList.add('overflow-hidden');
+      }
+    },
+    showBody: function showBody() {
+      var body = document.querySelector('body');
+
+      if (body.classList.contains('overflow-hidden')) {
+        body.classList.remove('overflow-hidden');
+      }
+    }
   }
 });
 vue__WEBPACK_IMPORTED_MODULE_3__.default.use(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_0__.plugin);
