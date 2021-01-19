@@ -34,7 +34,7 @@
                         <img class="h-6 w-7 object-cover object-left" src="https://sayartii.com/static/img/flags/ae.svg" alt="">
                     </button>
 
-                    <button class="flex items-center px-5 border border-gray-900 rounded bg-white">
+                    <button @click="openSidebar" class="flex items-center px-5 border border-gray-900 rounded bg-white">
                         Menu
                     </button>
                 </div>
@@ -45,17 +45,23 @@
         <main>
             <slot></slot>
         </main>
+
+        <sidebar @close="closeSidebar" :show="activeSidebar"></sidebar>
+
     </div>
 </template>
 
 <script>
 
+    import Sidebar from "@/Components/Sidebar";
     export default {
         components: {
+            Sidebar
         },
 
         data() {
             return {
+                activeSidebar: false,
             }
         },
 
@@ -63,6 +69,14 @@
             logout() {
                 this.$inertia.post(route('logout'));
             },
+            openSidebar() {
+                this.activeSidebar = true;
+            },
+            closeSidebar() {
+                this.activeSidebar = false;
+            },
+        },
+        mounted() {
         }
     }
 </script>

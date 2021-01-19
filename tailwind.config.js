@@ -22,6 +22,9 @@ module.exports = {
             minHeight: {
                 24: '6rem',
             },
+            minWidth: {
+                '1\/5': '20%',
+            },
             maxWidth: {
                 '1\/2': '50%',
                 '3\/5': '60%',
@@ -32,6 +35,7 @@ module.exports = {
     variants: {
         extend: {
             opacity: ['disabled'],
+            borderWidth: ['hover', 'focus'],
         },
     },
 
