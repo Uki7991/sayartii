@@ -6,30 +6,6 @@
 
                     <car-card :active="true"></car-card>
                     <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
-                    <car-card :active="true"></car-card>
-                    <car-card></car-card>
 
                 </div>
             </div>
