@@ -1,6 +1,6 @@
 <template>
     <div class="bg-gray-50 font-sans">
-        <header class="py-3 shadow-lg border-b border-gray-900">
+        <header class="py-3 shadow-lg border-b border-gray-900 fixed top-0 z-10 w-full bg-gray-50">
             <div class="container mx-auto flex justify-between">
                 <inertia-link href="/" class="h-11 w-auto">
                     <svg class="h-7 md:h-11 w-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 694 391">
@@ -16,7 +16,7 @@
                 </inertia-link>
 
                 <div class="flex w-1/2">
-                    <div @click="openRightSidebar" class="bg-pink-500 flex space-x-1 px-3 items-center text-white rounded-l md:px-5">
+                    <div @click="openFilters" class="bg-pink-500 flex space-x-1 px-3 items-center text-white rounded-l md:px-5 cursor-pointer">
                         <span class="text-base hidden md:block">Filters</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current text-white"><path d="M13 5H22V7H13zM2 7L9 7 9 9 11 9 11 3 9 3 9 5 2 5zM9 17H22V19H9zM19 11H22V13H19zM17 15L17 9.012 15 9.012 15 11 2 11 2 13 15 13 15 15zM7 21L7 15 5 15 5 17 2 17 2 19 5 19 5 21z"></path></svg>
                     </div>
@@ -30,7 +30,7 @@
 
 
                 <div class="flex space-x-6">
-                    <button @click="openLeftSidebar" class="flex items-center px-3 border border-gray-900 rounded bg-white">
+                    <button @click="" class="flex items-center px-3 border border-gray-900 rounded bg-white">
                         <img class="h-6 w-7 object-cover object-left" src="https://sayartii.com/static/img/flags/ae.svg" alt="">
                     </button>
 
@@ -46,17 +46,174 @@
             <slot></slot>
         </main>
 
+        <div @click="openSellSidebar" class="animate-ping fixed bottom-8 right-8 md:bottom-16 md:right-16 rounded-full bg-pink-600 w-16 h-16 flex items-center justify-center text-white cursor-pointer">
+        </div>
+        <div @click="openSellSidebar" class="fixed bottom-8 right-8 md:bottom-16 md:right-16 rounded-full bg-pink-600 w-16 h-16 flex items-center justify-center text-white cursor-pointer">
+            Sell
+        </div>
+
         <sidebar @close="closeSidebar" :show="activeSidebar"></sidebar>
-        <modular-sidebar classes="rounded-br-md" title="Filters" left @close="closeLeftSidebar" :show="leftSidebar">
-            <menu-item-with-select>
-                <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="30" height="30" class="fill-current text-black"><path fill="currentColor" d="M575.33 456.43L399 8.02C397.28 3.1 392.61 0 387.65 0c-3.01 0-4.97 1.03-11.49 3.31-6.46 2.26-9.82 8.24-6.27 18.38-16.46 9.69-59.15 24.09-75.5 26.42-1.33-3.78-1.97-6.62-6.4-9.23V32c0-17.67-14.33-32-32-32h-96c-5.96 0-11.22 2.07-16 4.9C139.22 2.07 133.96 0 128 0H32C14.33 0 0 14.33 0 32v448c0 17.67 14.33 32 32 32h96c5.96 0 11.22-2.07 16-4.9 4.78 2.84 10.04 4.9 16 4.9h96c17.67 0 32-14.33 32-32V118.88l151.43 385.1c1.73 4.92 6.4 8.02 11.35 8.02 3 0 4.96-1.03 11.49-3.31 6.44-2.25 9.83-8.23 6.27-18.38 16.46-9.69 59.15-24.09 75.5-26.42 3.65 10.4 10.13 12.65 16.38 10.46l7.55-2.64c6.23-2.19 9.54-9.07 7.36-15.28zM128 480H32v-64h96v64zm0-96H32V128h96v256zm0-288H32V32h96v64zm128 384h-96v-64h96v64zm0-96h-96V128h96v256zm0-288h-96V32h96v64zm203.15 367.54L303.79 74.88c25.22-4.74 64.01-20.33 75.5-26.42l155.36 388.65c-25.23 4.75-64.01 20.33-75.5 26.43z" class=""></path></svg>
-                <p class="ml-4">Language</p>
-            </menu-item-with-select>
+        <modular-sidebar classes="rounded-br-md w-2/6 min-h-full" title="You are searching" left @close="closeFilters" :show="filtersSidebar">
+            <template #header>
+                <div class="flex justify-between items-center p-8">
+                    <p class="flex-grow text-center text-lg uppercase">You are searching</p>
+                    <button class="focus:outline-none flex-initial" @click="closeFilters">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" class="fill-current text-black"><path d="M16.192 6.344L11.949 10.586 7.707 6.344 6.293 7.758 10.535 12 6.293 16.242 7.707 17.656 11.949 13.414 16.192 17.656 17.606 16.242 13.364 12 17.606 7.758z"></path></svg>
+                    </button>
+                </div>
+            </template>
+            <div class="px-8 overflow-y-auto">
+                <menu-item-with-select>
+                    <globe width="30" height="30" class="text-black"></globe>
+                    <p class="ml-4">Location</p>
+                </menu-item-with-select>
+                <div class="py-2">
+                    <label for="modelFilter">Make / Model</label>
+                    <input type="text" id="modelFilter" class="w-full rounded-md focus:ring-black focus:border-black">
+                </div>
+                <div class="py-2">
+                    <label for="yearFrom">Year</label>
+                    <div class="flex space-x-2">
+                        <input placeholder="From" type="number" id="yearFrom" class="flex-auto rounded-md focus:ring-black focus:border-black">
+                        <input placeholder="To" type="number" class="flex-auto rounded-md focus:ring-black focus:border-black">
+                    </div>
+                </div>
+                <div class="py-2">
+                    <label for="keyword">Keyword</label>
+                    <input type="text" id="keyword" class="w-full rounded-md focus:ring-black focus:border-black">
+                </div>
+
+                <div class="py-1">
+                    <p class="mb-2">Body types</p>
+                    <div class="flex flex-wrap">
+                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in bodyTypes" :key="index" :name="'bodyFilter'" v-model="formFilters.bodyType" :type="value"></radio-box>
+                    </div>
+                </div>
+
+                <div class="py-1">
+                    <p class="mb-2">Condition</p>
+                    <div class="flex flex-wrap">
+                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in ['New', 'Used']" :key="index" :name="'conditionFilters'" v-model="formFilters.condition" :type="value"></radio-box>
+                    </div>
+                </div>
+
+                <div class="py-2">
+                    <label for="priceFrom">Price</label>
+                    <div class="flex space-x-2">
+                        <input placeholder="Min" type="number" id="priceFrom" class="flex-auto rounded-md focus:ring-black focus:border-black">
+                        <input placeholder="Max" type="number" class="flex-auto rounded-md focus:ring-black focus:border-black">
+                    </div>
+                </div>
+
+                <div class="py-2">
+                    <label for="mileageFrom">Mileage</label>
+                    <div class="flex space-x-2">
+                        <input placeholder="Min" type="number" id="mileageFrom" class="flex-auto rounded-md focus:ring-black focus:border-black">
+                        <input placeholder="Max" type="number" class="flex-auto rounded-md focus:ring-black focus:border-black">
+                    </div>
+                </div>
+
+                <div class="py-1">
+                    <p class="mb-2">Gear Box</p>
+                    <div class="flex flex-wrap">
+                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in ['Automatic', 'Manual']" :key="index" :name="'conditionFilters'" v-model="formFilters.gearBox" :type="value"></radio-box>
+                    </div>
+                </div>
+            </div>
             <template v-slot:footer>
-                footer test
+                <div class="flex mt-auto shadow-vertical-up">
+                    <button class="w-1/2 flex items-center justify-center py-4 text-lg font-medium text-pink-600 bg-white">
+                        Cancel
+                    </button>
+                    <button class="w-1/2 flex items-center justify-center py-4 text-white text-lg font-medium bg-pink-600">
+                        7,641 results
+                    </button>
+                </div>
             </template>
         </modular-sidebar>
-        <modular-sidebar title="Sell your car" classes="rounded-bl-md" @close="closeRightSidebar" :show="rightSidebar"></modular-sidebar>
+        <modular-sidebar title="Sell your car" classes="rounded-bl-md w-2/6 min-h-full" @close="closeSellSidebar" :show="sellSidebar">
+            <div class="px-8 overflow-y-auto">
+                <p class="capitalize text-center mb-4">Add images</p>
+                <file-pond
+                    :imagePreviewHeight="100"
+                    allow-multiple="true"
+                ></file-pond>
+                <p class="capitalize text-center my-4">Car information</p>
+                <div class="py-1">
+                    <label for="model">Make / Model</label>
+                    <input type="text" id="model" class="w-full rounded-md focus:ring-black focus:border-black">
+                </div>
+                <div class="py-1">
+                    <label for="year">Year</label>
+                    <input type="number" id="year" class="w-full rounded-md focus:ring-black focus:border-black">
+                </div>
+                <div class="py-1">
+                    <label for="location">Location</label>
+                    <select id="location" class="w-full rounded-md focus:ring-black focus:border-black">
+                        <option>dawdawd</option>
+                        <option>dawdawd</option>
+                        <option>dawdawd</option>
+                        <option>dawdawd</option>
+                        <option>dawdawd</option>
+                        <option>dawdawd</option>
+                        <option>dawdawd</option>
+                    </select>
+                </div>
+                <div class="py-1">
+                    <label for="price">Price</label>
+                    <input type="number" id="price" class="w-full rounded-md focus:ring-black focus:border-black">
+                </div>
+                <div class="py-1">
+                    <label for="mileage">Mileage</label>
+                    <input type="number" id="mileage" class="w-full rounded-md focus:ring-black focus:border-black">
+                </div>
+                <div class="py-1">
+                    <label for="phone">Phone</label>
+                    <input type="number" id="phone" class="w-full rounded-md focus:ring-black focus:border-black">
+                </div>
+                <div class="py-1">
+                    <label for="whatsapp">Whatsapp</label>
+                    <input type="number" id="whatsapp" class="w-full rounded-md focus:ring-black focus:border-black">
+                </div>
+                <div class="py-1">
+                    <label for="title">Title</label>
+                    <input type="number" id="title" class="w-full rounded-md focus:ring-black focus:border-black">
+                </div>
+                <div class="py-1">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="4" class="w-full rounded-md focus:ring-black focus:border-black"></textarea>
+                </div>
+                <div class="py-1">
+                    <p class="mb-2">Body types</p>
+                    <div class="flex flex-wrap">
+                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in bodyTypes" :key="index" :name="'body'" v-model="formCreate.bodyType" :type="value"></radio-box>
+                    </div>
+                </div>
+                <div class="py-1">
+                    <p class="mb-2">Doors</p>
+                    <div class="flex flex-wrap">
+                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in doors" :key="index" :name="'doors'" v-model="formCreate.doors" :type="value"></radio-box>
+                    </div>
+                </div>
+                <div class="py-1">
+                    <p class="mb-2">Cylinders</p>
+                    <div class="flex flex-wrap">
+                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in cylinders" :key="index" :name="'cylinders'" v-model="formCreate.cylinders" :type="value"></radio-box>
+                    </div>
+                </div>
+                <div class="py-1">
+                    <p class="mb-2">Tags</p>
+                    <div class="flex flex-wrap">
+                        <check-box class="flex-initial mr-2 mb-3" v-for="(value, index) in formCreate.tags" :key="index" :name="'tags'" v-model="formCreate.tags[index]" :type="index"></check-box>
+                    </div>
+                </div>
+            </div>
+            <template #footer>
+                <div class="bg-pink-600 py-4 flex items-center justify-center text-white text-lg font-medium mt-auto">
+                    Create
+                </div>
+            </template>
+        </modular-sidebar>
 
     </div>
 </template>
@@ -66,18 +223,78 @@
     import Sidebar from "@/Components/Sidebar";
     import ModularSidebar from "@/Components/ModularSidebar";
     import MenuItemWithSelect from "@/Components/MenuItemWithSelect";
+
+    // Import Vue FilePond
+    import vueFilePond from 'vue-filepond';
+
+    // Import FilePond styles
+    import 'filepond/dist/filepond.min.css';
+
+    // Import image preview plugin styles
+    import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+
+    // Import image preview and file type validation plugins
+    import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+    import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+    import CheckBox from "@/Components/CheckBox";
+    import RadioBox from "@/Components/RadioBox";
+    import Globe from "@/Components/Icons/Globe";
+    const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
+
     export default {
         components: {
+            Globe,
+            RadioBox,
+            CheckBox,
             MenuItemWithSelect,
             ModularSidebar,
-            Sidebar
+            Sidebar,
+            FilePond,
         },
 
         data() {
             return {
                 activeSidebar: false,
-                leftSidebar: false,
-                rightSidebar: false,
+                filtersSidebar: false,
+                sellSidebar: false,
+                bodyTypes: [
+                    "Coupe",
+                    "Sedan",
+                    "Hatch",
+                    "Wagon",
+                    "Pickup",
+                    "Minivan",
+                    "Commercial",
+                    "Other",
+                    "SUV",
+                ],
+                doors: [
+                    2, 3, 4, 5, 6,
+                ],
+                cylinders: [
+                    2, 3, 4, 5, 6, 8, 10, 12,
+                ],
+                formCreate: this.$inertia.form({
+                    bodyType: '',
+                    doors: '',
+                    cylinders: '',
+                    tags: {
+                        'US spec': false,
+                        'Japanese spec': false,
+                        'Full option': false,
+                        'Warranty': false,
+                        'GCC spec': false,
+                        'Turbo': false,
+                        'Supercharger': false,
+                        'Brand New': false,
+                        'Convertible': false,
+                    },
+                }),
+                formFilters: this.$inertia.form({
+                    bodyType: '',
+                    condition: '',
+                    gearBox: '',
+                })
             }
         },
 
@@ -93,21 +310,21 @@
                 this.showBody();
                 this.activeSidebar = false;
             },
-            openLeftSidebar() {
+            openFilters() {
                 this.hideBody();
-                this.leftSidebar = true;
+                this.filtersSidebar = true;
             },
-            closeLeftSidebar() {
+            closeFilters() {
                 this.showBody();
-                this.leftSidebar = false;
+                this.filtersSidebar = false;
             },
-            openRightSidebar() {
+            openSellSidebar() {
                 this.hideBody();
-                this.rightSidebar = true;
+                this.sellSidebar = true;
             },
-            closeRightSidebar() {
+            closeSellSidebar() {
                 this.showBody();
-                this.rightSidebar = false;
+                this.sellSidebar = false;
             },
         },
         mounted() {

@@ -29,6 +29,9 @@ module.exports = {
                 '1\/2': '50%',
                 '3\/5': '60%',
             },
+            boxShadow: {
+                'vertical-up': '0px -2px 5px 0px rgba(51,51,51,.32)',
+            },
         },
     },
 

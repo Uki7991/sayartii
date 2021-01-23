@@ -2,7 +2,7 @@
     <app-layout>
 
         <div class="container mx-auto">
-            <section class="md:w-10/12 mx-auto md:py-8 flex space-x-16">
+            <section class="md:w-10/12 mx-auto md:py-24 flex space-x-16">
 
                 <div class="md:w-4/6">
                     <div class="grid grid-cols-3 gap-0.5 shadow-md">
