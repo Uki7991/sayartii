@@ -86,7 +86,7 @@
                 <div class="py-1">
                     <p class="mb-2">Body types</p>
                     <div class="flex flex-wrap">
-                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in bodyTypes" :key="index" :name="'bodyFilter'" v-model="formFilters.bodyType" :type="value"></radio-box>
+                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in attributes" :key="index" :name="'bodyFilter'" v-model="formFilters.bodyType" :type="value"></radio-box>
                     </div>
                 </div>
 
@@ -113,10 +113,11 @@
                     </div>
                 </div>
 
-                <div class="py-1">
-                    <p class="mb-2">Gear Box</p>
+                <div v-for="(item, index) in attributes" :key="index+'Filter'" class="py-1" :class="[index, attributes]">
+                    <p class="mb-2">{{item.title}}</p>
                     <div class="flex flex-wrap">
-                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in ['Automatic', 'Manual']" :key="index" :name="'conditionFilters'" v-model="formFilters.gearBox" :type="value"></radio-box>
+                        <check-box v-if="item.type === 'checkbox'" class="flex-initial mr-2 mb-3" :class="indexAttr" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'checkboxFilter'" :name="index + 'Filter'" v-model="formFilters[index][indexAttr]" :type="value"></check-box>
+                        <radio-box v-if="item.type === 'radio'" class="flex-initial mr-2 mb-3" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'radioFilter'" :name="index + 'Filter'" v-model="formFilters[index]" :type="value"></radio-box>
                     </div>
                 </div>
             </div>
@@ -183,33 +184,22 @@
                     <label for="description">Description</label>
                     <textarea id="description" rows="4" class="w-full rounded-md focus:ring-black focus:border-black"></textarea>
                 </div>
-                <div class="py-1">
-                    <p class="mb-2">Body types</p>
+                <div v-for="(item, index) in attributes" :key="index+'Create'" class="py-1" :class="[index, attributes]">
+                    <p class="mb-2">{{item.title}}</p>
                     <div class="flex flex-wrap">
-                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in bodyTypes" :key="index" :name="'body'" v-model="formCreate.bodyType" :type="value"></radio-box>
+                        <check-box v-if="item.type === 'checkbox'" class="flex-initial mr-2 mb-3" :class="indexAttr" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'checkbox'" :name="index" v-model="formCreate[index][indexAttr]" :type="value"></check-box>
+                        <radio-box v-if="item.type === 'radio'" class="flex-initial mr-2 mb-3" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'radio'" :name="index" v-model="formCreate[index]" :type="value"></radio-box>
                     </div>
                 </div>
-                <div class="py-1">
-                    <p class="mb-2">Doors</p>
-                    <div class="flex flex-wrap">
-                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in doors" :key="index" :name="'doors'" v-model="formCreate.doors" :type="value"></radio-box>
-                    </div>
-                </div>
-                <div class="py-1">
-                    <p class="mb-2">Cylinders</p>
-                    <div class="flex flex-wrap">
-                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in cylinders" :key="index" :name="'cylinders'" v-model="formCreate.cylinders" :type="value"></radio-box>
-                    </div>
-                </div>
-                <div class="py-1">
-                    <p class="mb-2">Tags</p>
-                    <div class="flex flex-wrap">
-                        <check-box class="flex-initial mr-2 mb-3" v-for="(value, index) in formCreate.tags" :key="index" :name="'tags'" v-model="formCreate.tags[index]" :type="index"></check-box>
-                    </div>
-                </div>
+<!--                <div class="py-1">-->
+<!--                    <p class="mb-2">Tags</p>-->
+<!--                    <div class="flex flex-wrap">-->
+<!--                        <check-box class="flex-initial mr-2 mb-3" v-for="(value, index) in formCreate.tags" :key="index" :name="'tags'" v-model="formCreate.tags[index]" :type="index"></check-box>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
             <template #footer>
-                <div class="bg-pink-600 py-4 flex items-center justify-center text-white text-lg font-medium mt-auto">
+                <div @click="submitFormCreate" class="bg-pink-600 py-4 flex items-center justify-center text-white text-lg font-medium mt-auto">
                     Create
                 </div>
             </template>
@@ -257,44 +247,9 @@
                 activeSidebar: false,
                 filtersSidebar: false,
                 sellSidebar: false,
-                bodyTypes: [
-                    "Coupe",
-                    "Sedan",
-                    "Hatch",
-                    "Wagon",
-                    "Pickup",
-                    "Minivan",
-                    "Commercial",
-                    "Other",
-                    "SUV",
-                ],
-                doors: [
-                    2, 3, 4, 5, 6,
-                ],
-                cylinders: [
-                    2, 3, 4, 5, 6, 8, 10, 12,
-                ],
-                formCreate: this.$inertia.form({
-                    bodyType: '',
-                    doors: '',
-                    cylinders: '',
-                    tags: {
-                        'US spec': false,
-                        'Japanese spec': false,
-                        'Full option': false,
-                        'Warranty': false,
-                        'GCC spec': false,
-                        'Turbo': false,
-                        'Supercharger': false,
-                        'Brand New': false,
-                        'Convertible': false,
-                    },
-                }),
-                formFilters: this.$inertia.form({
-                    bodyType: '',
-                    condition: '',
-                    gearBox: '',
-                })
+                attributes: [],
+                formCreate: this.$inertia.form({}),
+                formFilters: this.$inertia.form({}),
             }
         },
 
@@ -326,8 +281,32 @@
                 this.showBody();
                 this.sellSidebar = false;
             },
+            submitFormCreate() {
+                this.$inertia.post('/ads', this.formCreate);
+            },
         },
         mounted() {
+            window.axios.get('/api/attributes')
+                .then(data => {
+                    this.attributes = data.data;
+                    window._.forEach(data.data, (value, index) => {
+                        if (value.type === 'radio') {
+                            this.$set(this.formFilters, index, '');
+                            this.$set(this.formCreate, index, '');
+                        }
+                        if (value.type === 'checkbox') {
+                            this.$set(this.formCreate, index, {});
+                            this.$set(this.formFilters, index, {});
+                            window._.forEach(value.attributesArr, (item, key) => {
+                                this.$set(this.formCreate[index], key, item.status);
+                                this.$set(this.formFilters[index], key, item.status);
+                            })
+                        }
+                    })
+                })
+                .catch(error => {
+                    console.log(error);
+                })
         }
     }
 </script>

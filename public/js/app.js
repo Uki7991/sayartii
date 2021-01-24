@@ -3300,16 +3300,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
  // Import Vue FilePond
@@ -3341,30 +3331,9 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_3___default()((filepond_plu
       activeSidebar: false,
       filtersSidebar: false,
       sellSidebar: false,
-      bodyTypes: ["Coupe", "Sedan", "Hatch", "Wagon", "Pickup", "Minivan", "Commercial", "Other", "SUV"],
-      doors: [2, 3, 4, 5, 6],
-      cylinders: [2, 3, 4, 5, 6, 8, 10, 12],
-      formCreate: this.$inertia.form({
-        bodyType: '',
-        doors: '',
-        cylinders: '',
-        tags: {
-          'US spec': false,
-          'Japanese spec': false,
-          'Full option': false,
-          'Warranty': false,
-          'GCC spec': false,
-          'Turbo': false,
-          'Supercharger': false,
-          'Brand New': false,
-          'Convertible': false
-        }
-      }),
-      formFilters: this.$inertia.form({
-        bodyType: '',
-        condition: '',
-        gearBox: ''
-      })
+      attributes: [],
+      formCreate: this.$inertia.form({}),
+      formFilters: this.$inertia.form({})
     };
   },
   methods: {
@@ -3394,9 +3363,40 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_3___default()((filepond_plu
     closeSellSidebar: function closeSellSidebar() {
       this.showBody();
       this.sellSidebar = false;
+    },
+    submitFormCreate: function submitFormCreate() {
+      this.$inertia.post('/ads', this.formCreate);
     }
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    var _this = this;
+
+    window.axios.get('/api/attributes').then(function (data) {
+      _this.attributes = data.data;
+
+      window._.forEach(data.data, function (value, index) {
+        if (value.type === 'radio') {
+          _this.$set(_this.formFilters, index, '');
+
+          _this.$set(_this.formCreate, index, '');
+        }
+
+        if (value.type === 'checkbox') {
+          _this.$set(_this.formCreate, index, {});
+
+          _this.$set(_this.formFilters, index, {});
+
+          window._.forEach(value.attributesArr, function (item, key) {
+            _this.$set(_this.formCreate[index], key, item.status);
+
+            _this.$set(_this.formFilters[index], key, item.status);
+          });
+        }
+      });
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  }
 });
 
 /***/ }),
@@ -3721,6 +3721,27 @@ __webpack_require__.r(__webpack_exports__);
     ApiTokenManager: _ApiTokenManager__WEBPACK_IMPORTED_MODULE_0__.default,
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__.default
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Admin/Dashboard.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Admin/Dashboard.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Dashboard"
 });
 
 /***/ }),
@@ -43715,6 +43736,45 @@ component.options.__file = "resources/js/Pages/API/Index.vue"
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Admin/Dashboard.vue":
+/*!************************************************!*\
+  !*** ./resources/js/Pages/Admin/Dashboard.vue ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _Dashboard_vue_vue_type_template_id_4dff49ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Dashboard.vue?vue&type=template&id=4dff49ca&scoped=true& */ "./resources/js/Pages/Admin/Dashboard.vue?vue&type=template&id=4dff49ca&scoped=true&");
+/* harmony import */ var _Dashboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Dashboard.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Admin/Dashboard.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _Dashboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _Dashboard_vue_vue_type_template_id_4dff49ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Dashboard_vue_vue_type_template_id_4dff49ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "4dff49ca",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Admin/Dashboard.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Auth/ConfirmPassword.vue":
 /*!*****************************************************!*\
   !*** ./resources/js/Pages/Auth/ConfirmPassword.vue ***!
@@ -44849,6 +44909,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Admin/Dashboard.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/Pages/Admin/Dashboard.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Dashboard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Admin/Dashboard.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Auth/ConfirmPassword.vue?vue&type=script&lang=js&":
 /*!******************************************************************************!*\
   !*** ./resources/js/Pages/Auth/ConfirmPassword.vue?vue&type=script&lang=js& ***!
@@ -45681,6 +45757,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Admin/Dashboard.vue?vue&type=template&id=4dff49ca&scoped=true&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/Pages/Admin/Dashboard.vue?vue&type=template&id=4dff49ca&scoped=true& ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_template_id_4dff49ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+/* harmony export */   "staticRenderFns": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_template_id_4dff49ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_template_id_4dff49ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Dashboard.vue?vue&type=template&id=4dff49ca&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Admin/Dashboard.vue?vue&type=template&id=4dff49ca&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Auth/ConfirmPassword.vue?vue&type=template&id=475ae21d&":
 /*!************************************************************************************!*\
   !*** ./resources/js/Pages/Auth/ConfirmPassword.vue?vue&type=template&id=475ae21d& ***!
@@ -46133,7 +46226,7 @@ var render = function() {
     _c("input", {
       staticClass: "hidden",
       attrs: {
-        id: _vm.type + "check" + _vm.name,
+        id: _vm.type.id + "check" + _vm.name,
         type: "checkbox",
         name: _vm.name
       },
@@ -46150,18 +46243,19 @@ var render = function() {
       {
         staticClass:
           "flex cursor-pointer rounded-md hover:text-pink-600 px-2 py-1 ring-1 ring-gray-600",
-        attrs: { for: _vm.type + "check" + _vm.name }
+        attrs: { for: _vm.type.id + "check" + _vm.name }
       },
       [
-        _c("img", {
-          staticClass: "w-10",
-          attrs: {
-            src: "https://sayartii.com/static/img/car_types/coupe.svg",
-            alt: ""
-          }
-        }),
+        _vm.type.image
+          ? _c("img", {
+              staticClass: "w-10",
+              attrs: { src: "/storage/files/" + _vm.type.image, alt: "" }
+            })
+          : _vm._e(),
         _vm._v(" "),
-        _c("p", { staticClass: " p-1" }, [_vm._v(_vm._s(_vm.type))])
+        _vm.type.title
+          ? _c("p", { staticClass: "p-1" }, [_vm._v(_vm._s(_vm.type.title))])
+          : _vm._e()
       ]
     )
   ])
@@ -46505,11 +46599,11 @@ var render = function() {
     _c("input", {
       staticClass: "hidden",
       attrs: {
-        id: _vm.type + "radio" + _vm.name,
+        id: _vm.type.id + "radio" + _vm.name,
         type: "radio",
         name: _vm.name
       },
-      domProps: { value: _vm.type },
+      domProps: { value: _vm.type.id },
       on: {
         change: function($event) {
           return _vm.$emit("change", $event.target.value)
@@ -46522,18 +46616,19 @@ var render = function() {
       {
         staticClass:
           "flex cursor-pointer rounded-md hover:text-pink-600 px-2 py-1 ring-1 ring-gray-600",
-        attrs: { for: _vm.type + "radio" + _vm.name }
+        attrs: { for: _vm.type.id + "radio" + _vm.name }
       },
       [
-        _c("img", {
-          staticClass: "w-10",
-          attrs: {
-            src: "https://sayartii.com/static/img/car_types/coupe.svg",
-            alt: ""
-          }
-        }),
+        _vm.type.image
+          ? _c("img", {
+              staticClass: "w-10",
+              attrs: { src: "/storage/files/" + _vm.type.image, alt: "" }
+            })
+          : _vm._e(),
         _vm._v(" "),
-        _c("p", { staticClass: " p-1" }, [_vm._v(_vm._s(_vm.type))])
+        _vm.type.title
+          ? _c("p", { staticClass: "p-1" }, [_vm._v(_vm._s(_vm.type.title))])
+          : _vm._e()
       ]
     )
   ])
@@ -48509,7 +48604,11 @@ var render = function() {
                       "flex items-center px-5 border border-gray-900 rounded bg-white",
                     on: { click: _vm.openSidebar }
                   },
-                  [_vm._v("\n                    Menu\n                ")]
+                  [
+                    _vm._v(
+                      "\n                        Menu\n                    "
+                    )
+                  ]
                 )
               ])
             ],
@@ -48533,7 +48632,7 @@ var render = function() {
             "fixed bottom-8 right-8 md:bottom-16 md:right-16 rounded-full bg-pink-600 w-16 h-16 flex items-center justify-center text-white cursor-pointer",
           on: { click: _vm.openSellSidebar }
         },
-        [_vm._v("\n        Sell\n    ")]
+        [_vm._v("\n            Sell\n        ")]
       ),
       _vm._v(" "),
       _c("sidebar", {
@@ -48619,7 +48718,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                    Cancel\n                "
+                            "\n                        Cancel\n                    "
                           )
                         ]
                       ),
@@ -48632,7 +48731,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                    7,641 results\n                "
+                            "\n                        7,641 results\n                    "
                           )
                         ]
                       )
@@ -48713,7 +48812,7 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "flex flex-wrap" },
-                  _vm._l(_vm.bodyTypes, function(value, index) {
+                  _vm._l(_vm.attributes, function(value, index) {
                     return _c("radio-box", {
                       key: index,
                       staticClass: "flex-initial mr-2 mb-3",
@@ -48801,31 +48900,69 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "py-1" }, [
-                _c("p", { staticClass: "mb-2" }, [_vm._v("Gear Box")]),
-                _vm._v(" "),
-                _c(
+              _vm._l(_vm.attributes, function(item, index) {
+                return _c(
                   "div",
-                  { staticClass: "flex flex-wrap" },
-                  _vm._l(["Automatic", "Manual"], function(value, index) {
-                    return _c("radio-box", {
-                      key: index,
-                      staticClass: "flex-initial mr-2 mb-3",
-                      attrs: { name: "conditionFilters", type: value },
-                      model: {
-                        value: _vm.formFilters.gearBox,
-                        callback: function($$v) {
-                          _vm.$set(_vm.formFilters, "gearBox", $$v)
-                        },
-                        expression: "formFilters.gearBox"
-                      }
-                    })
-                  }),
-                  1
+                  {
+                    key: index + "Filter",
+                    staticClass: "py-1",
+                    class: [index, _vm.attributes]
+                  },
+                  [
+                    _c("p", { staticClass: "mb-2" }, [
+                      _vm._v(_vm._s(item.title))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "flex flex-wrap" },
+                      [
+                        _vm._l(item.attributesArr, function(value, indexAttr) {
+                          return item.type === "checkbox"
+                            ? _c("check-box", {
+                                key: indexAttr + "checkboxFilter",
+                                staticClass: "flex-initial mr-2 mb-3",
+                                class: indexAttr,
+                                attrs: { name: index + "Filter", type: value },
+                                model: {
+                                  value: _vm.formFilters[index][indexAttr],
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.formFilters[index],
+                                      indexAttr,
+                                      $$v
+                                    )
+                                  },
+                                  expression: "formFilters[index][indexAttr]"
+                                }
+                              })
+                            : _vm._e()
+                        }),
+                        _vm._v(" "),
+                        _vm._l(item.attributesArr, function(value, indexAttr) {
+                          return item.type === "radio"
+                            ? _c("radio-box", {
+                                key: indexAttr + "radioFilter",
+                                staticClass: "flex-initial mr-2 mb-3",
+                                attrs: { name: index + "Filter", type: value },
+                                model: {
+                                  value: _vm.formFilters[index],
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formFilters, index, $$v)
+                                  },
+                                  expression: "formFilters[index]"
+                                }
+                              })
+                            : _vm._e()
+                        })
+                      ],
+                      2
+                    )
+                  ]
                 )
-              ])
+              })
             ],
-            1
+            2
           )
         ]
       ),
@@ -48848,9 +48985,10 @@ var render = function() {
                     "div",
                     {
                       staticClass:
-                        "bg-pink-600 py-4 flex items-center justify-center text-white text-lg font-medium mt-auto"
+                        "bg-pink-600 py-4 flex items-center justify-center text-white text-lg font-medium mt-auto",
+                      on: { click: _vm.submitFormCreate }
                     },
-                    [_vm._v("\n                Create\n            ")]
+                    [_vm._v("\n                    Create\n                ")]
                   )
                 ]
               },
@@ -48991,103 +49129,69 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "py-1" }, [
-                _c("p", { staticClass: "mb-2" }, [_vm._v("Body types")]),
-                _vm._v(" "),
-                _c(
+              _vm._l(_vm.attributes, function(item, index) {
+                return _c(
                   "div",
-                  { staticClass: "flex flex-wrap" },
-                  _vm._l(_vm.bodyTypes, function(value, index) {
-                    return _c("radio-box", {
-                      key: index,
-                      staticClass: "flex-initial mr-2 mb-3",
-                      attrs: { name: "body", type: value },
-                      model: {
-                        value: _vm.formCreate.bodyType,
-                        callback: function($$v) {
-                          _vm.$set(_vm.formCreate, "bodyType", $$v)
-                        },
-                        expression: "formCreate.bodyType"
-                      }
-                    })
-                  }),
-                  1
+                  {
+                    key: index + "Create",
+                    staticClass: "py-1",
+                    class: [index, _vm.attributes]
+                  },
+                  [
+                    _c("p", { staticClass: "mb-2" }, [
+                      _vm._v(_vm._s(item.title))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "flex flex-wrap" },
+                      [
+                        _vm._l(item.attributesArr, function(value, indexAttr) {
+                          return item.type === "checkbox"
+                            ? _c("check-box", {
+                                key: indexAttr + "checkbox",
+                                staticClass: "flex-initial mr-2 mb-3",
+                                class: indexAttr,
+                                attrs: { name: index, type: value },
+                                model: {
+                                  value: _vm.formCreate[index][indexAttr],
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.formCreate[index],
+                                      indexAttr,
+                                      $$v
+                                    )
+                                  },
+                                  expression: "formCreate[index][indexAttr]"
+                                }
+                              })
+                            : _vm._e()
+                        }),
+                        _vm._v(" "),
+                        _vm._l(item.attributesArr, function(value, indexAttr) {
+                          return item.type === "radio"
+                            ? _c("radio-box", {
+                                key: indexAttr + "radio",
+                                staticClass: "flex-initial mr-2 mb-3",
+                                attrs: { name: index, type: value },
+                                model: {
+                                  value: _vm.formCreate[index],
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.formCreate, index, $$v)
+                                  },
+                                  expression: "formCreate[index]"
+                                }
+                              })
+                            : _vm._e()
+                        })
+                      ],
+                      2
+                    )
+                  ]
                 )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "py-1" }, [
-                _c("p", { staticClass: "mb-2" }, [_vm._v("Doors")]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "flex flex-wrap" },
-                  _vm._l(_vm.doors, function(value, index) {
-                    return _c("radio-box", {
-                      key: index,
-                      staticClass: "flex-initial mr-2 mb-3",
-                      attrs: { name: "doors", type: value },
-                      model: {
-                        value: _vm.formCreate.doors,
-                        callback: function($$v) {
-                          _vm.$set(_vm.formCreate, "doors", $$v)
-                        },
-                        expression: "formCreate.doors"
-                      }
-                    })
-                  }),
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "py-1" }, [
-                _c("p", { staticClass: "mb-2" }, [_vm._v("Cylinders")]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "flex flex-wrap" },
-                  _vm._l(_vm.cylinders, function(value, index) {
-                    return _c("radio-box", {
-                      key: index,
-                      staticClass: "flex-initial mr-2 mb-3",
-                      attrs: { name: "cylinders", type: value },
-                      model: {
-                        value: _vm.formCreate.cylinders,
-                        callback: function($$v) {
-                          _vm.$set(_vm.formCreate, "cylinders", $$v)
-                        },
-                        expression: "formCreate.cylinders"
-                      }
-                    })
-                  }),
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "py-1" }, [
-                _c("p", { staticClass: "mb-2" }, [_vm._v("Tags")]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "flex flex-wrap" },
-                  _vm._l(_vm.formCreate.tags, function(value, index) {
-                    return _c("check-box", {
-                      key: index,
-                      staticClass: "flex-initial mr-2 mb-3",
-                      attrs: { name: "tags", type: index },
-                      model: {
-                        value: _vm.formCreate.tags[index],
-                        callback: function($$v) {
-                          _vm.$set(_vm.formCreate.tags, index, $$v)
-                        },
-                        expression: "formCreate.tags[index]"
-                      }
-                    })
-                  }),
-                  1
-                )
-              ])
+              })
             ],
-            1
+            2
           )
         ]
       )
@@ -49703,6 +49807,31 @@ var render = function() {
       ])
     ]
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Admin/Dashboard.vue?vue&type=template&id=4dff49ca&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Admin/Dashboard.vue?vue&type=template&id=4dff49ca&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => /* binding */ render,
+/* harmony export */   "staticRenderFns": () => /* binding */ staticRenderFns
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -64775,6 +64904,8 @@ var map = {
 	"./API/ApiTokenManager.vue": "./resources/js/Pages/API/ApiTokenManager.vue",
 	"./API/Index": "./resources/js/Pages/API/Index.vue",
 	"./API/Index.vue": "./resources/js/Pages/API/Index.vue",
+	"./Admin/Dashboard": "./resources/js/Pages/Admin/Dashboard.vue",
+	"./Admin/Dashboard.vue": "./resources/js/Pages/Admin/Dashboard.vue",
 	"./Auth/ConfirmPassword": "./resources/js/Pages/Auth/ConfirmPassword.vue",
 	"./Auth/ConfirmPassword.vue": "./resources/js/Pages/Auth/ConfirmPassword.vue",
 	"./Auth/ForgotPassword": "./resources/js/Pages/Auth/ForgotPassword.vue",

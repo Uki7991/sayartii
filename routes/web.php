@@ -42,6 +42,7 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+Route::resource('ads', \App\Http\Controllers\AdController::class);
 
 Route::get('/car/show', function () {
     return \inertia('Cars/Show');
@@ -50,3 +51,9 @@ Route::get('/car/show', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
+Route::name('admin.')->prefix('admin')->group(function () {
+
+    Route::get('/login', [\App\Http\Controllers\Admin\IndexController::class, 'login'])->name('login');
+    Route::get('/', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('index');
+});
