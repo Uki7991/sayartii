@@ -16,6 +16,9 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/login', [\App\Http\Controllers\Admin\IndexController::class, 'login'])->middleware('guest');
+
+Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->middleware('guest')->name('login');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -54,6 +57,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::name('admin.')->prefix('admin')->group(function () {
 
-    Route::get('/login', [\App\Http\Controllers\Admin\IndexController::class, 'login'])->name('login');
-    Route::get('/', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('index');
+    Route::middleware('auth')->group(function () {
+        Route::get('/', function () {
+            return redirect()->intended('/admin/dashboard');
+        });
+        Route::get('/dashboard', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('index');
+    });
 });
