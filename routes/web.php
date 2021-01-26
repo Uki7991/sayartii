@@ -62,5 +62,6 @@ Route::name('admin.')->prefix('admin')->group(function () {
             return redirect()->intended('/admin/dashboard');
         });
         Route::get('/dashboard', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('index');
+        Route::resource('ads', \App\Http\Controllers\Admin\AdController::class);
     });
 });
