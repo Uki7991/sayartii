@@ -1,5 +1,4 @@
 <template>
-    <admin-layout>
         <div class="grid grid-cols-12 gap-5">
             <card class="flex flex-col col-span-2">
                 <p class="text-2xl text-gray-900">Calendar</p>
@@ -25,7 +24,6 @@
                 </div>
             </card>
         </div>
-    </admin-layout>
 </template>
 
 <script>
@@ -33,8 +31,9 @@
     import Card from "@/Components/Card";
 
     export default {
+        layout: (h, page) => h(AdminLayout, [page]),
+
         components: {
-            AdminLayout,
             Card,
         },
         computed: {

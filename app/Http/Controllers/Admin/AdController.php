@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ad;
+use App\Models\Car;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -43,6 +44,7 @@ class AdController extends Controller
 
         return inertia(self::LINK.'Create', [
             'categories' => $categories,
+            'cars' => Car::with('models')->get(),
         ]);
     }
 

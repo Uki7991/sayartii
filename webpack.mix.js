@@ -17,6 +17,11 @@ mix.js('resources/js/app.js', 'public/js').vue()
         require('tailwindcss'),
         require('autoprefixer'),
     ])
+    .webpackConfig({
+        output: {
+            chunkFilename: 'js/chunks/[name].js?id=[chunkhash]',
+        }
+    })
     .webpackConfig(require('./webpack.config'));
 
 // if (mix.inProduction()) {

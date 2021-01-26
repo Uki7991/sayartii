@@ -1,5 +1,4 @@
 <template>
-    <admin-layout>
         <form @submit.prevent="" class="flex flex-wrap">
             <div class="w-4/12 mr-4 mb-4 flex-shrink-0">
                 <p class="capitalize text-center mb-4">Add images</p>
@@ -20,6 +19,11 @@
                 <div class="py-1">
                     <label for="model">Make / Model</label>
                     <input type="text" id="model" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <select name="" id="">
+                        <optgroup v-for="car in cars" :key="car.id" :label="car.title">
+                            <option v-for="model in car.models" :key="model.id" :value="model.id">{{model.title}}</option>
+                        </optgroup>
+                    </select>
                 </div>
                 <div class="py-1">
                     <label for="year">Year</label>
@@ -67,7 +71,6 @@
                 <button type="submit" class="bg-green-700 text-gray-100 py-3 px-6 rounded-md">Create</button>
             </div>
         </form>
-    </admin-layout>
 </template>
 
 <script>
@@ -90,8 +93,8 @@
     const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
     export default {
+        layout: (h, page) => h(AdminLayout, [page]),
         components: {
-            AdminLayout,
             CheckBox,
             RadioBox,
             FilePond,
@@ -99,9 +102,11 @@
         data() {
             return {
                 attributes: [],
+                cars: this.$page.props.cars,
                 form: this.$inertia.form({
                     title: null,
                     description: null,
+                    make: null,
                 }),
             }
         },
