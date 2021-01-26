@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class FileUploader
 {
@@ -20,5 +21,10 @@ class FileUploader
         $filename = $dir . '/' . uniqid($prefix . '_') . '.' . $extension;
         is_string($file) ? copy($file, storage_path('app/public/files/'.$filename)) : move_uploaded_file($file, storage_path('app/public/files/'.$filename));
         return $filename;
+    }
+
+    public static function delete($fileName)
+    {
+        Storage::disk('local')->delete('public/files/'.$fileName);
     }
 }

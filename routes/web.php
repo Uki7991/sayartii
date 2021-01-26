@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ImageUploadController;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -55,6 +56,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
 
+Route::post('/images/post-image', [ImageUploadController::class, 'postImage'])->name('images.post-image');
+Route::delete('/images/delete-image', [ImageUploadController::class, 'deleteImage'])->name('images.delete-image');
 Route::name('admin.')->prefix('admin')->group(function () {
 
     Route::middleware('auth')->group(function () {
@@ -62,6 +65,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
             return redirect()->intended('/admin/dashboard');
         });
         Route::get('/dashboard', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('index');
-        Route::resource('ads', \App\Http\Controllers\Admin\AdController::class);
+        Route::resource('announcements', \App\Http\Controllers\Admin\AdController::class);
+        Route::resource('cars', \App\Http\Controllers\Admin\CarController::class);
+        Route::resource('attributes', \App\Http\Controllers\Admin\AttributeController::class);
     });
 });

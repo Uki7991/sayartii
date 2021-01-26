@@ -35,7 +35,9 @@ class AdController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->request->all());
+        $ad = Ad::create($request->all());
+
+        return redirect()->back();
     }
 
     /**

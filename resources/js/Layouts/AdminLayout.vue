@@ -9,9 +9,17 @@
                         <img src="/assets/icons/home.svg" class="w-4 h-4" alt="">
                         <span>Dashboard</span>
                     </inertia-link>
-                    <inertia-link :href="route('admin.ads.index')" :class="{'border-l-4 border-orange-500': route().current('admin.ads.*')}" class="px-4 h-10 flex space-x-3 items-center hover:bg-blueGray-700 cursor-pointer">
-                        <img src="/assets/icons/home.svg" class="w-4 h-4" alt="">
-                        <span>Ads</span>
+                    <inertia-link :href="route('admin.announcements.index')" :class="{'border-l-4 border-orange-500': route().current('admin.announcements.*')}" class="px-4 h-10 flex space-x-3 items-center hover:bg-blueGray-700 cursor-pointer">
+                        <img src="/assets/icons/news.svg" class="w-4 h-4" alt="">
+                        <span>Announcements</span>
+                    </inertia-link>
+                    <inertia-link :href="route('admin.cars.index')" :class="{'border-l-4 border-orange-500': route().current('admin.cars.*')}" class="px-4 h-10 flex space-x-3 items-center hover:bg-blueGray-700 cursor-pointer">
+                        <img src="/assets/icons/car-alt.svg" class="w-4 h-4" alt="">
+                        <span>Cars</span>
+                    </inertia-link>
+                    <inertia-link :href="route('admin.attributes.index')" :class="{'border-l-4 border-orange-500': route().current('admin.attributes.*')}" class="px-4 h-10 flex space-x-3 items-center hover:bg-blueGray-700 cursor-pointer">
+                        <img src="/assets/icons/list.svg" class="w-4 h-4" alt="">
+                        <span>Attributes</span>
                     </inertia-link>
                     <inertia-link href="" :class="{'border-l-4 border-orange-500': route().current('admin.settings.*')}" class="px-4 h-10 flex space-x-3 items-center hover:bg-blueGray-700 cursor-pointer">
                         <img src="/assets/icons/settings.svg" class="w-4 h-4" alt="">
@@ -42,6 +50,9 @@
 </template>
 
 <script>
+    import moment from "moment";
+    import 'vuesax/dist/vuesax.css';
+
     export default {
         data() {
             return {
@@ -54,7 +65,7 @@
         },
         mounted() {
             this.interval = setInterval(() => {
-                this.time = window.momentjs().format('HH:mm');
+                this.time = moment().format('HH:mm');
             }, 1000);
         },
         destroyed() {

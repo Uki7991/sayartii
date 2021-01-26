@@ -4,7 +4,7 @@ require('./bootstrap');
 import Vue from 'vue';
 import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue';
 import PortalVue from 'portal-vue';
-import VModal from 'vue-js-modal'
+import Vuesax from "vuesax";
 
 Vue.mixin({ methods: { route } });
 Vue.mixin({
@@ -25,7 +25,7 @@ Vue.mixin({
 });
 Vue.use(InertiaPlugin);
 Vue.use(PortalVue);
-Vue.use(VModal);
+Vue.use(Vuesax);
 
 const app = document.getElementById('app');
 

@@ -22,6 +22,7 @@ class CreateAdsTable extends Migration
             $table->integer('mileage');
             $table->string('phone');
             $table->string('whatsapp')->nullable();
+            $table->foreignId('car_model_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }

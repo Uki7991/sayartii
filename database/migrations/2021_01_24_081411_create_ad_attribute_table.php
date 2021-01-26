@@ -15,8 +15,8 @@ class CreateAdAttributeTable extends Migration
     {
         Schema::create('ad_attribute', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ad_id')->constrained();
-            $table->foreignId('attribute_id')->constrained();
+            $table->foreignId('ad_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('attribute_id')->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

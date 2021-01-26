@@ -29,6 +29,7 @@
 <script>
     import AdminLayout from "@/Layouts/AdminLayout";
     import Card from "@/Components/Card";
+    import moment from "moment";
 
     export default {
         layout: (h, page) => h(AdminLayout, [page]),
@@ -38,20 +39,20 @@
         },
         computed: {
             monthAndYear() {
-                return window.momentjs().format('MMMM YYYY');
+                return moment().format('MMMM YYYY');
             },
         },
         data() {
             return {
-                weekday: window.momentjs().format('dddd'),
-                day: window.momentjs().format('D'),
+                weekday: moment().format('dddd'),
+                day: moment().format('D'),
                 interval: null,
             }
         },
         mounted() {
             this.interval = setInterval(() => {
-                this.day = window.momentjs().format('D');
-                this.weekday = window.momentjs().format('dddd');
+                this.day = moment().format('D');
+                this.weekday = moment().format('dddd');
             }, 1000 * 60 * 60)
         },
         destroyed() {

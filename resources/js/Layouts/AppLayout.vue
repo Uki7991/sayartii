@@ -136,53 +136,52 @@
             <div class="px-8 overflow-y-auto">
                 <p class="capitalize text-center mb-4">Add images</p>
                 <file-pond
+                    max-files="12"
                     :imagePreviewHeight="100"
                     allow-multiple="true"
+                    name="test"
+                    :server="server"
                 ></file-pond>
                 <p class="capitalize text-center my-4">Car information</p>
                 <div class="py-1">
                     <label for="model">Make / Model</label>
-                    <input type="text" id="model" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <input type="text" v-model="formCreate.model" id="model" class="w-full rounded-md focus:ring-black focus:border-black">
                 </div>
                 <div class="py-1">
                     <label for="year">Year</label>
-                    <input type="number" id="year" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <input type="number" id="year" v-model="formCreate.year" class="w-full rounded-md focus:ring-black focus:border-black">
                 </div>
                 <div class="py-1">
                     <label for="location">Location</label>
-                    <select id="location" class="w-full rounded-md focus:ring-black focus:border-black">
-                        <option>dawdawd</option>
-                        <option>dawdawd</option>
-                        <option>dawdawd</option>
-                        <option>dawdawd</option>
-                        <option>dawdawd</option>
-                        <option>dawdawd</option>
-                        <option>dawdawd</option>
+                    <select id="location" v-model="formCreate.location" class="w-full rounded-md focus:ring-black focus:border-black">
+                        <option>Egypt</option>
+                        <option>Algeria</option>
+                        <option>Arabian</option>
                     </select>
                 </div>
                 <div class="py-1">
                     <label for="price">Price</label>
-                    <input type="number" id="price" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <input type="number" v-model="formCreate.price" id="price" class="w-full rounded-md focus:ring-black focus:border-black">
                 </div>
                 <div class="py-1">
                     <label for="mileage">Mileage</label>
-                    <input type="number" id="mileage" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <input type="number" v-model="formCreate.mileage" id="mileage" class="w-full rounded-md focus:ring-black focus:border-black">
                 </div>
                 <div class="py-1">
                     <label for="phone">Phone</label>
-                    <input type="number" id="phone" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <input type="number" v-model="formCreate.phone" id="phone" class="w-full rounded-md focus:ring-black focus:border-black">
                 </div>
                 <div class="py-1">
                     <label for="whatsapp">Whatsapp</label>
-                    <input type="number" id="whatsapp" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <input type="number" v-model="formCreate.whatsapp" id="whatsapp" class="w-full rounded-md focus:ring-black focus:border-black">
                 </div>
                 <div class="py-1">
                     <label for="title">Title</label>
-                    <input type="number" id="title" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <input type="number" id="title" v-model="formCreate.title" class="w-full rounded-md focus:ring-black focus:border-black">
                 </div>
                 <div class="py-1">
                     <label for="description">Description</label>
-                    <textarea id="description" rows="4" class="w-full rounded-md focus:ring-black focus:border-black"></textarea>
+                    <textarea id="description" rows="4" v-model="formCreate.description" class="w-full rounded-md focus:ring-black focus:border-black"></textarea>
                 </div>
                 <div v-for="(item, index) in attributes" :key="index+'Create'" class="py-1" :class="[index, attributes]">
                     <p class="mb-2">{{item.title}}</p>
@@ -191,12 +190,6 @@
                         <radio-box v-if="item.type === 'radio'" class="flex-initial mr-2 mb-3" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'radio'" :name="index" v-model="formCreate[index]" :type="value"></radio-box>
                     </div>
                 </div>
-<!--                <div class="py-1">-->
-<!--                    <p class="mb-2">Tags</p>-->
-<!--                    <div class="flex flex-wrap">-->
-<!--                        <check-box class="flex-initial mr-2 mb-3" v-for="(value, index) in formCreate.tags" :key="index" :name="'tags'" v-model="formCreate.tags[index]" :type="index"></check-box>-->
-<!--                    </div>-->
-<!--                </div>-->
             </div>
             <template #footer>
                 <div @click="submitFormCreate" class="bg-pink-600 py-4 flex items-center justify-center text-white text-lg font-medium mt-auto">
@@ -213,6 +206,7 @@
     import Sidebar from "@/Components/Sidebar";
     import ModularSidebar from "@/Components/ModularSidebar";
     import MenuItemWithSelect from "@/Components/MenuItemWithSelect";
+    import _ from "lodash";
 
     // Import Vue FilePond
     import vueFilePond from 'vue-filepond';
@@ -244,11 +238,85 @@
 
         data() {
             return {
+                server: {
+                    process:(fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+                        let self = this;
+                        // fieldName is the name of the input field
+                        // file is the actual file object to send
+                        const formData = new FormData();
+                        formData.append(fieldName, file, file.name);
+
+                        const request = new XMLHttpRequest();
+                        request.open('POST', route('images.post-image', {dir: 'announcements', prefix: 'announcements'}));
+
+                        // Should call the progress method to update the progress to 100% before calling load
+                        // Setting computable to false switches the loading indicator to infinite mode
+                        request.upload.onprogress = (e) => {
+                            progress(e.lengthComputable, e.loaded, e.total);
+                        };
+
+                        // Should call the load method when done and pass the returned server file id
+                        // this server file id is then used later on when reverting or restoring a file
+                        // so your server knows which file to return without exposing that info to the client
+                        request.onload = function() {
+                            if (request.status >= 200 && request.status < 300) {
+                                // the load method accepts either a string (id) or an object
+                                self.formCreate.images.push(JSON.parse(request.responseText));
+
+                                load(request.responseText);
+                            }
+                            else {
+                                // Can call the error method if something is wrong, should exit after
+                                error('oh no');
+                            }
+                        };
+
+                        request.send(formData);
+
+                        // Should expose an abort method so the request can be cancelled
+                        return {
+                            abort: () => {
+                                // This function is entered if the user has tapped the cancel button
+                                request.abort();
+
+                                // Let FilePond know the request has been cancelled
+                                abort();
+                            }
+                        };
+                    },
+                    revert: (uniqueFileId, load, error) => {
+                        let self = this;
+                        // Should remove the earlier created temp file here
+                        // ...
+
+                        window.axios.delete(self.route('images.delete-image', {filename: JSON.parse(uniqueFileId)})).then(() => {
+                            let index = self.formCreate.images.indexOf(JSON.parse(uniqueFileId));
+                            if (index !== -1) {
+                                self.formCreate.images.splice(index, 1);
+                            }
+                            load();
+                        }).catch(() => {
+                            error('oh no');
+                        })
+
+                    }
+                },
                 activeSidebar: false,
                 filtersSidebar: false,
                 sellSidebar: false,
                 attributes: [],
-                formCreate: this.$inertia.form({}),
+                formCreate: this.$inertia.form({
+                    title: null,
+                    description: null,
+                    price: null,
+                    phone: null,
+                    mileage: null,
+                    whatsapp: null,
+                    year: null,
+                    model: null,
+                    location: null,
+                    images: [],
+                }),
                 formFilters: this.$inertia.form({}),
             }
         },
@@ -289,7 +357,7 @@
             window.axios.get('/api/attributes')
                 .then(data => {
                     this.attributes = data.data;
-                    window._.forEach(data.data, (value, index) => {
+                    _.forEach(data.data, (value, index) => {
                         if (value.type === 'radio') {
                             this.$set(this.formFilters, index, '');
                             this.$set(this.formCreate, index, '');
@@ -297,7 +365,7 @@
                         if (value.type === 'checkbox') {
                             this.$set(this.formCreate, index, {});
                             this.$set(this.formFilters, index, {});
-                            window._.forEach(value.attributesArr, (item, key) => {
+                            _.forEach(value.attributesArr, (item, key) => {
                                 this.$set(this.formCreate[index], key, item.status);
                                 this.$set(this.formFilters[index], key, item.status);
                             })

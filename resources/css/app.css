@@ -22,3 +22,7 @@
 input:checked ~ label {
     @apply ring ring-pink-600 text-pink-600;
 }
+
+.vs-pagination__button, .vs-pagination__arrow {
+    @apply focus:ring-0 focus:outline-none;
+}

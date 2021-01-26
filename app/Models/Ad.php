@@ -9,9 +9,11 @@ class Ad extends Model
 {
     use HasFactory;
 
-    public function cars()
+    protected $fillable = ['title', 'description', 'year', 'mileage', 'price', 'phone', 'whatsapp', 'model_id'];
+
+    public function model()
     {
-        return $this->belongsToMany(Car::class);
+        return $this->belongsTo(CarModel::class);
     }
 
     public function attributes()

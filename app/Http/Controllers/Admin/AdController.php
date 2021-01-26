@@ -56,7 +56,9 @@ class AdController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $ad = Ad::create($request->all());
+
+        return redirect()->route('admin.announcements.index');
     }
 
     /**
