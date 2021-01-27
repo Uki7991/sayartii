@@ -1,18 +1,18 @@
 <template>
-    <inertia-link :href="route('car.show')" class="shadow-lg rounded-lg relative" :class="{'border-pink-600 border-4': active}">
+    <inertia-link :href="route('announcements.show', {ad: car.id})" class="shadow-lg rounded-lg relative" :class="{'border-pink-600 border-4': active}">
         <div class="relative">
-            <img class="rounded-t-lg" src="https://sayartii.com/uploads/cars/17592206803629/92d1f56879118df2aaa3333f8ee60a8185086e96_small.jpg" alt="">
+            <img class="rounded-t-md object-cover object-center h-52 w-full" :src="'/storage/small/'+car.images[0].path" alt="">
             <div class="absolute w-full h-4 bottom-0 bg-gradient-to-b from-transparent to-white"></div>
         </div>
         <div class="p-4 text-gray-700">
-            <p class="font-medium mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap">2018 Ford Mustang</p>
+            <p class="font-medium mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap">{{car.title}}</p>
             <div class="border-l-4 pl-1 border-pink-600">
                 <div class="flex items-center space-x-1">
-                    <p class="flex items-center space-x-1 text-xs"><span class="font-black text-sm">32k</span>&nbsp;km</p>
+                    <p class="flex items-center space-x-1 text-xs"><span class="font-black text-sm">{{car.mileage | mileageK}}k</span>&nbsp;km</p>
                     <p class="text-xs overflow-hidden overflow-ellipsis whitespace-nowrap">• Gcc Pajero 3D full service history single owner</p>
                 </div>
                 <p class="text-pink-600">
-                    <span class="text-lg font-medium ">57,000</span><span class="text-xs uppercase">aed</span>
+                    <span class="text-lg font-medium ">{{car.price}}</span><span class="text-xs uppercase">aed</span>
                 </p>
             </div>
         </div>
@@ -29,11 +29,22 @@
     export default {
         props: {
             active: Boolean,
+            car: {
+                required: true,
+                type: Object,
+            }
         },
         data() {
             return {
 
             }
+        },
+        filters: {
+            mileageK (val) {
+                return val / 1000 ? Math.floor(val / 1000) : val;
+            }
+        },
+        mounted() {
         }
     }
 </script>

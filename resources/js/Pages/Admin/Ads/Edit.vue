@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm" class="flex flex-wrap">
         <div class="w-4/12 mr-4 mb-4 flex-shrink-0">
-            <p class="capitalize text-center mb-4">Add images <span class="text-red-600">*</span></p>
+            <p class="capitalize text-center mb-4">Add images</p>
             <file-pond
                 max-files="12"
                 :imagePreviewHeight="100"
@@ -10,10 +10,8 @@
                 ref="pond"
                 :server="server"
             ></file-pond>
-            <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.images">{{$page.props.errors.images}}</p>
-
             <div v-for="(item, index) in attributes" :key="index+'Create'" class="py-1" :class="[index, attributes]">
-                <p class="mb-2">{{item.title}} <span v-if="item.type === 'radio'" class="text-red-600">*</span></p>
+                <p class="mb-2">{{item.title}}</p>
                 <div class="flex flex-wrap">
                     <check-box v-if="item.type === 'checkbox'" class="flex-initial mr-2 mb-3" :class="indexAttr"
                                v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'checkbox'"
@@ -21,17 +19,14 @@
                     <radio-box v-if="item.type === 'radio'" class="flex-initial mr-2 mb-3"
                                v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'radio'" :name="index"
                                v-model="form.attributesArr[index]" :type="value"></radio-box>
-                    <p class="text-xs text-red-600 mb-2 w-full" v-if="$page.props.errors['attributesArr.'+index]">{{$page.props.errors['attributesArr.'+index]}}</p>
-
                 </div>
             </div>
         </div>
         <div class="flex-grow w-7/12 mb-4">
             <p class="capitalize text-center my-4">Car information</p>
             <div class="py-1">
-                <label for="model">Make / Model <span class="text-red-600">*</span></label>
+                <label for="model">Make / Model</label>
                 <input type="text" v-model="form.model" id="model" class="w-full rounded-md focus:ring-black focus:border-black">
-                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.model">{{$page.props.errors.model}}</p>
                 <multiselect track-by="title" label="title" group-values="models" group-label="title"
                              placeholder="Select one" v-model="form.make" :options="cars" class="w-full">
                     <template slot="singleLabel" slot-scope="props"><span class="option__desc"><span
@@ -47,13 +42,11 @@
                 </multiselect>
             </div>
             <div class="py-1">
-                <label for="year">Year <span class="text-red-600">*</span></label>
+                <label for="year">Year</label>
                 <input v-model="form.year" type="number" id="year" class="w-full rounded-md focus:ring-black focus:border-black">
-                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.year">{{$page.props.errors.year}}</p>
-
             </div>
             <div class="py-1">
-                <label for="location">Location <span class="text-red-600">*</span></label>
+                <label for="location">Location</label>
                 <select id="location" v-model="form.location" class="w-full rounded-md focus:ring-black focus:border-black">
                     <option>dawdawd</option>
                     <option>dawdawd</option>
@@ -63,45 +56,31 @@
                     <option>dawdawd</option>
                     <option>dawdawd</option>
                 </select>
-                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.location">{{$page.props.errors.location}}</p>
-
             </div>
             <div class="py-1">
-                <label for="price">Price <span class="text-red-600">*</span></label>
+                <label for="price">Price</label>
                 <input type="number" v-model="form.price" id="price" class="w-full rounded-md focus:ring-black focus:border-black">
-                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.price">{{$page.props.errors.price}}</p>
-
             </div>
             <div class="py-1">
-                <label for="mileage">Mileage <span class="text-red-600">*</span></label>
+                <label for="mileage">Mileage</label>
                 <input type="number" v-model="form.mileage" id="mileage" class="w-full rounded-md focus:ring-black focus:border-black">
-                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.mileage">{{$page.props.errors.mileage}}</p>
-
             </div>
             <div class="py-1">
-                <label for="phone">Phone <span class="text-red-600">*</span></label>
+                <label for="phone">Phone</label>
                 <input type="number" v-model="form.phone" id="phone" class="w-full rounded-md focus:ring-black focus:border-black">
-                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.phone">{{$page.props.errors.phone}}</p>
-
             </div>
             <div class="py-1">
-                <label for="whatsapp">Whatsapp <span class="text-red-600">*</span></label>
+                <label for="whatsapp">Whatsapp</label>
                 <input type="number" v-model="form.whatsapp" id="whatsapp" class="w-full rounded-md focus:ring-black focus:border-black">
-                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.whatsapp">{{$page.props.errors.whatsapp}}</p>
-
             </div>
             <div class="py-1">
-                <label for="title">Title <span class="text-red-600">*</span></label>
+                <label for="title">Title</label>
                 <input type="text" v-model="form.title" id="title" class="w-full rounded-md focus:ring-black focus:border-black">
-                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.title">{{$page.props.errors.title}}</p>
-
             </div>
             <div class="py-1">
-                <label for="description">Description <span class="text-red-600">*</span></label>
+                <label for="description">Description</label>
                 <textarea id="description" v-model="form.description" rows="4"
                           class="w-full rounded-md focus:ring-black focus:border-black"></textarea>
-                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.description">{{$page.props.errors.description}}</p>
-
             </div>
         </div>
 
@@ -226,12 +205,6 @@
             }
         },
         methods: {
-            camelCase(value) {
-                return value
-                    .replace(/\s(.)/g, function($1) { return $1.toUpperCase(); })
-                    .replace(/\s/g, '')
-                    .replace(/^(.)/, function($1) { return $1.toLowerCase(); });
-            },
             optionClick(props) {
                 console.log(props);
             },

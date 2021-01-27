@@ -13,7 +13,16 @@
                                     Title
                                 </vs-th>
                                 <vs-th>
-                                    Models
+                                    Year
+                                </vs-th>
+                                <vs-th>
+                                    Mileage
+                                </vs-th>
+                                <vs-th>
+                                    Price
+                                </vs-th>
+                                <vs-th>
+                                    Phone
                                 </vs-th>
                                 <vs-th>
                                     Actions
@@ -33,11 +42,20 @@
                                     {{ tr.title }}
                                 </vs-td>
                                 <vs-td>
-                                    {{ tr.title }}
+                                    {{ tr.year }}
+                                </vs-td>
+                                <vs-td>
+                                    {{ tr.mileage }}
+                                </vs-td>
+                                <vs-td>
+                                    {{ tr.price }}
+                                </vs-td>
+                                <vs-td>
+                                    {{ tr.phone }}
                                 </vs-td>
                                 <vs-td class="flex space-x-3">
-                                    <inertia-link class="text-xs text-orange-500 py-1 px-2 hover:underline" :href="route('admin.announcements.edit', {announcement: tr.id})">Edit</inertia-link>
-                                    <button class="text-xs text-white bg-red-600 rounded-md py-1 px-2 hover:underline" @click="$inertia.delete(route('admin.announcements.destroy', {announcement: tr.id}))">Delete</button>
+                                    <inertia-link class="text-xs text-orange-500 py-1 px-2 hover:underline" :href="route('admin.announcements.edit', {ad: tr.id})">Edit</inertia-link>
+                                    <button class="text-xs text-white bg-red-600 rounded-md py-1 px-2 hover:underline" @click="$inertia.delete(route('admin.announcements.destroy', {ad: tr.id}))">Delete</button>
                                 </vs-td>
                             </vs-tr>
                         </template>

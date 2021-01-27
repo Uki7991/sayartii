@@ -9,6 +9,8 @@ class AdImage extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['path', 'ad_id'];
+
     public function ad()
     {
         return $this->belongsTo(Ad::class);

@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-50 font-sans">
+    <div class="bg-gray-50 font-roboto">
         <header class="py-3 shadow-lg border-b border-gray-900 fixed top-0 z-10 w-full bg-gray-50">
             <div class="container mx-auto flex justify-between">
                 <inertia-link href="/" class="h-11 w-auto">
@@ -83,20 +83,6 @@
                     <input type="text" id="keyword" class="w-full rounded-md focus:ring-black focus:border-black">
                 </div>
 
-                <div class="py-1">
-                    <p class="mb-2">Body types</p>
-                    <div class="flex flex-wrap">
-                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in attributes" :key="index" :name="'bodyFilter'" v-model="formFilters.bodyType" :type="value"></radio-box>
-                    </div>
-                </div>
-
-                <div class="py-1">
-                    <p class="mb-2">Condition</p>
-                    <div class="flex flex-wrap">
-                        <radio-box class="flex-initial mr-2 mb-3" v-for="(value, index) in ['New', 'Used']" :key="index" :name="'conditionFilters'" v-model="formFilters.condition" :type="value"></radio-box>
-                    </div>
-                </div>
-
                 <div class="py-2">
                     <label for="priceFrom">Price</label>
                     <div class="flex space-x-2">
@@ -116,8 +102,8 @@
                 <div v-for="(item, index) in attributes" :key="index+'Filter'" class="py-1" :class="[index, attributes]">
                     <p class="mb-2">{{item.title}}</p>
                     <div class="flex flex-wrap">
-                        <check-box v-if="item.type === 'checkbox'" class="flex-initial mr-2 mb-3" :class="indexAttr" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'checkboxFilter'" :name="index + 'Filter'" v-model="formFilters[index][indexAttr]" :type="value"></check-box>
-                        <radio-box v-if="item.type === 'radio'" class="flex-initial mr-2 mb-3" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'radioFilter'" :name="index + 'Filter'" v-model="formFilters[index]" :type="value"></radio-box>
+                        <check-box v-if="item.type === 'checkbox'" class="flex-initial mr-2 mb-3" :class="indexAttr" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'checkboxFilter'" :name="index + 'Filter'" v-model="formFilters.attributesArr[index][indexAttr]" :type="value"></check-box>
+                        <radio-box v-if="item.type === 'radio'" class="flex-initial mr-2 mb-3" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'radioFilter'" :name="index + 'Filter'" v-model="formFilters.attributesArr[index]" :type="value"></radio-box>
                     </div>
                 </div>
             </div>
@@ -134,7 +120,7 @@
         </modular-sidebar>
         <modular-sidebar title="Sell your car" classes="rounded-bl-md w-2/6 min-h-full" @close="closeSellSidebar" :show="sellSidebar">
             <div class="px-8 overflow-y-auto">
-                <p class="capitalize text-center mb-4">Add images</p>
+                <p class="capitalize text-center mb-4">Add images <span class="text-red-600">*</span></p>
                 <file-pond
                     max-files="12"
                     :imagePreviewHeight="100"
@@ -142,57 +128,68 @@
                     name="test"
                     :server="server"
                 ></file-pond>
+                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.images">{{$page.props.errors.images}}</p>
                 <p class="capitalize text-center my-4">Car information</p>
                 <div class="py-1">
-                    <label for="model">Make / Model</label>
+                    <label for="model">Make / Model <span class="text-red-600">*</span></label>
                     <input type="text" v-model="formCreate.model" id="model" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.model">{{$page.props.errors.model}}</p>
                 </div>
                 <div class="py-1">
-                    <label for="year">Year</label>
+                    <label for="year">Year <span class="text-red-600">*</span></label>
                     <input type="number" id="year" v-model="formCreate.year" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.year">{{$page.props.errors.year}}</p>
                 </div>
                 <div class="py-1">
-                    <label for="location">Location</label>
+                    <label for="location">Location <span class="text-red-600">*</span></label>
                     <select id="location" v-model="formCreate.location" class="w-full rounded-md focus:ring-black focus:border-black">
                         <option>Egypt</option>
                         <option>Algeria</option>
                         <option>Arabian</option>
                     </select>
+                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.location">{{$page.props.errors.location}}</p>
                 </div>
                 <div class="py-1">
-                    <label for="price">Price</label>
+                    <label for="price">Price <span class="text-red-600">*</span></label>
                     <input type="number" v-model="formCreate.price" id="price" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.price">{{$page.props.errors.price}}</p>
                 </div>
                 <div class="py-1">
-                    <label for="mileage">Mileage</label>
+                    <label for="mileage">Mileage <span class="text-red-600">*</span></label>
                     <input type="number" v-model="formCreate.mileage" id="mileage" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.mileage">{{$page.props.errors.mileage}}</p>
                 </div>
                 <div class="py-1">
-                    <label for="phone">Phone</label>
+                    <label for="phone">Phone <span class="text-red-600">*</span></label>
                     <input type="number" v-model="formCreate.phone" id="phone" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.phone">{{$page.props.errors.phone}}</p>
                 </div>
                 <div class="py-1">
-                    <label for="whatsapp">Whatsapp</label>
+                    <label for="whatsapp">Whatsapp <span class="text-red-600">*</span></label>
                     <input type="number" v-model="formCreate.whatsapp" id="whatsapp" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.whatsapp">{{$page.props.errors.whatsapp}}</p>
                 </div>
                 <div class="py-1">
-                    <label for="title">Title</label>
+                    <label for="title">Title <span class="text-red-600">*</span></label>
                     <input type="number" id="title" v-model="formCreate.title" class="w-full rounded-md focus:ring-black focus:border-black">
+                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.title">{{$page.props.errors.title}}</p>
                 </div>
                 <div class="py-1">
-                    <label for="description">Description</label>
+                    <label for="description">Description <span class="text-red-600">*</span></label>
                     <textarea id="description" rows="4" v-model="formCreate.description" class="w-full rounded-md focus:ring-black focus:border-black"></textarea>
+                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.description">{{$page.props.errors.description}}</p>
                 </div>
                 <div v-for="(item, index) in attributes" :key="index+'Create'" class="py-1" :class="[index, attributes]">
-                    <p class="mb-2">{{item.title}}</p>
+                    <p class="mb-2">{{item.title}} <span v-if="item.type === 'radio'" class="text-red-600">*</span></p>
                     <div class="flex flex-wrap">
-                        <check-box v-if="item.type === 'checkbox'" class="flex-initial mr-2 mb-3" :class="indexAttr" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'checkbox'" :name="index" v-model="formCreate[index][indexAttr]" :type="value"></check-box>
-                        <radio-box v-if="item.type === 'radio'" class="flex-initial mr-2 mb-3" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'radio'" :name="index" v-model="formCreate[index]" :type="value"></radio-box>
+                        <check-box v-if="item.type === 'checkbox'" class="flex-initial mr-2 mb-3" :class="indexAttr" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'checkbox'" :name="index" v-model="formCreate.attributesArr[index][indexAttr]" :type="value"></check-box>
+                        <radio-box v-if="item.type === 'radio'" class="flex-initial mr-2 mb-3" v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'radio'" :name="index" v-model="formCreate.attributesArr[index]" :type="value"></radio-box>
+                        <p class="text-xs text-red-600 mb-2 w-full" v-if="$page.props.errors['attributesArr.'+index]">{{$page.props.errors['attributesArr.'+index]}}</p>
                     </div>
                 </div>
             </div>
             <template #footer>
-                <div @click="submitFormCreate" class="bg-pink-600 py-4 flex items-center justify-center text-white text-lg font-medium mt-auto">
+                <div @click="submitFormCreate" class="bg-pink-600 py-4 flex items-center justify-center text-white text-lg font-medium mt-auto cursor-pointer">
                     Create
                 </div>
             </template>
@@ -316,8 +313,11 @@
                     model: null,
                     location: null,
                     images: [],
+                    attributesArr: {},
                 }),
-                formFilters: this.$inertia.form({}),
+                formFilters: this.$inertia.form({
+                    attributesArr: {},
+                }),
             }
         },
 
@@ -350,7 +350,7 @@
                 this.sellSidebar = false;
             },
             submitFormCreate() {
-                this.$inertia.post('/ads', this.formCreate);
+                this.$inertia.post('/announcements', this.formCreate);
             },
         },
         mounted() {
@@ -359,15 +359,15 @@
                     this.attributes = data.data;
                     _.forEach(data.data, (value, index) => {
                         if (value.type === 'radio') {
-                            this.$set(this.formFilters, index, '');
-                            this.$set(this.formCreate, index, '');
+                            this.$set(this.formCreate.attributesArr, index, '');
+                            this.$set(this.formFilters.attributesArr, index, '');
                         }
                         if (value.type === 'checkbox') {
-                            this.$set(this.formCreate, index, {});
-                            this.$set(this.formFilters, index, {});
+                            this.$set(this.formCreate.attributesArr, index, {});
+                            this.$set(this.formFilters.attributesArr, index, {});
                             _.forEach(value.attributesArr, (item, key) => {
-                                this.$set(this.formCreate[index], key, item.status);
-                                this.$set(this.formFilters[index], key, item.status);
+                                this.$set(this.formCreate.attributesArr[index], key, item.status);
+                                this.$set(this.formFilters.attributesArr[index], key, item.status);
                             })
                         }
                     })

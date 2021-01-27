@@ -18,7 +18,7 @@ class CarController extends Controller
     public function index()
     {
         return inertia(self::LINK.'Index', [
-            'cars' => Car::all(),
+            'cars' => Car::with('models')->get(),
         ]);
     }
 

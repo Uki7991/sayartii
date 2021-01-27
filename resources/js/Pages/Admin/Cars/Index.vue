@@ -32,7 +32,7 @@
                                 {{ tr.title }}
                             </vs-td>
                             <vs-td>
-                                {{ tr.title }}
+                                {{ tr.models.length }}
                             </vs-td>
                             <vs-td class="flex space-x-3">
                                 <inertia-link class="text-xs text-orange-500 py-1 px-2 hover:underline" :href="route('admin.cars.edit', {car: tr.id})">Edit</inertia-link>

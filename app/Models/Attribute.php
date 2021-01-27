@@ -18,4 +18,21 @@ class Attribute extends Model
     {
         return $this->belongsToMany(Ad::class);
     }
+
+    public static function getAttributeIdsFromRequest($array)
+    {
+        $attributes = [];
+        foreach ($array as $attribute) {
+            if (is_array($attribute)) {
+                foreach ($attribute as $key => $tag) {
+                    if ($tag) {
+                        $attributes[] = $key;
+                    }
+                }
+            } else {
+                $attributes[] = $attribute;
+            }
+        }
+        return $attributes;
+    }
 }

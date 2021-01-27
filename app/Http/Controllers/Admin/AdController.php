@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdStoreRequest;
 use App\Models\Ad;
+use App\Models\AdImage;
+use App\Models\Attribute;
 use App\Models\Car;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -12,6 +15,7 @@ use Illuminate\Support\Str;
 class AdController extends Controller
 {
     const LINK = 'Admin/Ads/';
+
     /**
      * Display a listing of the resource.
      *
@@ -54,9 +58,17 @@ class AdController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdStoreRequest $request)
     {
+        $validated = $request->validated();
         $ad = Ad::create($request->all());
+
+        $attributes = Attribute::getAttributeIdsFromRequest($request->attributesArr);
+        $ad->attributesarr()->sync($attributes);
+
+        foreach ($request->images as $item) {
+            AdImage::create(['path' => $item, 'ad_id' => $ad->id])->id;
+        }
 
         return redirect()->route('admin.announcements.index');
     }
@@ -64,10 +76,10 @@ class AdController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Ad  $ad
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Ad $ad)
     {
         //
     }
@@ -75,22 +87,26 @@ class AdController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Ad  $ad
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Ad $ad)
     {
-        //
+        $ad->load('attributesarr:id');
+
+        return inertia(self::LINK.'Edit', [
+            'announcement' => $ad,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Ad  $ad
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Ad $ad)
     {
         //
     }
@@ -98,10 +114,10 @@ class AdController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Ad  $ad
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Ad $ad)
     {
         //
     }
