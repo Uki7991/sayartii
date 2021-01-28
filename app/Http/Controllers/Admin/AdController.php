@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 
 class AdController extends Controller
 {
-    const LINK = 'Admin/Ads/';
+    const LINK = 'Admin/Announcements/';
 
     /**
      * Display a listing of the resource.
@@ -120,5 +120,16 @@ class AdController extends Controller
     public function destroy(Ad $ad)
     {
         //
+    }
+
+    public function active(Request $request, Ad $ad)
+    {
+        $ad->active = $request->get('active');
+        $ad->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Announcement updated',
+        ]);
     }
 }

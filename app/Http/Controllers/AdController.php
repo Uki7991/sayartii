@@ -62,7 +62,7 @@ class AdController extends Controller
      */
     public function show(Ad $ad)
     {
-        $suggestions = Ad::where('id', '!=', $ad->id)->get();
+        $suggestions = Ad::with('images:id,path,ad_id')->where('id', '!=', $ad->id)->get();
 
         return inertia('Cars/Show', [
             'car' => $ad->load('images:id,path,ad_id', 'tags', 'specs.category'),

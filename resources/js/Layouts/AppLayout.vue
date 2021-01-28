@@ -189,9 +189,9 @@
                 </div>
             </div>
             <template #footer>
-                <div @click="submitFormCreate" class="bg-pink-600 py-4 flex items-center justify-center text-white text-lg font-medium mt-auto cursor-pointer">
+                <button :disabled="disabledButton" @click="submitFormCreate" class="bg-pink-600 py-4 flex items-center justify-center text-white text-lg font-medium mt-auto cursor-pointer focus:outline-none">
                     Create
-                </div>
+                </button>
             </template>
         </modular-sidebar>
 
@@ -220,10 +220,12 @@
     import CheckBox from "@/Components/CheckBox";
     import RadioBox from "@/Components/RadioBox";
     import Globe from "@/Components/Icons/Globe";
+    import Button from "@/Jetstream/Button";
     const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
     export default {
         components: {
+            Button,
             Globe,
             RadioBox,
             CheckBox,
@@ -318,6 +320,8 @@
                 formFilters: this.$inertia.form({
                     attributesArr: {},
                 }),
+                files: [],
+                disabledButton: false,
             }
         },
 
@@ -350,8 +354,34 @@
                 this.sellSidebar = false;
             },
             submitFormCreate() {
+                this.disableButton();
                 this.$inertia.post('/announcements', this.formCreate);
+                this.enableButton();
             },
+            processFileStart() {
+                this.disableButton();
+                this.files.push(this.files.length);
+            },
+            processFileFinished() {
+                this.files.shift();
+                if (!this.files.length)
+                    this.enableButton();
+            },
+            processFileRevert() {
+                this.files.shift();
+            },
+            disableButton() {
+                this.disabledButton = true;
+            },
+            enableButton() {
+                this.disabledButton = false;
+            },
+        },
+        watch: {
+            files: function () {
+                if (!this.files.length)
+                    this.enableButton();
+            }
         },
         mounted() {
             window.axios.get('/api/attributes')
