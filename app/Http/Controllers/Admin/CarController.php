@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CarStoreRequest;
 use App\Models\Car;
+use App\Models\CarModel;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -18,7 +20,7 @@ class CarController extends Controller
     public function index()
     {
         return inertia(self::LINK.'Index', [
-            'cars' => Car::with('models')->get(),
+            'collection' => Car::with('models')->get(),
         ]);
     }
 
@@ -38,9 +40,17 @@ class CarController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CarStoreRequest $request)
     {
-        dd($request->request->all());
+        $request->validated();
+        $car = Car::create($request->all());
+        foreach ($request->get('models') as $item) {
+            $model = CarModel::create(['title' => $item['title'], 'car_id' => $car->id]);
+        }
+
+        $request->session()->flash('message', 'Car make created successfully!');
+
+        return redirect()->route('admin.cars.index');
     }
 
     /**
@@ -49,7 +59,7 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Car $car)
     {
         //
     }
@@ -60,9 +70,11 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Car $car)
     {
-        //
+        return inertia(self::LINK.'Edit', [
+            'car' => $car->load('models'),
+        ]);
     }
 
     /**
@@ -72,7 +84,7 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Car $car)
     {
         //
     }
@@ -83,8 +95,12 @@ class CarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, Car $car)
     {
-        //
+        $car->delete();
+
+        $request->session()->flash('message', 'Car make successfully deleted!');
+
+        return redirect()->route('admin.cars.index');
     }
 }

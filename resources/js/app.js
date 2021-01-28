@@ -5,6 +5,7 @@ import Vue from 'vue';
 import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue';
 import PortalVue from 'portal-vue';
 import Vuesax from "vuesax";
+import Toasted from "vue-toasted";
 
 Vue.mixin({ methods: { route } });
 Vue.mixin({
@@ -26,6 +27,7 @@ Vue.mixin({
 Vue.use(InertiaPlugin);
 Vue.use(PortalVue);
 Vue.use(Vuesax);
+Vue.use(Toasted);
 
 const app = document.getElementById('app');
 

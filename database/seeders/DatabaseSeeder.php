@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CarSeeder::class,
             CategorySeeder::class,
+            UsersTableSeeder::class,
         ]);
 
         Schema::enableForeignKeyConstraints();

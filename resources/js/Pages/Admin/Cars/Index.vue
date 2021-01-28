@@ -36,7 +36,7 @@
                             </vs-td>
                             <vs-td class="flex space-x-3">
                                 <inertia-link class="text-xs text-orange-500 py-1 px-2 hover:underline" :href="route('admin.cars.edit', {car: tr.id})">Edit</inertia-link>
-                                <button class="text-xs text-white bg-red-600 rounded-md py-1 px-2 hover:underline" @click="$inertia.delete(route('admin.cars.destroy', {car: tr.id}))">Delete</button>
+                                <button class="text-xs text-white bg-red-600 rounded-md py-1 px-2 hover:underline" @click="deleteCar(tr.id)">Delete</button>
                             </vs-td>
                         </vs-tr>
                     </template>
@@ -60,15 +60,28 @@
             IndexOrNoData,
             Card,
         },
+        props: {
+            collection: Array,
+            flash: Object,
+        },
         data() {
             return {
                 page: 1,
                 max: 10,
-                collection: this.$page.props.cars,
             }
         },
-        mounted() {
-        }
+        methods: {
+            deleteCar(carId) {
+                confirm('Are you sure to delete?') ? this.$inertia.delete(route('admin.cars.destroy', {car: carId})) : '';
+            }
+        },
+        updated() {
+            if (this.flash.message) {
+                this.$toasted.success(this.flash.message, {
+                    duration: 5000,
+                });
+            }
+        },
     }
 </script>
 

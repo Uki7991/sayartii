@@ -61,8 +61,6 @@
                 interval: null,
             }
         },
-        computed: {
-        },
         mounted() {
             this.interval = setInterval(() => {
                 this.time = moment().format('HH:mm');
@@ -70,6 +68,8 @@
         },
         destroyed() {
             clearInterval(this.interval);
+        },
+        updated() {
         }
     }
 </script>
