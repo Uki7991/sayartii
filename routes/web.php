@@ -53,7 +53,7 @@ Route::post('/images/post-image', [ImageUploadController::class, 'postImage'])->
 Route::delete('/images/delete-image', [ImageUploadController::class, 'deleteImage'])->name('images.delete-image');
 Route::name('admin.')->prefix('admin')->group(function () {
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/', function () {
             return redirect()->intended('/admin/dashboard');
         });
