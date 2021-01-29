@@ -35,8 +35,8 @@
                                 {{ tr.attributes.length }}
                             </vs-td>
                             <vs-td class="flex space-x-3">
-                                <inertia-link class="text-xs text-orange-500 py-1 px-2 hover:underline" :href="route('admin.attributes.edit', {attribute: tr.id})">Edit</inertia-link>
-                                <button class="text-xs text-white bg-red-600 rounded-md py-1 px-2 hover:underline" @click="$inertia.delete(route('admin.attributes.destroy', {attribute: tr.id}))">Delete</button>
+                                <inertia-link class="text-xs text-orange-500 py-1 px-2 hover:underline" :href="route('admin.attributes.edit', {category: tr.id})">Edit</inertia-link>
+                                <button class="text-xs text-white bg-red-600 rounded-md py-1 px-2 hover:underline" @click="deleteAttributes(tr.id)">Delete</button>
                             </vs-td>
                         </vs-tr>
                     </template>
@@ -62,13 +62,28 @@
             IndexOrNoData,
             Card,
         },
+        props: {
+            collection: Array,
+            flash: Object,
+        },
         data() {
             return {
                 page: 1,
                 max: 10,
-                collection: this.$page.props.attributes,
             }
         },
+        methods: {
+            deleteAttributes(catId) {
+                confirm('Are you sure to delete?') ? this.$inertia.delete(route('admin.attributes.destroy', {category: catId})) : '';
+            }
+        },
+        updated() {
+            if (this.flash.message) {
+                this.$toasted.success(this.flash.message, {
+                    duration: 5000,
+                });
+            }
+        }
     }
 </script>
 

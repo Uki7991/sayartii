@@ -61,6 +61,6 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::post('/announcements/{ad}/active', [\App\Http\Controllers\Admin\AdController::class, 'active'])->name('announcements.active');
         Route::resource('announcements', \App\Http\Controllers\Admin\AdController::class)->parameters(['announcements' => 'ad']);
         Route::resource('cars', \App\Http\Controllers\Admin\CarController::class);
-        Route::resource('attributes', \App\Http\Controllers\Admin\AttributeController::class);
+        Route::resource('attributes', \App\Http\Controllers\Admin\AttributeController::class)->parameters(['attributes' => 'category']);
     });
 });

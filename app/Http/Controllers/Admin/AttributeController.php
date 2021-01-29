@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AttributeStoreRequest;
 use App\Models\Attribute;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class AttributeController extends Controller
     public function index()
     {
         return inertia(self::LINK.'Index', [
-            'attributes' => Category::with('attributes')->get(),
+            'collection' => Category::with('attributes')->get(),
         ]);
     }
 
@@ -39,9 +40,19 @@ class AttributeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AttributeStoreRequest $request)
     {
-        //
+        $request->validated();
+
+        $cat = Category::create($request->all());
+
+        foreach ($request->attributesarr as $item) {
+            $attribute = Attribute::create(['title' => $item['title'], 'category_id' => $cat->id]);
+        }
+
+        $request->session()->flash('message', 'Attributes created successfully');
+
+        return redirect()->route('admin.attributes.index');
     }
 
     /**
@@ -84,8 +95,12 @@ class AttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, Category $category)
     {
-        dd($id);
+        $category->delete();
+
+        $request->session()->flash('message', 'Attributes deleted successfully!');
+
+        return redirect()->back();
     }
 }
