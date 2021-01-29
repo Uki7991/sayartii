@@ -83,7 +83,7 @@
                                 </vs-td>
                                 <vs-td class="flex space-x-3">
                                     <inertia-link class="text-xs text-orange-500 py-1 px-2 hover:underline" :href="route('admin.announcements.edit', {ad: tr.id})">Edit</inertia-link>
-                                    <button class="text-xs text-white bg-red-600 rounded-md py-1 px-2 hover:underline" @click="$inertia.delete(route('admin.announcements.destroy', {ad: tr.id}))">Delete</button>
+                                    <button class="text-xs text-white bg-red-600 rounded-md py-1 px-2 hover:underline" @click="deleteAd(tr.id)">Delete</button>
                                 </vs-td>
                             </vs-tr>
                         </template>
@@ -108,11 +108,14 @@
             Card,
         },
         layout: (h, page) => h(AdminLayout, [page]),
+        props: {
+            collection: Array,
+            flash: Object,
+        },
         data() {
             return {
                 page: 1,
                 max: 10,
-                collection: this.$page.props.ads,
             }
         },
         methods: {
@@ -128,8 +131,18 @@
                     .catch(error => {
                         console.log(error);
                     })
+            },
+            deleteAd($adId) {
+                confirm('Are you sure to delete?') ? this.$inertia.delete(this.route('admin.announcements.destroy', {ad: $adId})) : '';
             }
         },
+        updated() {
+            if (this.flash.message) {
+                this.$toasted.success(this.flash.message, {
+                    duration: 5000,
+                });
+            }
+        }
     }
 </script>
 

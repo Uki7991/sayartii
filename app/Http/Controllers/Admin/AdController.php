@@ -9,6 +9,7 @@ use App\Models\AdImage;
 use App\Models\Attribute;
 use App\Models\Car;
 use App\Models\Category;
+use App\Services\FileUploader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -24,7 +25,7 @@ class AdController extends Controller
     public function index()
     {
         return inertia(self::LINK.'Index', [
-            'ads' => Ad::all(),
+            'collection' => Ad::all(),
         ]);
     }
 
@@ -69,6 +70,8 @@ class AdController extends Controller
         foreach ($request->images as $item) {
             AdImage::create(['path' => $item, 'ad_id' => $ad->id])->id;
         }
+
+        $request->session()->flash('message', 'Ad created successfully!');
 
         return redirect()->route('admin.announcements.index');
     }
@@ -117,9 +120,15 @@ class AdController extends Controller
      * @param  \App\Models\Ad  $ad
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ad $ad)
+    public function destroy(Request $request, Ad $ad)
     {
-        //
+        foreach ($ad->images as $image) {
+            FileUploader::delete($image);
+        }
+        $ad->delete();
+        $request->session()->flash('message', 'Ad deleted successfully!');
+
+        return redirect()->back();
     }
 
     public function active(Request $request, Ad $ad)
