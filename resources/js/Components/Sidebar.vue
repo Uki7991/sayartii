@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 z-10" v-show="show" @click="$emit('close')"></div>
-        <div class="fixed flex flex-col md:min-w-1/5 min-w-full min-h-full md:min-h-0 max-h-full overflow-hidden md:h-auto top-0 bg-white transition-all duration-300 right-0 transform shadow-lg rounded-bl-md z-10" :class="{'': show, 'translate-x-full': !show}">
+        <div class="fixed flex flex-col md:min-w-3/5 lg:min-w-2/5 xl:min-w-1/5 min-w-full min-h-full md:min-h-0 max-h-full overflow-hidden md:h-auto top-0 bg-white transition-all duration-300 right-0 transform shadow-lg rounded-bl-md z-10" :class="{'': show, 'translate-x-full': !show}">
             <div class="flex justify-between items-center p-8">
                 <p class="flex-grow text-center text-lg uppercase">Menu</p>
                 <button class="focus:outline-none flex-initial" @click="$emit('close')">

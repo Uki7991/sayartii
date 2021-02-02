@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Car;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -40,6 +41,7 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'message' => $request->session()->get('message'),
             ],
+            'cars' => Car::with('models')->get(),
         ]);
     }
 }

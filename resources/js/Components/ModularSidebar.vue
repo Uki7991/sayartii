@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 z-10" v-show="show" @click="$emit('close')"></div>
-        <div class="fixed flex flex-col md:min-w-1/5 min-w-full max-h-full overflow-hidden md:h-auto top-0 bg-white transition-all duration-300  transform shadow-lg z-10" :class="[{'': show, 'translate-x-full': !show && !left, '-translate-x-full': !show && left, 'right-0' : !left, 'left-0': left}, classes]">
+        <div class="fixed flex flex-col md:min-w-3/5 lg:min-w-2/5 xl:min-w-1/5 min-w-full max-h-full overflow-hidden md:h-auto top-0 bg-white transition-all duration-300  transform shadow-lg z-10" :class="[{'': show, 'translate-x-full': !show && !left, '-translate-x-full': !show && left, 'right-0' : !left, 'left-0': left}, classes]">
             <slot name="header">
                 <div class="flex justify-between items-center p-8">
                     <p class="flex-grow text-center text-lg uppercase">{{ title }}</p>

@@ -1,7 +1,7 @@
 <template>
     <inertia-link :href="route('announcements.show', {ad: car.id})" class="shadow-lg rounded-lg relative" :class="{'border-pink-600 border-4': active}">
         <div class="relative">
-            <img class="rounded-t-md object-cover object-center h-52 w-full" :src="'/storage/small/'+car.images[0].path" alt="">
+            <img class="rounded-t-md object-cover object-center md:h-52 h-40 w-full" :src="'/storage/small/'+car.images[0].path" alt="">
             <div class="absolute w-full h-4 bottom-0 bg-gradient-to-b from-transparent to-white"></div>
         </div>
         <div class="p-4 text-gray-700">

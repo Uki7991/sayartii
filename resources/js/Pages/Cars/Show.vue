@@ -12,16 +12,16 @@
                     </div>
 
                     <div class="bg-white shadow-lg p-8 my-10 flex flex-col space-y-6">
-                        <div class="flex space-x-4 items-center border-b border-gray-500 pb-2">
-                            <img class="h-20 w-auto" src="https://sayartii.com/uploads/dealers/17592209246733/profile/202abde794a5117a96141cadf45ffb9ab3b720b5.jpg" alt="">
-                            <div>
-                                <inertia-link href="" class="text-lg text-blue-600">Royal Motors</inertia-link>
-                                <p class="">United Arab Emirates, Dubai</p>
-                            </div>
-                        </div>
+<!--                        <div class="flex space-x-4 items-center border-b border-gray-500 pb-2">-->
+<!--                            <img class="h-20 w-auto" src="https://sayartii.com/uploads/dealers/17592209246733/profile/202abde794a5117a96141cadf45ffb9ab3b720b5.jpg" alt="">-->
+<!--                            <div>-->
+<!--                                <inertia-link href="" class="text-lg text-blue-600">Royal Motors</inertia-link>-->
+<!--                                <p class="">United Arab Emirates, Dubai</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="flex flex-col space-y-4">
-                            <p class="text-4xl">Mercedes-Benz G-Class</p>
-                            <p class="text-xl">Mercedes G63 2019 / GCC Spec / With Warranty</p>
+                            <p class="text-4xl">{{car.car_model.car.title}} {{car.car_model.title}}</p>
+<!--                            <p class="text-xl">{{car.car_model.car.title}} {{car.car_model.title}} / GCC Spec / With Warranty</p>-->
                             <pre>{{car.description}}</pre>
                         </div>
                     </div>
@@ -43,10 +43,10 @@
                             <p>Year</p><p class="max-w-3/5">{{car.year}}</p>
                         </li>
                         <li class="flex justify-between text-lg my-2">
-                            <p>Make</p><p class="max-w-3/5">{{car.model}}</p>
+                            <p>Make</p><p class="max-w-3/5">{{car.car_model.car.title}}</p>
                         </li>
                         <li class="flex justify-between text-lg my-2">
-                            <p>Model</p><p class="max-w-3/5">{{car.model}}</p>
+                            <p>Model</p><p class="max-w-3/5">{{car.car_model.title}}</p>
                         </li>
                         <li class="flex justify-between text-lg my-2">
                             <p>Mileage</p><p class="max-w-3/5">{{car.mileage}}</p>

@@ -2,7 +2,7 @@
     <app-layout>
         <section class="py-24">
             <div class="container px-3 mx-auto md:px-0">
-                <div class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-5">
+                <div class="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 md:gap-5">
 
                     <car-card :active="true" v-for="car in cars" :car="car" :key="car.id"></car-card>
 

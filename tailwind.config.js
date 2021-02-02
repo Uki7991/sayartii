@@ -43,8 +43,15 @@ module.exports = {
             minHeight: {
                 24: '6rem',
             },
+            maxHeight: {
+                '3/10vh': '30vh',
+                '4/10vh': '40vh',
+            },
             minWidth: {
                 '1\/5': '20%',
+                '2\/5': '40%',
+                '3\/5': '60%',
+                '4\/5': '80%',
             },
             maxWidth: {
                 '1\/2': '50%',
@@ -71,7 +78,13 @@ module.exports = {
     variants: {
         extend: {
             opacity: ['disabled'],
-            borderWidth: ['hover', 'focus'],
+            borderWidth: ['hover', 'focus', 'focus-within'],
+            position: ['focus-within'],
+            inset: ['focus-within'],
+            width: ['focus-within'],
+            transform: ['focus-within'],
+            translate: ['focus-within'],
+            borderRadius: ['focus-within'],
         },
     },
 

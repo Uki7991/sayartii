@@ -32,22 +32,11 @@
         <div class="flex-grow w-7/12 mb-4">
             <p class="capitalize text-center my-4">Car information</p>
             <div class="py-1">
-                <label for="model">Make / Model <span class="text-red-600">*</span></label>
-                <input type="text" v-model="form.model" id="model" class="w-full rounded-md focus:ring-black focus:border-black">
+                <label>Make / Model <span class="text-red-600">*</span></label>
+                <select-with-search
+                class="flex flex-col items-center border rounded-md px-3 border-gray-400 w-full bg-white"
+                :collection="$page.props.cars" v-model="form.model"></select-with-search>
                 <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.model">{{$page.props.errors.model}}</p>
-                <multiselect track-by="title" label="title" group-values="models" group-label="title"
-                             placeholder="Select one" v-model="form.make" :options="cars" class="w-full">
-                    <template slot="singleLabel" slot-scope="props"><span class="option__desc"><span
-                        class="option__title">{{ props.option.title }}</span></span></template>
-                    <template slot="option" slot-scope="props">
-                        <div v-if="props.option.$isLabel">
-                            {{props.option.$groupLabel}}
-                        </div>
-                        <div v-else class="option__desc"><span
-                            class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.created_at }}</span>
-                        </div>
-                    </template>
-                </multiselect>
             </div>
             <div class="py-1">
                 <label for="year">Year <span class="text-red-600">*</span></label>
@@ -119,6 +108,7 @@
     import CheckBox from "@/Components/CheckBox";
     import RadioBox from "@/Components/RadioBox";
     import Multiselect from "vue-multiselect";
+    import SelectWithSearch from "@/Components/SelectWithSearch";
     import 'vue-multiselect/dist/vue-multiselect.min.css';
     import _ from "lodash";
 
@@ -144,6 +134,7 @@
             RadioBox,
             FilePond,
             Multiselect,
+            SelectWithSearch,
         },
         data() {
             return {
