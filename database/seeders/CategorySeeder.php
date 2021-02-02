@@ -41,39 +41,39 @@ class CategorySeeder extends Seeder
                 'values' => [
                     [
                         'title' => 'Sedan',
-                        'image' => public_path('assets\icons\sedan.svg'),
+                        'image' => public_path('assets/icons/sedan.svg'),
                     ],
                     [
                         'title' => 'Coupe',
-                        'image' => public_path('assets\icons\coupe.svg'),
+                        'image' => public_path('assets/icons/coupe.svg'),
                     ],
                     [
                         'title' => 'SUV',
-                        'image' => public_path('assets\icons\suv.svg'),
+                        'image' => public_path('assets/icons/suv.svg'),
                     ],
                     [
                         'title' => 'Hatch',
-                        'image' => public_path('assets\icons\hatch.svg'),
+                        'image' => public_path('assets/icons/hatch.svg'),
                     ],
                     [
                         'title' => 'Wagon',
-                        'image' => public_path('assets\icons\wagon.svg'),
+                        'image' => public_path('assets/icons/wagon.svg'),
                     ],
                     [
                         'title' => 'Pickup',
-                        'image' => public_path('assets\icons\pickup.svg'),
+                        'image' => public_path('assets/icons/pickup.svg'),
                     ],
                     [
                         'title' => 'Minivan',
-                        'image' => public_path('assets\icons\minivan.svg'),
+                        'image' => public_path('assets/icons/minivan.svg'),
                     ],
                     [
                         'title' => 'Commercial',
-                        'image' => public_path('assets\icons\commercial.svg'),
+                        'image' => public_path('assets/icons/commercial.svg'),
                     ],
                     [
                         'title' => 'Other',
-                        'image' => public_path('assets\icons\other.svg'),
+                        'image' => public_path('assets/icons/other.svg'),
                     ],
                 ],
             ],
@@ -91,7 +91,7 @@ class CategorySeeder extends Seeder
                 'title' => 'Cylinders',
                 'type' => 'radio',
                 'values' => [
-                    ['title' => '', 'image' => public_path('assets\icons\electric.svg')],
+                    ['title' => '', 'image' => public_path('assets/icons/electric.svg')],
                     ['title' => '2'],
                     ['title' => '3'],
                     ['title' => '4'],
