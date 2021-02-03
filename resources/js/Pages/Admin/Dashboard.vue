@@ -11,15 +11,28 @@
                 </div>
             </card>
             <card class=" col-span-3">
-                <p class="text-2xl text-gray-900 mb-8">Overview of last month</p>
+                <p class="text-2xl text-gray-900 mb-8 truncate">Overview of last month</p>
                 <div class="flex space-x-4 justify-around">
                     <div>
-                        <p class="text-6xl text-gray-900 font-medium">15</p>
+                        <p class="text-6xl text-gray-900 font-medium text-center">{{usersCurrentCount}}</p>
                         <p class="text-xs font-light">current users</p>
                     </div>
                     <div>
-                        <p class="text-6xl text-gray-900 font-medium">24</p>
+                        <p class="text-6xl text-gray-900 font-medium text-center">{{registrationsCount}}</p>
                         <p class="text-xs font-light">registrations</p>
+                    </div>
+                </div>
+            </card>
+            <card class=" col-span-3">
+                <p class="text-2xl text-gray-900 mb-8 truncate">Announcements of last month</p>
+                <div class="flex space-x-4 justify-around">
+                    <div>
+                        <p class="text-6xl text-gray-900 font-medium text-center">{{allAnnouncementsCount}}</p>
+                        <p class="text-xs font-light">current announcements</p>
+                    </div>
+                    <div>
+                        <p class="text-6xl text-gray-900 font-medium text-center">{{newAnnouncementsCount}}</p>
+                        <p class="text-xs font-light">new announcements</p>
                     </div>
                 </div>
             </card>
@@ -33,7 +46,12 @@
 
     export default {
         layout: (h, page) => h(AdminLayout, [page]),
-
+        props: {
+            usersCurrentCount: Number,
+            registrationsCount: Number,
+            allAnnouncementsCount: Number,
+            newAnnouncementsCount: Number,
+        },
         components: {
             Card,
         },

@@ -42,6 +42,7 @@ class HandleInertiaRequests extends Middleware
                 'message' => $request->session()->get('message'),
             ],
             'cars' => Car::with('models')->get(),
+            'userCars' => $request->user() ? $request->user()->ads()->with('images:id,path,ad_id', 'carModel.car')->get() : [],
         ]);
     }
 }

@@ -9,7 +9,7 @@
             <div class="border-l-4 pl-1 border-pink-600">
                 <div class="flex items-center space-x-1">
                     <p class="flex items-center space-x-1 text-xs"><span class="font-black text-sm">{{car.mileage | mileageK}}k</span>&nbsp;km</p>
-                    <p class="text-xs overflow-hidden overflow-ellipsis whitespace-nowrap">• Gcc Pajero 3D full service history single owner</p>
+                    <p class="text-xs overflow-hidden overflow-ellipsis whitespace-nowrap">• {{car.car_model.car.title}} {{car.car_model.title}}</p>
                 </div>
                 <p class="text-pink-600">
                     <span class="text-lg font-medium ">{{car.price}}</span><span class="text-xs uppercase">aed</span>

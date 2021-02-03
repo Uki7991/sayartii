@@ -28,6 +28,9 @@
                                     Active
                                 </vs-th>
                                 <vs-th>
+                                    Featured
+                                </vs-th>
+                                <vs-th>
                                     Actions
                                 </vs-th>
                             </vs-tr>
@@ -68,6 +71,31 @@
                                             <div class="relative">
                                                 <!-- input -->
                                                 <input :id="'toogle'+tr.id" @change="toggleActive($event, tr.id)" type="checkbox" :value="true" :checked="tr.active" class="hidden" />
+                                                <!-- line -->
+                                                <div
+                                                    class="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"
+                                                ></div>
+                                                <!-- dot -->
+                                                <div
+                                                    class="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"
+                                                ></div>
+                                            </div>
+                                        </label>
+
+                                    </div>
+                                </vs-td>
+                                <vs-td>
+                                    <div class="flex items-center justify-center">
+
+                                        <!-- Toggle Button -->
+                                        <label
+                                            :for="'toogleFeatured'+tr.id"
+                                            class="flex items-center cursor-pointer"
+                                        >
+                                            <!-- toggle -->
+                                            <div class="relative">
+                                                <!-- input -->
+                                                <input :id="'toogleFeatured'+tr.id" @change="toggleFeatured($event, tr.id)" type="checkbox" :value="true" :checked="tr.featured" class="hidden" />
                                                 <!-- line -->
                                                 <div
                                                     class="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"
@@ -123,7 +151,24 @@
                 window.axios.post(this.route('admin.announcements.active', {ad: car, active: $e.target.checked}))
                     .then(data => {
                         if (data.data.status) {
-                            console.log(data.data.message);
+                            this.$toasted.success(data.data.message, {
+                                duration: 5000,
+                            });
+                        } else {
+                            console.log('error');
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            },
+            toggleFeatured($e, car) {
+                window.axios.post(this.route('admin.announcements.featured', {ad: car, active: $e.target.checked}))
+                    .then(data => {
+                        if (data.data.status) {
+                            this.$toasted.success(data.data.message, {
+                                duration: 5000,
+                            });
                         } else {
                             console.log('error');
                         }

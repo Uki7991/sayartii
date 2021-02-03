@@ -59,6 +59,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         });
         Route::get('/dashboard', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('index');
         Route::post('/announcements/{ad}/active', [\App\Http\Controllers\Admin\AdController::class, 'active'])->name('announcements.active');
+        Route::post('/announcements/{ad}/featured', [\App\Http\Controllers\Admin\AdController::class, 'featured'])->name('announcements.featured');
         Route::resource('announcements', \App\Http\Controllers\Admin\AdController::class)->parameters(['announcements' => 'ad']);
         Route::resource('cars', \App\Http\Controllers\Admin\CarController::class);
         Route::resource('attributes', \App\Http\Controllers\Admin\AttributeController::class)->parameters(['attributes' => 'category']);

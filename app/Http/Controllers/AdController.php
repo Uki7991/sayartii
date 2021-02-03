@@ -62,7 +62,8 @@ class AdController extends Controller
      */
     public function show(Ad $ad)
     {
-        $suggestions = Ad::with('images:id,path,ad_id')->where('id', '!=', $ad->id)->get();
+        $suggestions = Ad::with('images:id,path,ad_id', 'carModel.car')->where('id', '!=', $ad->id)->where('active', true)->orderByDesc('featured')->get()->shuffle();
+        $suggestions = $suggestions->count() >= 8 ? $suggestions->random(8) : $suggestions;
 
         return inertia('Cars/Show', [
             'car' => $ad->load('images:id,path,ad_id', 'tags', 'specs.category', 'carModel.car'),

@@ -48,6 +48,11 @@ class Ad extends Model
         return floor($value / 1000) ? number_format($value, 0, '.', ',') : $value;
     }
 
+    public function getFeaturedAttribute($value)
+    {
+        return $value ? true : false;
+    }
+
     public function getMileageCardAttribute() {
         return floor($this->mileage / 1000) ? $this->mileage / 1000 : $this->mileage;
     }

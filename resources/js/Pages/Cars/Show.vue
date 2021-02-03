@@ -1,13 +1,13 @@
 <template>
     <app-layout>
 
-        <div class="container mx-auto">
-            <section class="md:w-10/12 mx-auto md:py-24 flex space-x-16">
+        <div class="container mx-auto px-4">
+            <section class="md:w-10/12 w-full mx-auto md:py-24 py-20 flex flex-wrap justify-between">
 
-                <div class="md:w-4/6">
+                <div class="md:w-7/12">
                     <div class="grid grid-cols-3 gap-0.5 shadow-md">
                         <inertia-link href="" v-for="image in car.images" :key="image.id">
-                            <img class="object-cover w-full h-40" :src="'/storage/small/'+image.path" :alt="car.model">
+                            <img class="object-cover w-full md:h-40" :src="'/storage/small/'+image.path" :alt="car.model">
                         </inertia-link>
                     </div>
 
@@ -27,7 +27,7 @@
                     </div>
                 </div>
 
-                <div class="md:w-2/6">
+                <div class="md:w-2/6 w-full">
                     <div class="flex flex-col space-y-5">
                         <p class="uppercase text-center text-xl text-pink-600">aed <span class="text-5xl">{{car.price}}</span></p>
                         <a target="_blank" href="https://wa.me/971403391555?text=Hi%2C%20I%27m%20interested%20in%20your%20advertisement.%0A%0Ahttps%3A%2F%2Fsayartii.com%2FAE%2Fl%2Femo-734%2F2019-BMW-X7-50i-pure-excellence-ref-no-114531" class="bg-green-500 block flex items-center justify-center h-14 rounded-md text-white">
@@ -73,7 +73,7 @@
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 my-6">
 
-                    <car-card :car="suggestion" v-for="suggestion in suggestions" :key="suggestion.id" :active="true"></car-card>
+                    <car-card :car="suggestion" v-for="suggestion in suggestions" :key="suggestion.id" :active="suggestion.featured"></car-card>
 
                 </div>
             </section>

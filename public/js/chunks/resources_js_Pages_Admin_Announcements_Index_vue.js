@@ -267,6 +267,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -290,12 +318,34 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     toggleActive: function toggleActive($e, car) {
+      var _this = this;
+
       window.axios.post(this.route('admin.announcements.active', {
         ad: car,
         active: $e.target.checked
       })).then(function (data) {
         if (data.data.status) {
-          console.log(data.data.message);
+          _this.$toasted.success(data.data.message, {
+            duration: 5000
+          });
+        } else {
+          console.log('error');
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    toggleFeatured: function toggleFeatured($e, car) {
+      var _this2 = this;
+
+      window.axios.post(this.route('admin.announcements.featured', {
+        ad: car,
+        active: $e.target.checked
+      })).then(function (data) {
+        if (data.data.status) {
+          _this2.$toasted.success(data.data.message, {
+            duration: 5000
+          });
         } else {
           console.log('error');
         }
@@ -22840,6 +22890,12 @@ var render = function() {
                               _vm._v(" "),
                               _c("vs-th", [
                                 _vm._v(
+                                  "\n                                Featured\n                            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("vs-th", [
+                                _vm._v(
                                   "\n                                Actions\n                            "
                                 )
                               ])
@@ -22941,6 +22997,65 @@ var render = function() {
                                                 on: {
                                                   change: function($event) {
                                                     return _vm.toggleActive(
+                                                      $event,
+                                                      tr.id
+                                                    )
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("div", {
+                                                staticClass:
+                                                  "toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"
+                                              }),
+                                              _vm._v(" "),
+                                              _c("div", {
+                                                staticClass:
+                                                  "toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("vs-td", [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "flex items-center justify-center"
+                                    },
+                                    [
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass:
+                                            "flex items-center cursor-pointer",
+                                          attrs: {
+                                            for: "toogleFeatured" + tr.id
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            { staticClass: "relative" },
+                                            [
+                                              _c("input", {
+                                                staticClass: "hidden",
+                                                attrs: {
+                                                  id: "toogleFeatured" + tr.id,
+                                                  type: "checkbox"
+                                                },
+                                                domProps: {
+                                                  value: true,
+                                                  checked: tr.featured
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    return _vm.toggleFeatured(
                                                       $event,
                                                       tr.id
                                                     )

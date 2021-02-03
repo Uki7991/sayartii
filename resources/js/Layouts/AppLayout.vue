@@ -40,10 +40,10 @@
 
 
                 <div class="flex md:space-x-6 space-x-2">
-                    <button @click="" class="flex items-center md:px-3 px-1 border border-gray-900 rounded bg-white">
-                        <img class="h-6 w-7 object-cover object-left" src="https://sayartii.com/static/img/flags/ae.svg"
-                             alt="">
-                    </button>
+<!--                    <button @click="" class="flex items-center md:px-3 px-1 border border-gray-900 rounded bg-white">-->
+<!--                        <img class="h-6 w-7 object-cover object-left" src="https://sayartii.com/static/img/flags/ae.svg"-->
+<!--                             alt="">-->
+<!--                    </button>-->
 
                     <button @click="openSidebar"
                             class="flex items-center md:px-5 md:border border-gray-900 rounded bg-white py-2">
@@ -83,10 +83,10 @@
                 </div>
             </template>
             <div class="px-8 overflow-y-auto">
-                <menu-item-with-select>
-                    <globe width="30" height="30" class="text-black"></globe>
-                    <p class="ml-4">Location</p>
-                </menu-item-with-select>
+<!--                <menu-item-with-select>-->
+<!--                    <globe width="30" height="30" class="text-black"></globe>-->
+<!--                    <p class="ml-4">Location</p>-->
+<!--                </menu-item-with-select>-->
                 <div class="py-2">
                     <label>Make / Model</label>
                     <select-with-search
@@ -184,17 +184,17 @@
                            class="w-full rounded-md focus:ring-black focus:border-black">
                     <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.year">{{$page.props.errors.year}}</p>
                 </div>
-                <div class="py-1">
-                    <label for="location">Location <span class="text-red-600">*</span></label>
-                    <select id="location" v-model="formCreate.location"
-                            class="w-full rounded-md focus:ring-black focus:border-black">
-                        <option>Egypt</option>
-                        <option>Algeria</option>
-                        <option>Arabian</option>
-                    </select>
-                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.location">
-                        {{$page.props.errors.location}}</p>
-                </div>
+<!--                <div class="py-1">-->
+<!--                    <label for="location">Location <span class="text-red-600">*</span></label>-->
+<!--                    <select id="location" v-model="formCreate.location"-->
+<!--                            class="w-full rounded-md focus:ring-black focus:border-black">-->
+<!--                        <option>Egypt</option>-->
+<!--                        <option>Algeria</option>-->
+<!--                        <option>Arabian</option>-->
+<!--                    </select>-->
+<!--                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.location">-->
+<!--                        {{$page.props.errors.location}}</p>-->
+<!--                </div>-->
                 <div class="py-1">
                     <label for="price">Price <span class="text-red-600">*</span></label>
                     <input type="number" v-model="formCreate.price" id="price"

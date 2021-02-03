@@ -154,12 +154,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   layout: function layout(h, page) {
     return h(_Layouts_AdminLayout__WEBPACK_IMPORTED_MODULE_0__.default, [page]);
+  },
+  props: {
+    usersCurrentCount: Number,
+    registrationsCount: Number,
+    allAnnouncementsCount: Number,
+    newAnnouncementsCount: Number
   },
   components: {
     Card: _Components_Card__WEBPACK_IMPORTED_MODULE_1__.default
@@ -22535,15 +22554,17 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("card", { staticClass: " col-span-3" }, [
-        _c("p", { staticClass: "text-2xl text-gray-900 mb-8" }, [
+        _c("p", { staticClass: "text-2xl text-gray-900 mb-8 truncate" }, [
           _vm._v("Overview of last month")
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "flex space-x-4 justify-around" }, [
           _c("div", [
-            _c("p", { staticClass: "text-6xl text-gray-900 font-medium" }, [
-              _vm._v("15")
-            ]),
+            _c(
+              "p",
+              { staticClass: "text-6xl text-gray-900 font-medium text-center" },
+              [_vm._v(_vm._s(_vm.usersCurrentCount))]
+            ),
             _vm._v(" "),
             _c("p", { staticClass: "text-xs font-light" }, [
               _vm._v("current users")
@@ -22551,12 +22572,46 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", [
-            _c("p", { staticClass: "text-6xl text-gray-900 font-medium" }, [
-              _vm._v("24")
-            ]),
+            _c(
+              "p",
+              { staticClass: "text-6xl text-gray-900 font-medium text-center" },
+              [_vm._v(_vm._s(_vm.registrationsCount))]
+            ),
             _vm._v(" "),
             _c("p", { staticClass: "text-xs font-light" }, [
               _vm._v("registrations")
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("card", { staticClass: " col-span-3" }, [
+        _c("p", { staticClass: "text-2xl text-gray-900 mb-8 truncate" }, [
+          _vm._v("Announcements of last month")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex space-x-4 justify-around" }, [
+          _c("div", [
+            _c(
+              "p",
+              { staticClass: "text-6xl text-gray-900 font-medium text-center" },
+              [_vm._v(_vm._s(_vm.allAnnouncementsCount))]
+            ),
+            _vm._v(" "),
+            _c("p", { staticClass: "text-xs font-light" }, [
+              _vm._v("current announcements")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c(
+              "p",
+              { staticClass: "text-6xl text-gray-900 font-medium text-center" },
+              [_vm._v(_vm._s(_vm.newAnnouncementsCount))]
+            ),
+            _vm._v(" "),
+            _c("p", { staticClass: "text-xs font-light" }, [
+              _vm._v("new announcements")
             ])
           ])
         ])

@@ -141,4 +141,15 @@ class AdController extends Controller
             'message' => 'Announcement updated',
         ]);
     }
+
+    public function featured(Request $request, Ad $ad)
+    {
+        $ad->featured = $request->get('active');
+        $ad->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Announcement is featured',
+        ]);
+    }
 }
