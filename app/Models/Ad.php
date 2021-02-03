@@ -53,6 +53,11 @@ class Ad extends Model
         return $value ? true : false;
     }
 
+    public function getActiveAttribute($value)
+    {
+        return $value ? true : false;
+    }
+
     public function getMileageCardAttribute() {
         return floor($this->mileage / 1000) ? $this->mileage / 1000 : $this->mileage;
     }
