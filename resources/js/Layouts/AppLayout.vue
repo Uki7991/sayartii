@@ -260,6 +260,7 @@
             </template>
         </modular-sidebar>
 
+
     </div>
 </template>
 
@@ -416,8 +417,12 @@
                 this.filtersSidebar = false;
             },
             openSellSidebar() {
-                this.hideBody();
-                this.sellSidebar = true;
+                if (this.$page.props.user) {
+                    this.hideBody();
+                    this.sellSidebar = true;
+                } else {
+                    this.openSidebar();
+                }
             },
             closeSellSidebar() {
                 this.showBody();
