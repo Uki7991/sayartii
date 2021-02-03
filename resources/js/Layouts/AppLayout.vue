@@ -166,6 +166,7 @@
                     allow-multiple="true"
                     name="test"
                     :server="server"
+                    ref="createpond"
                 ></file-pond>
                 <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.images">{{$page.props.errors.images}}</p>
                 <p class="capitalize text-center my-4">Car information</p>
@@ -259,7 +260,7 @@
                 </button>
             </template>
         </modular-sidebar>
-
+        <notifications group="announcements" />
 
     </div>
 </template>
@@ -429,8 +430,21 @@
                 this.sellSidebar = false;
             },
             submitFormCreate() {
+                let self = this;
                 this.disableButton();
-                this.$inertia.post('/announcements', this.formCreate);
+                this.formCreate.post(this.route('announcements.store'), {
+                    preserveScroll: true,
+                    onSuccess: (data) => {
+                            self.resetFormCreate();
+                            self.closeSellSidebar();
+                            self.$notify({
+                                group: 'announcements',
+                                title: self.$page.props.flash.message,
+                                type: 'success',
+                                position: 'top-center',
+                            });
+                    }
+                });
                 this.enableButton();
             },
             processFileStart() {
@@ -451,6 +465,41 @@
             enableButton() {
                 this.disabledButton = false;
             },
+            resetFormCreate() {
+                let self = this;
+                this.$refs.createpond.removeFiles();
+                this.attributes = {
+                    ...this.attributes,
+                };
+                _.forEach(this.attributes, (value, index) => {
+                    if (value.type === 'radio') {
+                        self.$set(self.formCreate.attributesArr, index, '');
+                    }
+                    if (value.type === 'checkbox') {
+                        self.$set(self.formCreate.attributesArr, index, {});
+                        _.forEach(value.attributesArr, (item, key) => {
+                            self.$set(self.formCreate.attributesArr[index], key, item.status);
+                        })
+                    }
+                });
+                this.$set(this.formCreate, 'images', []);
+                this.formCreate.reset();
+            },
+            resetFormFilters() {
+                let self = this;
+                _.forEach(this.attributes, (value, index) => {
+                    if (value.type === 'radio') {
+                        self.$set(self.formFilters.attributesArr, index, 0);
+                    }
+                    if (value.type === 'checkbox') {
+                        self.$set(self.formFilters.attributesArr, index, {});
+                        _.forEach(value.attributesArr, (item, key) => {
+                            self.$set(self.formFilters.attributesArr[index], key, item.status);
+                        })
+                    }
+                });
+                this.formFilters.reset();
+            }
         },
         mounted() {
             window.axios.get('/api/attributes')
@@ -476,6 +525,6 @@
                 });
 
             this.cars = this.$page.props.cars;
-        }
+        },
     }
 </script>

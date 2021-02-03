@@ -7,6 +7,7 @@ import PortalVue from 'portal-vue';
 import Vuesax from "vuesax";
 import Toasted from "vue-toasted";
 import VueSplide from '@splidejs/vue-splide';
+import Notifications from 'vue-notification'
 
 Vue.mixin({ methods: { route } });
 Vue.mixin({
@@ -30,6 +31,7 @@ Vue.use(InertiaPlugin);
 Vue.use(PortalVue);
 Vue.use(Vuesax);
 Vue.use(Toasted);
+Vue.use(Notifications);
 Vue.use(VueSplide);
 
 const app = document.getElementById('app');

@@ -40,7 +40,7 @@ class AdController extends Controller
     public function store(AdStoreRequest $request)
     {
         $validated = $request->validated();
-        $ad = Ad::create(array_merge($request->all(), ['car_model_id' => $request->model[1]['id']]));
+        $ad = Ad::create(array_merge($request->all(), ['car_model_id' => $request->model[1]['id'], 'user_id' => $request->user()->id]));
 
         $attributes = Attribute::getAttributeIdsFromRequest($request->attributesArr);
         $ad->attributesarr()->sync($attributes);

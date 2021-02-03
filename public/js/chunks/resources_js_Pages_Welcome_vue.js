@@ -693,6 +693,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_Icons_Globe__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/Components/Icons/Globe */ "./resources/js/Components/Icons/Globe.vue");
 /* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
 /* harmony import */ var _Components_SelectWithSearch__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/Components/SelectWithSearch */ "./resources/js/Components/SelectWithSearch.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
 //
 //
 //
@@ -1115,8 +1122,21 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_4___default()((filepond_plu
       this.sellSidebar = false;
     },
     submitFormCreate: function submitFormCreate() {
+      var self = this;
       this.disableButton();
-      this.$inertia.post('/announcements', this.formCreate);
+      this.formCreate.post(this.route('announcements.store'), {
+        preserveScroll: true,
+        onSuccess: function onSuccess(data) {
+          self.resetFormCreate();
+          self.closeSellSidebar();
+          self.$notify({
+            group: 'announcements',
+            title: self.$page.props.flash.message,
+            type: 'success',
+            position: 'top-center'
+          });
+        }
+      });
       this.enableButton();
     },
     processFileStart: function processFileStart() {
@@ -1135,6 +1155,47 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_4___default()((filepond_plu
     },
     enableButton: function enableButton() {
       this.disabledButton = false;
+    },
+    resetFormCreate: function resetFormCreate() {
+      var self = this;
+      this.$refs.createpond.removeFiles();
+      this.attributes = _objectSpread({}, this.attributes);
+
+      lodash__WEBPACK_IMPORTED_MODULE_3___default().forEach(this.attributes, function (value, index) {
+        if (value.type === 'radio') {
+          self.$set(self.formCreate.attributesArr, index, '');
+        }
+
+        if (value.type === 'checkbox') {
+          self.$set(self.formCreate.attributesArr, index, {});
+
+          lodash__WEBPACK_IMPORTED_MODULE_3___default().forEach(value.attributesArr, function (item, key) {
+            self.$set(self.formCreate.attributesArr[index], key, item.status);
+          });
+        }
+      });
+
+      this.$set(this.formCreate, 'images', []);
+      this.formCreate.reset();
+    },
+    resetFormFilters: function resetFormFilters() {
+      var self = this;
+
+      lodash__WEBPACK_IMPORTED_MODULE_3___default().forEach(this.attributes, function (value, index) {
+        if (value.type === 'radio') {
+          self.$set(self.formFilters.attributesArr, index, 0);
+        }
+
+        if (value.type === 'checkbox') {
+          self.$set(self.formFilters.attributesArr, index, {});
+
+          lodash__WEBPACK_IMPORTED_MODULE_3___default().forEach(value.attributesArr, function (item, key) {
+            self.$set(self.formFilters.attributesArr[index], key, item.status);
+          });
+        }
+      });
+
+      this.formFilters.reset();
     }
   },
   mounted: function mounted() {
@@ -1209,11 +1270,10 @@ __webpack_require__.r(__webpack_exports__);
     CarCard: _Components_CarCard__WEBPACK_IMPORTED_MODULE_1__.default,
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: {},
-  data: function data() {
-    return {
-      cars: this.$page.props.announcements
-    };
+  props: {
+    announcements: {
+      type: Array
+    }
   }
 });
 
@@ -39157,6 +39217,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("file-pond", {
+                ref: "createpond",
                 attrs: {
                   "max-files": "12",
                   imagePreviewHeight: 100,
@@ -39640,7 +39701,9 @@ var render = function() {
             2
           )
         ]
-      )
+      ),
+      _vm._v(" "),
+      _c("notifications", { attrs: { group: "announcements" } })
     ],
     1
   )
@@ -39677,7 +39740,7 @@ var render = function() {
             staticClass:
               "grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 md:gap-5"
           },
-          _vm._l(_vm.cars, function(car) {
+          _vm._l(_vm.announcements, function(car) {
             return _c("car-card", {
               key: car.id,
               attrs: { active: true, car: car }
