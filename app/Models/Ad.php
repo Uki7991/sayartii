@@ -9,7 +9,7 @@ class Ad extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'year', 'mileage', 'price', 'phone', 'whatsapp', 'car_model_id'];
+    protected $fillable = ['title', 'description', 'year', 'mileage', 'price', 'phone', 'whatsapp', 'car_model_id', 'user_id'];
 
     public function carModel()
     {

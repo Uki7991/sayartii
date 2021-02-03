@@ -468,9 +468,9 @@
             resetFormCreate() {
                 let self = this;
                 this.$refs.createpond.removeFiles();
-                this.attributes = {
-                    ...this.attributes,
-                };
+                let tmp = this.attributes;
+                this.attributes = [];
+                this.attributes = tmp;
                 _.forEach(this.attributes, (value, index) => {
                     if (value.type === 'radio') {
                         self.$set(self.formCreate.attributesArr, index, '');
