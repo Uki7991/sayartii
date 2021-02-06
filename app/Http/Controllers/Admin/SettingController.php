@@ -58,7 +58,9 @@ class SettingController extends Controller
      */
     public function edit(Setting $setting)
     {
-        //
+        return inertia('Admin/Settings/Edit', [
+            'setting' => $setting,
+        ]);
     }
 
     /**
@@ -70,7 +72,11 @@ class SettingController extends Controller
      */
     public function update(Request $request, Setting $setting)
     {
-        //
+        $setting->update($request->all());
+
+        $request->session()->flash('message', 'Settings updated successfully!');
+
+        return redirect()->back();
     }
 
     /**

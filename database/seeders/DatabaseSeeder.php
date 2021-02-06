@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CarSeeder::class,
             CategorySeeder::class,
             UsersTableSeeder::class,
+            SettingSeeder::class,
         ]);
 
         Schema::enableForeignKeyConstraints();

@@ -21,7 +21,7 @@
                         <img src="/assets/icons/list.svg" class="w-4 h-4" alt="">
                         <span>Attributes</span>
                     </inertia-link>
-                    <inertia-link href="" :class="{'border-l-4 border-orange-500': route().current('admin.settings.*')}" class="px-4 h-10 flex space-x-3 items-center hover:bg-blueGray-700 cursor-pointer">
+                    <inertia-link :href="route('admin.settings.edit', {setting: 1})" :class="{'border-l-4 border-orange-500': route().current('admin.settings.*')}" class="px-4 h-10 flex space-x-3 items-center hover:bg-blueGray-700 cursor-pointer">
                         <img src="/assets/icons/settings.svg" class="w-4 h-4" alt="">
                         <span>Settings</span>
                     </inertia-link>

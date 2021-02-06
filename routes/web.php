@@ -63,5 +63,6 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::resource('announcements', \App\Http\Controllers\Admin\AdController::class)->parameters(['announcements' => 'ad']);
         Route::resource('cars', \App\Http\Controllers\Admin\CarController::class);
         Route::resource('attributes', \App\Http\Controllers\Admin\AttributeController::class)->parameters(['attributes' => 'category']);
+        Route::resource('settings', \App\Http\Controllers\Admin\SettingController::class);
     });
 });

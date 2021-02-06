@@ -22467,7 +22467,9 @@ var render = function() {
                       .route()
                       .current("admin.settings.*")
                   },
-                  attrs: { href: "" }
+                  attrs: {
+                    href: _vm.route("admin.settings.edit", { setting: 1 })
+                  }
                 },
                 [
                   _c("img", {
