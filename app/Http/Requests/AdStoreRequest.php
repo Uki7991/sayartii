@@ -30,7 +30,6 @@ class AdStoreRequest extends FormRequest
             'price' => 'required',
             'year' => 'required',
             'mileage' => 'required',
-            'location' => 'required',
             'phone' => 'required',
             'whatsapp' => 'required',
             'images' => 'required|array|min:1|max:12',
