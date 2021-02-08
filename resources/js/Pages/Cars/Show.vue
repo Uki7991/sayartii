@@ -87,16 +87,22 @@
     import CarCard from "@/Components/CarCard";
 
     export default {
+        metaInfo() {
+            return {
+                title: this.car.title + ' ' + this.car.car_model.car.title + ' ' + this.car.car_model.title + ' ' + this.car.year,
+                meta: [
+                    {vmid: 'description', name: 'description', content: this.car.description + ' ' + this.car.car_model.car.title + ' ' + this.car.car_model.title + ' ' + this.car.year}
+                ]
+            }
+        },
+        props: {
+            suggestions: Array,
+            car: Object,
+        },
         components: {
             CarCard,
             AppLayout,
         },
-        data() {
-            return {
-                car: this.$page.props.car,
-                suggestions: this.$page.props.suggestions || [],
-            }
-        }
     }
 </script>
 

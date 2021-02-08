@@ -1419,15 +1419,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  metaInfo: function metaInfo() {
+    return {
+      title: this.car.title + ' ' + this.car.car_model.car.title + ' ' + this.car.car_model.title + ' ' + this.car.year,
+      meta: [{
+        vmid: 'description',
+        name: 'description',
+        content: this.car.description + ' ' + this.car.car_model.car.title + ' ' + this.car.car_model.title + ' ' + this.car.year
+      }]
+    };
+  },
+  props: {
+    suggestions: Array,
+    car: Object
+  },
   components: {
     CarCard: _Components_CarCard__WEBPACK_IMPORTED_MODULE_1__.default,
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__.default
-  },
-  data: function data() {
-    return {
-      car: this.$page.props.car,
-      suggestions: this.$page.props.suggestions || []
-    };
   }
 });
 

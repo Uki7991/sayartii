@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ad;
 use App\Models\Car;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -14,6 +15,8 @@ class IndexController extends Controller
 
         return inertia('Welcome', [
             'announcements' => $ads,
+            'metaTitle' => Setting::first()->title,
+            'metaDescription' => Setting::first()->description,
         ]);
     }
 }

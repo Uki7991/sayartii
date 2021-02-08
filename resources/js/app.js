@@ -7,7 +7,8 @@ import PortalVue from 'portal-vue';
 import Vuesax from "vuesax";
 import Toasted from "vue-toasted";
 import VueSplide from '@splidejs/vue-splide';
-import Notifications from 'vue-notification'
+import Notifications from 'vue-notification';
+import VueMeta from 'vue-meta';
 
 Vue.mixin({ methods: { route } });
 Vue.mixin({
@@ -33,6 +34,7 @@ Vue.use(Vuesax);
 Vue.use(Toasted);
 Vue.use(Notifications);
 Vue.use(VueSplide);
+Vue.use(VueMeta);
 
 const app = document.getElementById('app');
 

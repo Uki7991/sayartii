@@ -1353,6 +1353,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  metaInfo: function metaInfo() {
+    return {
+      title: this.$page.props.metaTitle,
+      meta: [{
+        vmid: 'description',
+        name: 'description',
+        content: this.$page.props.metaDescription
+      }]
+    };
+  },
   components: {
     CarCard: _Components_CarCard__WEBPACK_IMPORTED_MODULE_1__.default,
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__.default

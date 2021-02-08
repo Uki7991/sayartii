@@ -20,6 +20,14 @@
     import AppLayout from "@/Layouts/AppLayout";
     import CarCard from "@/Components/CarCard";
     export default {
+        metaInfo() {
+            return {
+                title: this.$page.props.metaTitle,
+                meta: [
+                    {vmid: 'description', name: 'description', content: this.$page.props.metaDescription}
+                ],
+            }
+        },
         components: {
             CarCard,
             AppLayout
