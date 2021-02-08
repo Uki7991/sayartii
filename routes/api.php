@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/attributes', [\App\Http\Controllers\API\AttributeController::class, 'index']);
+Route::get('/announcements', [\App\Http\Controllers\API\AdController::class, 'index']);

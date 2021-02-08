@@ -703,6 +703,13 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       });
+    },
+    sell: function sell() {
+      if (this.$page.props.user) {
+        this.$emit('close', 'sell');
+      } else {
+        this.toLogin();
+      }
     }
   }
 });
@@ -766,21 +773,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_Icons_Globe__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/Components/Icons/Globe */ "./resources/js/Components/Icons/Globe.vue");
 /* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
 /* harmony import */ var _Components_SelectWithSearch__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/Components/SelectWithSearch */ "./resources/js/Components/SelectWithSearch.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1147,10 +1145,16 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_4___default()((filepond_plu
         images: [],
         attributesArr: {}
       }),
-      formFilters: this.$inertia.form({
+      formFilters: {
         model: null,
+        yearFrom: null,
+        yearTo: null,
+        priceFrom: null,
+        priceTo: null,
+        mileageFrom: null,
+        mileageTo: null,
         attributesArr: {}
-      }),
+      },
       files: [],
       disabledButton: false,
       cars: []
@@ -1164,9 +1168,13 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_4___default()((filepond_plu
       this.hideBody();
       this.activeSidebar = true;
     },
-    closeSidebar: function closeSidebar() {
+    closeSidebar: function closeSidebar($event) {
       this.showBody();
       this.activeSidebar = false;
+
+      if ($event) {
+        this.openSellSidebar();
+      }
     },
     openFilters: function openFilters() {
       this.hideBody();
@@ -1248,47 +1256,57 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_4___default()((filepond_plu
       this.formCreate.reset();
     },
     resetFormFilters: function resetFormFilters() {
+      this.closeFilters();
+      this.$inertia.get('/');
       var self = this;
 
       lodash__WEBPACK_IMPORTED_MODULE_3___default().forEach(this.attributes, function (value, index) {
         if (value.type === 'radio') {
-          self.$set(self.formFilters.attributesArr, index, 0);
-        }
+          self.$set(self.formFilters.attributesArr, index, '');
+        } // if (value.type === 'checkbox') {
+        //     self.$set(self.formFilters.attributesArr, index, {});
+        //     _.forEach(value.attributesArr, (item, key) => {
+        //         self.$set(self.formFilters.attributesArr[index], key, item.status);
+        //     })
+        // }
 
-        if (value.type === 'checkbox') {
-          self.$set(self.formFilters.attributesArr, index, {});
-
-          lodash__WEBPACK_IMPORTED_MODULE_3___default().forEach(value.attributesArr, function (item, key) {
-            self.$set(self.formFilters.attributesArr[index], key, item.status);
-          });
-        }
       });
 
       this.formFilters.reset();
+    },
+    filter: function filter() {
+      var _this2 = this;
+
+      window.axios.get('/api/announcements', {
+        params: _objectSpread(_objectSpread({}, this.formFilters), {}, {
+          car: this.formFilters.model ? this.formFilters.model.id : null,
+          model: Array.isArray(this.formFilters.model) ? this.formFilters.model[1].id : null
+        })
+      }).then(function (data) {
+        _this2.$page.props.announcements = data.data;
+      });
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     window.axios.get('/api/attributes').then(function (data) {
-      _this2.attributes = data.data;
+      _this3.attributes = data.data;
 
       lodash__WEBPACK_IMPORTED_MODULE_3___default().forEach(data.data, function (value, index) {
         if (value.type === 'radio') {
-          _this2.$set(_this2.formCreate.attributesArr, index, '');
+          _this3.$set(_this3.formCreate.attributesArr, index, '');
 
-          _this2.$set(_this2.formFilters.attributesArr, index, '');
+          _this3.$set(_this3.formFilters.attributesArr, index, '');
         }
 
         if (value.type === 'checkbox') {
-          _this2.$set(_this2.formCreate.attributesArr, index, {});
+          _this3.$set(_this3.formCreate.attributesArr, index, {}); // this.$set(this.formFilters.attributesArr, index, {});
 
-          _this2.$set(_this2.formFilters.attributesArr, index, {});
 
           lodash__WEBPACK_IMPORTED_MODULE_3___default().forEach(value.attributesArr, function (item, key) {
-            _this2.$set(_this2.formCreate.attributesArr[index], key, item.status);
+            _this3.$set(_this3.formCreate.attributesArr[index], key, item.status); // this.$set(this.formFilters.attributesArr[index], key, item.status);
 
-            _this2.$set(_this2.formFilters.attributesArr[index], key, item.status);
           });
         }
       });
@@ -38380,20 +38398,31 @@ var render = function() {
                       "div",
                       { staticClass: "py-6 border-t border-gray-600" },
                       [
-                        _c("menu-item-hoverable", { staticClass: "px-8" }, [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "uppercase bg-pink-600 text-white block flex items-center text-xl h-12 focus:outline-none w-full justify-center rounded-md"
-                            },
-                            [
-                              _vm._v(
-                                "\n                                        Sell your car\n                                    "
-                              )
-                            ]
-                          )
-                        ])
+                        _c(
+                          "menu-item-hoverable",
+                          {
+                            staticClass: "px-8",
+                            nativeOn: {
+                              click: function($event) {
+                                return _vm.sell($event)
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "uppercase bg-pink-600 text-white block flex items-center text-xl h-12 focus:outline-none w-full justify-center rounded-md"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                        Sell your car\n                                    "
+                                )
+                              ]
+                            )
+                          ]
+                        )
                       ],
                       1
                     )
@@ -38977,7 +39006,13 @@ var render = function() {
                   _c("select-with-search", {
                     staticClass:
                       "flex flex-col items-center border border-l-0 rounded-r md:px-3 px-1 border-gray-400 w-full bg-white transition-all duration-100 transform focus-within:absolute focus-within:left-1/2 focus-within:-translate-x-1/2 focus-within:right-4 focus-within:w-9/10 focus-within:border-l focus-within:rounded-md md:focus-within:relative md:focus-within:left-0 md:focus-within:-translate-x-0 md:focus-within:right-0 md:focus-within:w-full md:focus-within:border-l-0 md:focus-within:rounded-l-none",
-                    attrs: { "with-all": "", collection: _vm.cars },
+                    attrs: {
+                      "with-all": "",
+                      collection: [{ title: "All models", id: 0 }].concat(
+                        _vm.cars
+                      )
+                    },
+                    on: { change: _vm.filter },
                     model: {
                       value: _vm.formFilters.model,
                       callback: function($$v) {
@@ -39036,7 +39071,11 @@ var render = function() {
       _vm._v(" "),
       _c("sidebar", {
         attrs: { show: _vm.activeSidebar },
-        on: { close: _vm.closeSidebar }
+        on: {
+          close: function($event) {
+            return _vm.closeSidebar($event)
+          }
+        }
       }),
       _vm._v(" "),
       _c(
@@ -39113,11 +39152,12 @@ var render = function() {
                         "button",
                         {
                           staticClass:
-                            "w-1/2 flex items-center justify-center py-4 text-lg font-medium text-pink-600 bg-white"
+                            "w-1/2 flex items-center justify-center py-4 text-lg font-medium text-pink-600 bg-white",
+                          on: { click: _vm.resetFormFilters }
                         },
                         [
                           _vm._v(
-                            "\n                        Cancel\n                    "
+                            "\n                        Reset\n                    "
                           )
                         ]
                       ),
@@ -39126,11 +39166,12 @@ var render = function() {
                         "button",
                         {
                           staticClass:
-                            "w-1/2 flex items-center justify-center py-4 text-white text-lg font-medium bg-pink-600"
+                            "w-1/2 flex items-center justify-center py-4 text-white text-lg font-medium bg-pink-600",
+                          on: { click: _vm.filter }
                         },
                         [
                           _vm._v(
-                            "\n                        7,641 results\n                    "
+                            "\n                        Filter\n                    "
                           )
                         ]
                       )
@@ -39157,7 +39198,12 @@ var render = function() {
                   _c("select-with-search", {
                     staticClass:
                       "flex flex-col items-center border rounded-md px-3 border-gray-400 w-full bg-white",
-                    attrs: { "with-all": "", collection: _vm.cars },
+                    attrs: {
+                      "with-all": "",
+                      collection: [{ title: "All models", id: 0 }].concat(
+                        _vm.cars
+                      )
+                    },
                     model: {
                       value: _vm.formFilters.model,
                       callback: function($$v) {
@@ -39175,31 +39221,59 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "flex flex-wrap" }, [
                   _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formFilters.yearFrom,
+                        expression: "formFilters.yearFrom"
+                      }
+                    ],
                     staticClass:
                       "flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black",
                     attrs: {
                       placeholder: "From",
                       type: "number",
                       id: "yearFrom"
+                    },
+                    domProps: { value: _vm.formFilters.yearFrom },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.formFilters,
+                          "yearFrom",
+                          $event.target.value
+                        )
+                      }
                     }
                   }),
                   _vm._v(" "),
                   _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formFilters.yearTo,
+                        expression: "formFilters.yearTo"
+                      }
+                    ],
                     staticClass:
                       "flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black",
-                    attrs: { placeholder: "To", type: "number" }
+                    attrs: { placeholder: "To", type: "number" },
+                    domProps: { value: _vm.formFilters.yearTo },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.formFilters, "yearTo", $event.target.value)
+                      }
+                    }
                   })
                 ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "py-2" }, [
-                _c("label", { attrs: { for: "keyword" } }, [_vm._v("Keyword")]),
-                _vm._v(" "),
-                _c("input", {
-                  staticClass:
-                    "w-full rounded-md focus:ring-black focus:border-black",
-                  attrs: { type: "text", id: "keyword" }
-                })
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "py-2" }, [
@@ -39207,19 +39281,61 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "flex flex-wrap" }, [
                   _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formFilters.priceFrom,
+                        expression: "formFilters.priceFrom"
+                      }
+                    ],
                     staticClass:
                       "flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black",
                     attrs: {
                       placeholder: "Min",
                       type: "number",
                       id: "priceFrom"
+                    },
+                    domProps: { value: _vm.formFilters.priceFrom },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.formFilters,
+                          "priceFrom",
+                          $event.target.value
+                        )
+                      }
                     }
                   }),
                   _vm._v(" "),
                   _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formFilters.priceTo,
+                        expression: "formFilters.priceTo"
+                      }
+                    ],
                     staticClass:
                       "flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black",
-                    attrs: { placeholder: "Max", type: "number" }
+                    attrs: { placeholder: "Max", type: "number" },
+                    domProps: { value: _vm.formFilters.priceTo },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.formFilters,
+                          "priceTo",
+                          $event.target.value
+                        )
+                      }
+                    }
                   })
                 ])
               ]),
@@ -39231,19 +39347,61 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "flex flex-wrap" }, [
                   _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formFilters.mileageFrom,
+                        expression: "formFilters.mileageFrom"
+                      }
+                    ],
                     staticClass:
                       "flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black",
                     attrs: {
                       placeholder: "Min",
                       type: "number",
                       id: "mileageFrom"
+                    },
+                    domProps: { value: _vm.formFilters.mileageFrom },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.formFilters,
+                          "mileageFrom",
+                          $event.target.value
+                        )
+                      }
                     }
                   }),
                   _vm._v(" "),
                   _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formFilters.mileageTo,
+                        expression: "formFilters.mileageTo"
+                      }
+                    ],
                     staticClass:
                       "flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black",
-                    attrs: { placeholder: "Max", type: "number" }
+                    attrs: { placeholder: "Max", type: "number" },
+                    domProps: { value: _vm.formFilters.mileageTo },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.formFilters,
+                          "mileageTo",
+                          $event.target.value
+                        )
+                      }
+                    }
                   })
                 ])
               ]),
@@ -39257,62 +39415,36 @@ var render = function() {
                     class: [index, _vm.attributes]
                   },
                   [
-                    _c("p", { staticClass: "mb-2" }, [
-                      _vm._v(_vm._s(item.title))
-                    ]),
+                    item.type === "radio"
+                      ? _c("p", { staticClass: "mb-2" }, [
+                          _vm._v(_vm._s(item.title))
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _c(
                       "div",
                       { staticClass: "flex flex-wrap" },
-                      [
-                        _vm._l(item.attributesArr, function(value, indexAttr) {
-                          return item.type === "checkbox"
-                            ? _c("check-box", {
-                                key: indexAttr + "checkboxFilter",
-                                staticClass: "flex-initial mr-2 mb-3",
-                                class: indexAttr,
-                                attrs: { name: index + "Filter", type: value },
-                                model: {
-                                  value:
-                                    _vm.formFilters.attributesArr[index][
-                                      indexAttr
-                                    ],
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.formFilters.attributesArr[index],
-                                      indexAttr,
-                                      $$v
-                                    )
-                                  },
-                                  expression:
-                                    "formFilters.attributesArr[index][indexAttr]"
-                                }
-                              })
-                            : _vm._e()
-                        }),
-                        _vm._v(" "),
-                        _vm._l(item.attributesArr, function(value, indexAttr) {
-                          return item.type === "radio"
-                            ? _c("radio-box", {
-                                key: indexAttr + "radioFilter",
-                                staticClass: "flex-initial mr-2 mb-3",
-                                attrs: { name: index + "Filter", type: value },
-                                model: {
-                                  value: _vm.formFilters.attributesArr[index],
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.formFilters.attributesArr,
-                                      index,
-                                      $$v
-                                    )
-                                  },
-                                  expression: "formFilters.attributesArr[index]"
-                                }
-                              })
-                            : _vm._e()
-                        })
-                      ],
-                      2
+                      _vm._l(item.attributesArr, function(value, indexAttr) {
+                        return item.type === "radio"
+                          ? _c("radio-box", {
+                              key: indexAttr + "radioFilter",
+                              staticClass: "flex-initial mr-2 mb-3",
+                              attrs: { name: index + "Filter", type: value },
+                              model: {
+                                value: _vm.formFilters.attributesArr[index],
+                                callback: function($$v) {
+                                  _vm.$set(
+                                    _vm.formFilters.attributesArr,
+                                    index,
+                                    $$v
+                                  )
+                                },
+                                expression: "formFilters.attributesArr[index]"
+                              }
+                            })
+                          : _vm._e()
+                      }),
+                      1
                     )
                   ]
                 )

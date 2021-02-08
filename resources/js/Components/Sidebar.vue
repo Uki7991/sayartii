@@ -56,7 +56,7 @@
                             <!--                            <p class="ml-4">Language</p>-->
                             <!--                        </menu-item-with-select>-->
                             <div class="py-6 border-t border-gray-600">
-                                <menu-item-hoverable class="px-8">
+                                <menu-item-hoverable @click.native="sell" class="px-8">
                                     <div class="uppercase bg-pink-600 text-white block flex items-center text-xl h-12 focus:outline-none w-full justify-center rounded-md">
                                         Sell your car
                                     </div>
@@ -201,6 +201,13 @@
                         }
                     }
                 })
+            },
+            sell() {
+                if (this.$page.props.user) {
+                    this.$emit('close', 'sell');
+                } else {
+                    this.toLogin();
+                }
             }
         },
     }

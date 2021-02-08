@@ -33,9 +33,10 @@
 
                     <!--                    </div>-->
                     <select-with-search
+                        @change="filter"
                         with-all
                         class="flex flex-col items-center border border-l-0 rounded-r md:px-3 px-1 border-gray-400 w-full bg-white transition-all duration-100 transform focus-within:absolute focus-within:left-1/2 focus-within:-translate-x-1/2 focus-within:right-4 focus-within:w-9/10 focus-within:border-l focus-within:rounded-md md:focus-within:relative md:focus-within:left-0 md:focus-within:-translate-x-0 md:focus-within:right-0 md:focus-within:w-full md:focus-within:border-l-0 md:focus-within:rounded-l-none"
-                        :collection="cars" v-model="formFilters.model"></select-with-search>
+                        :collection="[{title: 'All models', id: 0}, ...cars]" v-model="formFilters.model"></select-with-search>
                 </div>
 
 
@@ -67,7 +68,7 @@
             Sell
         </div>
 
-        <sidebar @close="closeSidebar" :show="activeSidebar"></sidebar>
+        <sidebar @close="closeSidebar($event)" :show="activeSidebar"></sidebar>
         <modular-sidebar classes="rounded-br-md w-2/6 min-h-full" title="You are searching" left @close="closeFilters"
                          :show="filtersSidebar">
             <template #header>
@@ -83,37 +84,29 @@
                 </div>
             </template>
             <div class="px-8 overflow-y-auto">
-<!--                <menu-item-with-select>-->
-<!--                    <globe width="30" height="30" class="text-black"></globe>-->
-<!--                    <p class="ml-4">Location</p>-->
-<!--                </menu-item-with-select>-->
                 <div class="py-2">
                     <label>Make / Model</label>
                     <select-with-search
                         with-all
                         class="flex flex-col items-center border rounded-md px-3 border-gray-400 w-full bg-white"
-                        :collection="cars" v-model="formFilters.model"></select-with-search>
+                        :collection="[{title: 'All models', id: 0}, ...cars]" v-model="formFilters.model"></select-with-search>
                 </div>
                 <div class="py-2">
                     <label for="yearFrom">Year</label>
                     <div class="flex flex-wrap">
-                        <input placeholder="From" type="number" id="yearFrom"
+                        <input v-model="formFilters.yearFrom" placeholder="From" type="number" id="yearFrom"
                                class="flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black">
-                        <input placeholder="To" type="number"
+                        <input v-model="formFilters.yearTo" placeholder="To" type="number"
                                class="flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black">
                     </div>
-                </div>
-                <div class="py-2">
-                    <label for="keyword">Keyword</label>
-                    <input type="text" id="keyword" class="w-full rounded-md focus:ring-black focus:border-black">
                 </div>
 
                 <div class="py-2">
                     <label for="priceFrom">Price</label>
                     <div class="flex flex-wrap">
-                        <input placeholder="Min" type="number" id="priceFrom"
+                        <input v-model="formFilters.priceFrom" placeholder="Min" type="number" id="priceFrom"
                                class="flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black">
-                        <input placeholder="Max" type="number"
+                        <input v-model="formFilters.priceTo" placeholder="Max" type="number"
                                class="flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black">
                     </div>
                 </div>
@@ -121,21 +114,21 @@
                 <div class="py-2">
                     <label for="mileageFrom">Mileage</label>
                     <div class="flex flex-wrap">
-                        <input placeholder="Min" type="number" id="mileageFrom"
+                        <input v-model="formFilters.mileageFrom" placeholder="Min" type="number" id="mileageFrom"
                                class="flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black">
-                        <input placeholder="Max" type="number"
+                        <input v-model="formFilters.mileageTo" placeholder="Max" type="number"
                                class="flex-auto mr-2 mb-2 rounded-md focus:ring-black focus:border-black">
                     </div>
                 </div>
 
                 <div v-for="(item, index) in attributes" :key="index+'Filter'" class="py-1"
                      :class="[index, attributes]">
-                    <p class="mb-2">{{item.title}}</p>
+                    <p v-if="item.type === 'radio'" class="mb-2">{{item.title}}</p>
                     <div class="flex flex-wrap">
-                        <check-box v-if="item.type === 'checkbox'" class="flex-initial mr-2 mb-3" :class="indexAttr"
-                                   v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'checkboxFilter'"
-                                   :name="index + 'Filter'" v-model="formFilters.attributesArr[index][indexAttr]"
-                                   :type="value"></check-box>
+<!--                        <check-box v-if="item.type === 'checkbox'" class="flex-initial mr-2 mb-3" :class="indexAttr"-->
+<!--                                   v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'checkboxFilter'"-->
+<!--                                   :name="index + 'Filter'" v-model="formFilters.attributesArr[index][indexAttr]"-->
+<!--                                   :type="value"></check-box>-->
                         <radio-box v-if="item.type === 'radio'" class="flex-initial mr-2 mb-3"
                                    v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'radioFilter'"
                                    :name="index + 'Filter'" v-model="formFilters.attributesArr[index]"
@@ -146,12 +139,14 @@
             <template v-slot:footer>
                 <div class="flex mt-auto shadow-vertical-up">
                     <button
+                        @click="resetFormFilters"
                         class="w-1/2 flex items-center justify-center py-4 text-lg font-medium text-pink-600 bg-white">
-                        Cancel
+                        Reset
                     </button>
                     <button
+                        @click="filter"
                         class="w-1/2 flex items-center justify-center py-4 text-white text-lg font-medium bg-pink-600">
-                        7,641 results
+                        Filter
                     </button>
                 </div>
             </template>
@@ -184,17 +179,7 @@
                            class="w-full rounded-md focus:ring-black focus:border-black">
                     <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.year">{{$page.props.errors.year}}</p>
                 </div>
-<!--                <div class="py-1">-->
-<!--                    <label for="location">Location <span class="text-red-600">*</span></label>-->
-<!--                    <select id="location" v-model="formCreate.location"-->
-<!--                            class="w-full rounded-md focus:ring-black focus:border-black">-->
-<!--                        <option>Egypt</option>-->
-<!--                        <option>Algeria</option>-->
-<!--                        <option>Arabian</option>-->
-<!--                    </select>-->
-<!--                    <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.location">-->
-<!--                        {{$page.props.errors.location}}</p>-->
-<!--                </div>-->
+
                 <div class="py-1">
                     <label for="price">Price <span class="text-red-600">*</span></label>
                     <input type="number" v-model="formCreate.price" id="price"
@@ -388,10 +373,16 @@
                     images: [],
                     attributesArr: {},
                 }),
-                formFilters: this.$inertia.form({
+                formFilters: {
                     model: null,
+                    yearFrom: null,
+                    yearTo: null,
+                    priceFrom: null,
+                    priceTo: null,
+                    mileageFrom: null,
+                    mileageTo: null,
                     attributesArr: {},
-                }),
+                },
                 files: [],
                 disabledButton: false,
                 cars: [],
@@ -405,9 +396,12 @@
                 this.hideBody();
                 this.activeSidebar = true;
             },
-            closeSidebar() {
+            closeSidebar($event) {
                 this.showBody();
                 this.activeSidebar = false;
+                if ($event) {
+                    this.openSellSidebar();
+                }
             },
             openFilters() {
                 this.hideBody();
@@ -486,19 +480,32 @@
                 this.formCreate.reset();
             },
             resetFormFilters() {
+                this.closeFilters();
+                this.$inertia.get('/');
                 let self = this;
                 _.forEach(this.attributes, (value, index) => {
                     if (value.type === 'radio') {
-                        self.$set(self.formFilters.attributesArr, index, 0);
+                        self.$set(self.formFilters.attributesArr, index, '');
                     }
-                    if (value.type === 'checkbox') {
-                        self.$set(self.formFilters.attributesArr, index, {});
-                        _.forEach(value.attributesArr, (item, key) => {
-                            self.$set(self.formFilters.attributesArr[index], key, item.status);
-                        })
-                    }
+                    // if (value.type === 'checkbox') {
+                    //     self.$set(self.formFilters.attributesArr, index, {});
+                    //     _.forEach(value.attributesArr, (item, key) => {
+                    //         self.$set(self.formFilters.attributesArr[index], key, item.status);
+                    //     })
+                    // }
                 });
                 this.formFilters.reset();
+            },
+            filter() {
+                window.axios.get('/api/announcements', {
+                    params: {
+                        ...this.formFilters,
+                        car: this.formFilters.model ? this.formFilters.model.id : null,
+                        model: Array.isArray(this.formFilters.model) ? this.formFilters.model[1].id : null,
+                    }
+                }).then(data => {
+                    this.$page.props.announcements = data.data;
+                })
             }
         },
         mounted() {
@@ -512,10 +519,10 @@
                         }
                         if (value.type === 'checkbox') {
                             this.$set(this.formCreate.attributesArr, index, {});
-                            this.$set(this.formFilters.attributesArr, index, {});
+                            // this.$set(this.formFilters.attributesArr, index, {});
                             _.forEach(value.attributesArr, (item, key) => {
                                 this.$set(this.formCreate.attributesArr[index], key, item.status);
-                                this.$set(this.formFilters.attributesArr[index], key, item.status);
+                                // this.$set(this.formFilters.attributesArr[index], key, item.status);
                             })
                         }
                     })
