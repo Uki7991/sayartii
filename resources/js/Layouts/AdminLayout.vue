@@ -51,7 +51,13 @@
 
 <script>
     import moment from "moment";
+    import Vuesax from 'vuesax'
     import 'vuesax/dist/vuesax.css';
+    import Vue from 'vue';
+    import Toasted from "vue-toasted";
+
+    Vue.use(Vuesax);
+    Vue.use(Toasted);
 
     export default {
         data() {

@@ -252,6 +252,9 @@
 
 <script>
     import _ from "lodash";
+    import Vue from "vue";
+    import VueSplide from '@splidejs/vue-splide';
+    import Notifications from 'vue-notification';
 
     // Import Vue FilePond
     import vueFilePond from 'vue-filepond';
@@ -267,6 +270,10 @@
     import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 
     const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
+
+
+    Vue.use(Notifications);
+    Vue.use(VueSplide);
 
     export default {
         components: {

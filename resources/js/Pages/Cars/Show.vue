@@ -7,7 +7,7 @@
                 <div class="md:w-7/12">
                     <div class="grid grid-cols-3 gap-0.5 shadow-md">
                         <div class="cursor-pointer" @click="index = imageIndex" v-for="(image, imageIndex) in car.images" :key="image.id">
-                            <img class="object-cover w-full md:h-40" :src="'/storage/small/'+image.path" :alt="car.model">
+                            <img class="object-cover w-full md:h-40" v-lazy="'/storage/small/'+image.path" :alt="car.model">
                         </div>
                     </div>
 
@@ -81,6 +81,10 @@
 
 <script>
     import 'vue-cool-lightbox/dist/vue-cool-lightbox.min.css';
+    import Vue from 'vue';
+    import VueLazyload from 'vue-lazyload';
+
+    Vue.use(VueLazyload);
 
     export default {
         metaInfo() {
