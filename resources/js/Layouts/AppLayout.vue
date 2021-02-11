@@ -251,10 +251,6 @@
 </template>
 
 <script>
-
-    import Sidebar from "@/Components/Sidebar";
-    import ModularSidebar from "@/Components/ModularSidebar";
-    import MenuItemWithSelect from "@/Components/MenuItemWithSelect";
     import _ from "lodash";
 
     // Import Vue FilePond
@@ -269,24 +265,17 @@
     // Import image preview and file type validation plugins
     import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
     import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-    import CheckBox from "@/Components/CheckBox";
-    import RadioBox from "@/Components/RadioBox";
-    import Globe from "@/Components/Icons/Globe";
-    import Button from "@/Jetstream/Button";
-    import SelectWithSearch from "@/Components/SelectWithSearch";
 
     const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
     export default {
         components: {
-            SelectWithSearch,
-            Button,
-            Globe,
-            RadioBox,
-            CheckBox,
-            MenuItemWithSelect,
-            ModularSidebar,
-            Sidebar,
+            SelectWithSearch: () => import("@/Components/SelectWithSearch"),
+            Globe: () => import("@/Components/Icons/Globe"),
+            RadioBox: () => import("@/Components/RadioBox"),
+            CheckBox: () => import("@/Components/CheckBox"),
+            ModularSidebar: () => import("@/Components/ModularSidebar"),
+            Sidebar: () => import("@/Components/Sidebar"),
             FilePond,
         },
         data() {

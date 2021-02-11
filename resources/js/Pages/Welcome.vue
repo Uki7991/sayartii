@@ -17,8 +17,6 @@
 </style>
 
 <script>
-    import AppLayout from "@/Layouts/AppLayout";
-    import CarCard from "@/Components/CarCard";
     export default {
         metaInfo() {
             return {
@@ -29,8 +27,8 @@
             }
         },
         components: {
-            CarCard,
-            AppLayout
+            CarCard: () => import("@/Components/CarCard"),
+            AppLayout: () => import("@/Layouts/AppLayout"),
         },
         props: {
             announcements: {

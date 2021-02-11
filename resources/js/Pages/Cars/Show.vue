@@ -6,22 +6,14 @@
 
                 <div class="md:w-7/12">
                     <div class="grid grid-cols-3 gap-0.5 shadow-md">
-                        <inertia-link href="" v-for="image in car.images" :key="image.id">
+                        <div class="cursor-pointer" @click="index = imageIndex" v-for="(image, imageIndex) in car.images" :key="image.id">
                             <img class="object-cover w-full md:h-40" :src="'/storage/small/'+image.path" :alt="car.model">
-                        </inertia-link>
+                        </div>
                     </div>
 
                     <div class="bg-white shadow-lg p-8 my-10 flex flex-col space-y-6">
-<!--                        <div class="flex space-x-4 items-center border-b border-gray-500 pb-2">-->
-<!--                            <img class="h-20 w-auto" src="https://sayartii.com/uploads/dealers/17592209246733/profile/202abde794a5117a96141cadf45ffb9ab3b720b5.jpg" alt="">-->
-<!--                            <div>-->
-<!--                                <inertia-link href="" class="text-lg text-blue-600">Royal Motors</inertia-link>-->
-<!--                                <p class="">United Arab Emirates, Dubai</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
                         <div class="flex flex-col space-y-4">
                             <p class="text-4xl">{{car.car_model.car.title}} {{car.car_model.title}}</p>
-<!--                            <p class="text-xl">{{car.car_model.car.title}} {{car.car_model.title}} / GCC Spec / With Warranty</p>-->
                             <pre>{{car.description}}</pre>
                         </div>
                     </div>
@@ -77,14 +69,18 @@
 
                 </div>
             </section>
+            <cool-light-box
+                :index="index"
+                :items="photos"
+                @close="index = null"
+            ></cool-light-box>
         </div>
 
     </app-layout>
 </template>
 
 <script>
-    import AppLayout from "@/Layouts/AppLayout";
-    import CarCard from "@/Components/CarCard";
+    import 'vue-cool-lightbox/dist/vue-cool-lightbox.min.css';
 
     export default {
         metaInfo() {
@@ -99,10 +95,22 @@
             suggestions: Array,
             car: Object,
         },
-        components: {
-            CarCard,
-            AppLayout,
+        data() {
+            return {
+                index: null,
+                photos: [],
+            }
         },
+        components: {
+            CarCard: () => import("@/Components/CarCard"),
+            AppLayout: () => import("@/Layouts/AppLayout"),
+            CoolLightBox: () => import("vue-cool-lightbox"),
+        },
+        created() {
+            this.photos = this.car.images.map(item => {
+                return '/storage/large/'+item.path;
+            });
+        }
     }
 </script>
 

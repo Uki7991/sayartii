@@ -37,7 +37,7 @@ class AdController extends Controller
             }
         }
 
-        $ads = Ad::with('images:id,path,ad_id', 'attributesarr', 'carModel.car');
+        $ads = Ad::with('images:id,path,ad_id', 'attributesarr', 'carModel.car')->where('active', true);
         if ($car || $car === 0) {
             $car = Car::find($car);
             $ads = $ads->whereIn('car_model_id', $car->models->pluck('id')->toArray());
