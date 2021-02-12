@@ -438,21 +438,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -57627,7 +57612,7 @@ var render = function() {
         type: "radio",
         name: _vm.name
       },
-      domProps: { value: _vm.type.id },
+      domProps: { value: _vm.type.id, checked: _vm.radio === _vm.type.id },
       on: {
         change: function($event) {
           return _vm.$emit("change", $event.target.value)
@@ -58309,65 +58294,6 @@ var render = function() {
         _c("div", { staticClass: "py-1" }, [
           _vm._m(3),
           _vm._v(" "),
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.form.location,
-                  expression: "form.location"
-                }
-              ],
-              staticClass:
-                "w-full rounded-md focus:ring-black focus:border-black",
-              attrs: { id: "location" },
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.form,
-                    "location",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
-              }
-            },
-            [
-              _c("option", [_vm._v("dawdawd")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("dawdawd")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("dawdawd")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("dawdawd")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("dawdawd")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("dawdawd")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("dawdawd")])
-            ]
-          ),
-          _vm._v(" "),
-          _vm.$page.props.errors.location
-            ? _c("p", { staticClass: "text-xs text-red-600 mb-2" }, [
-                _vm._v(_vm._s(_vm.$page.props.errors.location))
-              ])
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "py-1" }, [
-          _vm._m(4),
-          _vm._v(" "),
           _c("input", {
             directives: [
               {
@@ -58399,7 +58325,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "py-1" }, [
-          _vm._m(5),
+          _vm._m(4),
           _vm._v(" "),
           _c("input", {
             directives: [
@@ -58432,7 +58358,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "py-1" }, [
-          _vm._m(6),
+          _vm._m(5),
           _vm._v(" "),
           _c("input", {
             directives: [
@@ -58465,7 +58391,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "py-1" }, [
-          _vm._m(7),
+          _vm._m(6),
           _vm._v(" "),
           _c("input", {
             directives: [
@@ -58498,7 +58424,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "py-1" }, [
-          _vm._m(8),
+          _vm._m(7),
           _vm._v(" "),
           _c("input", {
             directives: [
@@ -58531,7 +58457,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "py-1" }, [
-          _vm._m(9),
+          _vm._m(8),
           _vm._v(" "),
           _c("textarea", {
             directives: [
@@ -58602,15 +58528,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "year" } }, [
       _vm._v("Year "),
-      _c("span", { staticClass: "text-red-600" }, [_vm._v("*")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "location" } }, [
-      _vm._v("Location "),
       _c("span", { staticClass: "text-red-600" }, [_vm._v("*")])
     ])
   },

@@ -95,7 +95,13 @@ class AdController extends Controller
      */
     public function edit(Ad $ad)
     {
-        $ad->load('attributesarr:id');
+        $ad->load('attributesarr.category', 'carModel.car.models', 'images:id,path,ad_id');
+        $ad->attributesarr->map(function ($item) {
+            $item->camel = Str::camel($item->category->title);
+            $item->type = $item->category->type;
+            return $item;
+        });
+
 
         return inertia(self::LINK.'Edit', [
             'announcement' => $ad,
@@ -109,9 +115,20 @@ class AdController extends Controller
      * @param  \App\Models\Ad  $ad
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ad $ad)
+    public function update(AdStoreRequest $request, Ad $ad)
     {
-        //
+        $ad->update(array_merge($request->all(), ['car_model_id' => $request->model[1]['id']]));
+
+        $attributes = Attribute::getAttributeIdsFromRequest($request->attributesArr);
+        $ad->attributesarr()->sync($attributes);
+
+        foreach ($request->images as $item) {
+            AdImage::create(['path' => $item, 'ad_id' => $ad->id])->id;
+        }
+
+        $request->session()->flash('message', 'Ad created successfully!');
+
+        return redirect()->route('admin.announcements.index');
     }
 
     /**
@@ -151,5 +168,12 @@ class AdController extends Controller
             'status' => true,
             'message' => 'Announcement is featured',
         ]);
+    }
+
+    public function imageDelete(Request $request, Ad $ad)
+    {
+        $image = AdImage::where('path', $request->filename)->first()->delete();
+
+        return response()->json(true);
     }
 }

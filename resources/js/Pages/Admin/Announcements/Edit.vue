@@ -8,8 +8,11 @@
                 allow-multiple="true"
                 name="test"
                 ref="pond"
+                :files="files"
                 :server="server"
             ></file-pond>
+            <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.images">{{$page.props.errors.images}}</p>
+
             <div v-for="(item, index) in attributes" :key="index+'Create'" class="py-1" :class="[index, attributes]">
                 <p class="mb-2">{{item.title}}</p>
                 <div class="flex flex-wrap">
@@ -19,6 +22,7 @@
                     <radio-box v-if="item.type === 'radio'" class="flex-initial mr-2 mb-3"
                                v-for="(value, indexAttr) in item.attributesArr" :key="indexAttr+'radio'" :name="index"
                                v-model="form.attributesArr[index]" :type="value"></radio-box>
+                    <p class="text-xs text-red-600 mb-2 w-full" v-if="$page.props.errors['attributesArr.'+index]">{{$page.props.errors['attributesArr.'+index]}}</p>
                 </div>
             </div>
         </div>
@@ -26,66 +30,58 @@
             <p class="capitalize text-center my-4">Car information</p>
             <div class="py-1">
                 <label for="model">Make / Model</label>
-                <input type="text" v-model="form.model" id="model" class="w-full rounded-md focus:ring-black focus:border-black">
-                <multiselect track-by="title" label="title" group-values="models" group-label="title"
-                             placeholder="Select one" v-model="form.make" :options="cars" class="w-full">
-                    <template slot="singleLabel" slot-scope="props"><span class="option__desc"><span
-                        class="option__title">{{ props.option.title }}</span></span></template>
-                    <template slot="option" slot-scope="props">
-                        <div v-if="props.option.$isLabel">
-                            {{props.option.$groupLabel}}
-                        </div>
-                        <div v-else class="option__desc"><span
-                            class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.created_at }}</span>
-                        </div>
-                    </template>
-                </multiselect>
+                <select-with-search
+                    class="flex flex-col items-center border rounded-md px-3 border-gray-400 w-full bg-white"
+                    :collection="$page.props.cars" v-model="form.model"></select-with-search>
+                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.model">{{$page.props.errors.model}}</p>
             </div>
             <div class="py-1">
                 <label for="year">Year</label>
                 <input v-model="form.year" type="number" id="year" class="w-full rounded-md focus:ring-black focus:border-black">
-            </div>
-            <div class="py-1">
-                <label for="location">Location</label>
-                <select id="location" v-model="form.location" class="w-full rounded-md focus:ring-black focus:border-black">
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                </select>
+                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.year">{{$page.props.errors.year}}</p>
+
             </div>
             <div class="py-1">
                 <label for="price">Price</label>
                 <input type="number" v-model="form.price" id="price" class="w-full rounded-md focus:ring-black focus:border-black">
+                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.price">{{$page.props.errors.price}}</p>
+
             </div>
             <div class="py-1">
                 <label for="mileage">Mileage</label>
                 <input type="number" v-model="form.mileage" id="mileage" class="w-full rounded-md focus:ring-black focus:border-black">
+                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.mileage">{{$page.props.errors.mileage}}</p>
+
             </div>
             <div class="py-1">
                 <label for="phone">Phone</label>
                 <input type="number" v-model="form.phone" id="phone" class="w-full rounded-md focus:ring-black focus:border-black">
+                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.phone">{{$page.props.errors.phone}}</p>
+
             </div>
             <div class="py-1">
                 <label for="whatsapp">Whatsapp</label>
                 <input type="number" v-model="form.whatsapp" id="whatsapp" class="w-full rounded-md focus:ring-black focus:border-black">
+                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.whatsapp">{{$page.props.errors.whatsapp}}</p>
+
             </div>
             <div class="py-1">
                 <label for="title">Title</label>
                 <input type="text" v-model="form.title" id="title" class="w-full rounded-md focus:ring-black focus:border-black">
+                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.title">{{$page.props.errors.title}}</p>
+
             </div>
             <div class="py-1">
                 <label for="description">Description</label>
                 <textarea id="description" v-model="form.description" rows="4"
                           class="w-full rounded-md focus:ring-black focus:border-black"></textarea>
+                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.description">{{$page.props.errors.description}}</p>
+
             </div>
         </div>
 
         <div class="w-full py-4">
-            <button type="submit" class="bg-green-700 text-gray-100 py-3 px-6 rounded-md">Create</button>
+            <button type="submit" class="bg-green-700 text-gray-100 py-3 px-6 rounded-md">Update</button>
         </div>
     </form>
 </template>
@@ -97,6 +93,7 @@
     import Multiselect from "vue-multiselect";
     import 'vue-multiselect/dist/vue-multiselect.min.css';
     import _ from "lodash";
+    import SelectWithSearch from "@/Components/SelectWithSearch";
 
     // Import Vue FilePond
     import vueFilePond from 'vue-filepond';
@@ -114,12 +111,16 @@
     const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
     export default {
+        props: {
+            announcement: Object,
+        },
         layout: (h, page) => h(AdminLayout, [page]),
         components: {
             CheckBox,
             RadioBox,
             FilePond,
             Multiselect,
+            SelectWithSearch,
         },
         data() {
             return {
@@ -184,23 +185,67 @@
                             error('oh no');
                         })
 
+                    },
+                    load: (source, load, error, progress, abort, headers) => {
+                        // Should request a file object from the server here
+                        // ...
+                        let self = this;
+                        // Can call the error method if something is wrong, should exit after
+                        fetch(self.route('images.get-image', {filename: source})).then(res => {
+                            res.blob().then(blob => {
+                                progress(true, 0, blob.size);
+                                //
+                                load(blob);
+                            });
+                        });
+
+                        // Should expose an abort method so the request can be cancelled
+                        return {
+                            abort: () => {
+                                // User tapped cancel, abort our ongoing actions here
+
+                                // Let FilePond know the request has been cancelled
+                                abort();
+                            }
+                        };
+                    },
+                    remove: (source, load, error) => {
+                        window.axios.delete(this.route('admin.announcements.image.delete', {'ad': this.announcement.id, 'filename': source}))
+                            .then(data => {
+                                if (data.data) {
+                                    window.axios.delete(self.route('images.delete-image', {filename: source})).then(() => {
+                                        this.files.splice(this.files.findIndex((item, index, array) => {
+                                            return item.source === source;
+                                        }), 1);
+                                        this.form.images.splice(this.form.images.indexOf(source), 1);
+                                        load();
+                                    }).catch(() => {
+                                        error('oh no');
+                                    })
+                                }
+                            })
+                            .catch(data => {
+                                error('oh no');
+                            })
+
                     }
                 },
                 attributes: [],
                 cars: this.$page.props.cars,
-                files: [],
+                files: null,
                 form: this.$inertia.form({
-                    title: null,
-                    description: null,
-                    model: null,
-                    year: null,
-                    mileage: null,
-                    phone: null,
-                    price: null,
-                    whatsapp: null,
-                    location: null,
+                    title: this.announcement.title,
+                    description: this.announcement.description,
+                    model: [this.announcement.car_model.car, this.announcement.car_model],
+                    year: this.announcement.year,
+                    mileage: this.announcement.mileage,
+                    phone: this.announcement.phone,
+                    price: this.announcement.price,
+                    whatsapp: this.announcement.whatsapp,
                     attributesArr: {},
-                    images: [],
+                    images: this.announcement.images.map(item => {
+                        return item.path;
+                    }),
                 }),
             }
         },
@@ -209,7 +254,7 @@
                 console.log(props);
             },
             submitForm() {
-                this.$inertia.post(this.route('admin.announcements.store'), this.form);
+                this.$inertia.put(this.route('admin.announcements.update', {ad: this.announcement.id}), this.form);
             }
         },
         mounted() {
@@ -218,12 +263,18 @@
                     this.attributes = data.data;
                     _.forEach(data.data, (value, index) => {
                         if (value.type === 'radio') {
-                            this.$set(this.form.attributesArr, index, '');
+                            let attr = this.announcement.attributesarr.find((item) => {
+                                return item.camel === index;
+                            });
+                            this.$set(this.form.attributesArr, index, attr.id);
                         }
                         if (value.type === 'checkbox') {
                             this.$set(this.form.attributesArr, index, {});
                             _.forEach(value.attributesArr, (item, key) => {
-                                this.$set(this.form.attributesArr[index], key, item.status);
+                                let attr = this.announcement.attributesarr.find((item) => {
+                                    return item.id == key && item.camel === index;
+                                });
+                                this.$set(this.form.attributesArr[index], key, attr ? true : false);
                             })
                         }
                     })
@@ -231,6 +282,14 @@
                 .catch(error => {
                     console.log(error);
                 })
+            this.files = this.announcement.images ? this.announcement.images.map(item => {
+                return {
+                    source: item.path,
+                    options: {
+                        type: 'local',
+                    }
+                }
+            }) : null;
         }
     }
 </script>

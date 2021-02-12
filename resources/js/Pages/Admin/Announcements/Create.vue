@@ -45,24 +45,9 @@
 
             </div>
             <div class="py-1">
-                <label for="location">Location <span class="text-red-600">*</span></label>
-                <select id="location" v-model="form.location" class="w-full rounded-md focus:ring-black focus:border-black">
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                    <option>dawdawd</option>
-                </select>
-                <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.location">{{$page.props.errors.location}}</p>
-
-            </div>
-            <div class="py-1">
                 <label for="price">Price <span class="text-red-600">*</span></label>
                 <input type="number" v-model="form.price" id="price" class="w-full rounded-md focus:ring-black focus:border-black">
                 <p class="text-xs text-red-600 mb-2" v-if="$page.props.errors.price">{{$page.props.errors.price}}</p>
-
             </div>
             <div class="py-1">
                 <label for="mileage">Mileage <span class="text-red-600">*</span></label>

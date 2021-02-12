@@ -138,7 +138,7 @@ var render = function() {
         type: "radio",
         name: _vm.name
       },
-      domProps: { value: _vm.type.id },
+      domProps: { value: _vm.type.id, checked: _vm.radio === _vm.type.id },
       on: {
         change: function($event) {
           return _vm.$emit("change", $event.target.value)

@@ -60,6 +60,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
             return redirect()->intended('/admin/dashboard');
         });
         Route::get('/dashboard', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('index');
+        Route::delete('/announcements/{ad}/image', [\App\Http\Controllers\Admin\AdController::class, 'imageDelete'])->name('announcements.image.delete');
         Route::post('/announcements/{ad}/active', [\App\Http\Controllers\Admin\AdController::class, 'active'])->name('announcements.active');
         Route::post('/announcements/{ad}/featured', [\App\Http\Controllers\Admin\AdController::class, 'featured'])->name('announcements.featured');
         Route::resource('announcements', \App\Http\Controllers\Admin\AdController::class)->parameters(['announcements' => 'ad']);
