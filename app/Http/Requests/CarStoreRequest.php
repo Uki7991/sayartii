@@ -26,6 +26,7 @@ class CarStoreRequest extends FormRequest
         return [
             'title' => 'required',
             'models' => 'required',
+            'image' => 'present',
         ];
     }
 }

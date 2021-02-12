@@ -72,7 +72,9 @@
         },
         methods: {
             deleteCar(carId) {
-                confirm('Are you sure to delete?') ? this.$inertia.delete(route('admin.cars.destroy', {car: carId})) : '';
+                confirm('Are you sure to delete?') ? this.$inertia.delete(route('admin.cars.destroy', {car: carId}), {
+                    preserveState: false,
+                }) : '';
             }
         },
         updated() {

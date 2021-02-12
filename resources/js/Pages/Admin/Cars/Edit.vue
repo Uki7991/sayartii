@@ -12,6 +12,7 @@
                     :imagePreviewHeight="100"
                     name="test"
                     ref="pond"
+                    :files="files"
                     :server="server"
                     @addfilestart="processFileStart"
                     @removefile="processFileRevert"
@@ -23,7 +24,7 @@
                 <multiselect v-model="form.models" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="title" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag" class="rounded-md focus:ring-gray-600 focus:border-600 w-full"></multiselect>
                 <p class="text-xs text-red-600 mb-2" v-if="form.errors.models">{{form.errors.models}}</p>
             </div>
-            <button class="bg-green-600 text-gray-100 text-lg font-medium py-3 rounded-md" type="submit" :disabled="disabledButton">Create</button>
+            <button class="bg-green-600 text-gray-100 text-lg font-medium py-3 rounded-md" type="submit" :disabled="disabledButton">Update</button>
         </form>
     </card>
 </template>
@@ -50,6 +51,9 @@
     const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
     export default {
+        props: {
+            car: Object,
+        },
         components: {
             Multiselect,
             Card,
@@ -58,10 +62,11 @@
         data() {
             return {
                 options: [],
+                files: null,
                 form: this.$inertia.form({
-                    title: null,
-                    image: null,
-                    models: [],
+                    title: this.car.title,
+                    image: this.car.image,
+                    models: this.car.models,
                 }),
                 server: {
                     process:(fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
@@ -120,6 +125,35 @@
                         }).catch(() => {
                             error('oh no');
                         })
+                    },
+                    load: (source, load, error, progress, abort, headers) => {
+                        // Should request a file object from the server here
+                        // ...
+                        let self = this;
+                        // Can call the error method if something is wrong, should exit after
+                        fetch(self.route('images.get-image', {filename: source})).then(res => {
+                            res.blob().then(blob => {
+                                progress(true, 0, blob.size);
+                                //
+                                load(blob);
+                            });
+                        });
+
+                        // Should expose an abort method so the request can be cancelled
+                        return {
+                            abort: () => {
+                                // User tapped cancel, abort our ongoing actions here
+
+                                // Let FilePond know the request has been cancelled
+                                abort();
+                            }
+                        };
+                    },
+                    remove: (source, load, error) => {
+                        this.files = null;
+                        this.form.image = null;
+
+                        load();
                     }
                 },
                 disabledButton: false,
@@ -136,6 +170,7 @@
                 this.disabledButton = false;
             },
             processFileRevert() {
+                this.disabledButton = false;
             },
             addTag(newTag) {
                 const tag = {
@@ -147,7 +182,7 @@
             },
             storeCar() {
                 this.disabledButton = true;
-                this.form.post(this.route('admin.cars.store'), {
+                this.form.put(this.route('admin.cars.update', {car: this.car.id}), {
                     onSuccess: (data) => {
                         this.disabledButton = false;
                     },
@@ -156,6 +191,16 @@
                     }
                 });
             }
+        },
+        mounted() {
+            this.files = this.$page.props.car.image ? [
+                {
+                    source: this.$page.props.car.image,
+                    options: {
+                        type: 'local',
+                    }
+                }
+            ] : null;
         }
     }
 </script>

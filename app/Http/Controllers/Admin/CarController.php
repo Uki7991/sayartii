@@ -86,7 +86,14 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-        //
+        $car->update($request->all());
+        foreach ($request->get('models') as $item) {
+            $model = CarModel::firstOrCreate(['title' => $item['title'], 'car_id' => $car->id]);
+        }
+
+        $request->session()->flash('message', 'Car make updated successfully!');
+
+        return redirect()->route('admin.cars.index');
     }
 
     /**

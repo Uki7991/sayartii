@@ -34,4 +34,15 @@ class ImageUploadController extends Controller
 
         return \response()->json();
     }
+
+    public function getImage(Request $request)
+    {
+        $filename = $request->get('filename');
+
+        $img_path = public_path('/storage/small/'.$filename);
+
+        return response()->file($img_path, [
+            'Content-Disposition' => 'inline; filename="'.$filename.'"',
+        ]);
+    }
 }

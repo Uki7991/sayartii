@@ -51,6 +51,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::post('/images/post-image', [ImageUploadController::class, 'postImage'])->name('images.post-image');
 Route::delete('/images/delete-image', [ImageUploadController::class, 'deleteImage'])->name('images.delete-image');
+Route::get('/images/get-image', [ImageUploadController::class, 'getImage'])->name('images.get-image');
 Route::put('/users/{user}', [\App\Http\Controllers\UserController::class, 'update'])->middleware('auth')->name('users.update');
 Route::name('admin.')->prefix('admin')->group(function () {
 
