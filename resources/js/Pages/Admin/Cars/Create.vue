@@ -20,7 +20,7 @@
             </div>
             <div class="py-2">
                 <label class="text-sm text-gray-700">Models (Hit Enter to add)</label>
-                <multiselect v-model="form.models" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="title" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag" class="rounded-md focus:ring-gray-600 focus:border-600 w-full"></multiselect>
+                <multiselect v-model="form.models" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="title" track-by="id" :options="options" :multiple="true" :taggable="true" @tag="addTag" class="rounded-md focus:ring-gray-600 focus:border-600 w-full"></multiselect>
                 <p class="text-xs text-red-600 mb-2" v-if="form.errors.models">{{form.errors.models}}</p>
             </div>
             <button class="bg-green-600 text-gray-100 text-lg font-medium py-3 rounded-md" type="submit" :disabled="disabledButton">Create</button>
@@ -50,6 +50,9 @@
     const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
     export default {
+        props: {
+            nullableOptions: Array,
+        },
         components: {
             Multiselect,
             Card,
@@ -57,7 +60,9 @@
         layout: (h, page) => h(AdminLayout, [page]),
         data() {
             return {
-                options: [],
+                options: [
+                    ...this.nullableOptions,
+                ],
                 form: this.$inertia.form({
                     title: null,
                     image: null,
@@ -140,7 +145,7 @@
             addTag(newTag) {
                 const tag = {
                     title: newTag,
-                    code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+                    id: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
                 };
                 this.options.push(tag);
                 this.form.models.push(tag);

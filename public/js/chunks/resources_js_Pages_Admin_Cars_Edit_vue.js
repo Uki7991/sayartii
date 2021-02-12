@@ -145,6 +145,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var filepond_plugin_file_validate_type__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(filepond_plugin_file_validate_type__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! filepond-plugin-image-preview */ "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js");
 /* harmony import */ var filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_8__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 //
 //
 //
@@ -192,7 +204,8 @@ __webpack_require__.r(__webpack_exports__);
 var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_4___default()((filepond_plugin_file_validate_type__WEBPACK_IMPORTED_MODULE_7___default()), (filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_8___default()));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    car: Object
+    car: Object,
+    nullableOptions: Array
   },
   components: {
     Multiselect: (vue_multiselect__WEBPACK_IMPORTED_MODULE_2___default()),
@@ -205,7 +218,7 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_4___default()((filepond_plu
     var _this = this;
 
     return {
-      options: [],
+      options: [].concat(_toConsumableArray(this.car.models), _toConsumableArray(this.nullableOptions)),
       files: null,
       form: this.$inertia.form({
         title: this.car.title,
@@ -315,7 +328,7 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_4___default()((filepond_plu
     addTag: function addTag(newTag) {
       var tag = {
         title: newTag,
-        code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000)
+        id: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000)
       };
       this.options.push(tag);
       this.form.models.push(tag);
@@ -333,6 +346,15 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_4___default()((filepond_plu
         onError: function onError() {
           _this2.disabledButton = false;
         }
+      });
+    },
+    removedTag: function removedTag(removedOption, id) {
+      window.axios.put(this.route('admin.cars.detach', {
+        id: removedOption.id
+      })).then(function (data) {
+        console.log(data);
+      })["catch"](function (data) {
+        console.log('error');
       });
     }
   },
@@ -40226,12 +40248,12 @@ var render = function() {
                 "tag-placeholder": "Add this as new tag",
                 placeholder: "Search or add a tag",
                 label: "title",
-                "track-by": "code",
+                "track-by": "id",
                 options: _vm.options,
                 multiple: true,
                 taggable: true
               },
-              on: { tag: _vm.addTag },
+              on: { remove: _vm.removedTag, tag: _vm.addTag },
               model: {
                 value: _vm.form.models,
                 callback: function($$v) {

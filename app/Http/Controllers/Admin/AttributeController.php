@@ -31,7 +31,9 @@ class AttributeController extends Controller
      */
     public function create()
     {
-        return inertia(self::LINK.'Create');
+        return inertia(self::LINK.'Create', [
+            'nullableOptions' => Attribute::whereNull('category_id')->get(),
+        ]);
     }
 
     /**
@@ -74,7 +76,10 @@ class AttributeController extends Controller
      */
     public function edit($id)
     {
-        //
+        return inertia(self::LINK.'Edit', [
+            'attribute' => Category::with('attributes')->find($id),
+            'nullableOptions' => Attribute::whereNull('category_id')->get(),
+        ]);
     }
 
     /**
@@ -84,9 +89,18 @@ class AttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AttributeStoreRequest $request, $id)
     {
-        //
+        $cat = Category::find($id);
+        $cat->update($request->all());
+
+        foreach ($request->attributesarr as $item) {
+            $attribute = Attribute::updateOrCreate(['title' => $item['title']], ['category_id' => $cat->id]);
+        }
+
+        $request->session()->flash('message', 'Attributes updated successfully');
+
+        return redirect()->route('admin.attributes.index');
     }
 
     /**
@@ -102,5 +116,15 @@ class AttributeController extends Controller
         $request->session()->flash('message', 'Attributes deleted successfully!');
 
         return redirect()->back();
+    }
+
+    public function detach(Request $request, $id)
+    {
+        $attribute = Attribute::find($id);
+
+        $attribute->category_id = null;
+        $attribute->save();
+
+        return response()->json('success');
     }
 }

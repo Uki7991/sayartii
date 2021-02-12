@@ -31,7 +31,9 @@ class CarController extends Controller
      */
     public function create()
     {
-        return inertia(self::LINK.'Create');
+        return inertia(self::LINK.'Create', [
+            'nullableOptions' => CarModel::whereNull('car_id')->get(),
+        ]);
     }
 
     /**
@@ -74,6 +76,7 @@ class CarController extends Controller
     {
         return inertia(self::LINK.'Edit', [
             'car' => $car->load('models'),
+            'nullableOptions' => CarModel::whereNull('car_id')->get(),
         ]);
     }
 
@@ -88,7 +91,7 @@ class CarController extends Controller
     {
         $car->update($request->all());
         foreach ($request->get('models') as $item) {
-            $model = CarModel::firstOrCreate(['title' => $item['title'], 'car_id' => $car->id]);
+            $model = CarModel::updateOrCreate(['title' => $item['title']], [ 'car_id' => $car->id]);
         }
 
         $request->session()->flash('message', 'Car make updated successfully!');
@@ -109,5 +112,14 @@ class CarController extends Controller
         $request->session()->flash('message', 'Car make successfully deleted!');
 
         return redirect()->route('admin.cars.index');
+    }
+
+    public function detach(Request $request, $id)
+    {
+        $car = CarModel::find($id);
+        $car->car_id = null;
+        $car->update();
+
+        return response()->json('success');
     }
 }
