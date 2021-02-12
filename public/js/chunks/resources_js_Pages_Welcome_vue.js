@@ -42,7 +42,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {
     CarCard: function CarCard() {
-      return __webpack_require__.e(/*! import() */ "resources_js_Components_CarCard_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/Components/CarCard */ "./resources/js/Components/CarCard.vue"));
+      return __webpack_require__.e(/*! import() */ "resources_js_Components_CarCard_vue-_678d0").then(__webpack_require__.bind(__webpack_require__, /*! @/Components/CarCard */ "./resources/js/Components/CarCard.vue"));
     },
     AppLayout: function AppLayout() {
       return __webpack_require__.e(/*! import() */ "resources_js_Layouts_AppLayout_vue-_14ae0").then(__webpack_require__.bind(__webpack_require__, /*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue"));

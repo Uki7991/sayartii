@@ -16,7 +16,7 @@
                     <splide-slide>
                         <div :class="{'hidden': sidebarIndex !== 0}">
                             <div v-if="$page.props.user">
-                                <menu-item-hoverable class="px-8">
+                                <menu-item-hoverable @click.native="toProfile" class="px-8">
                                     <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="30" height="30" class="fill-current text-black"><path fill="currentColor" d="M360 320h112c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8H360c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8zm0-64h112c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8H360c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8zm0 128h112c4.4 0 8-3.6 8-8v-16c0-4.4-3.6-8-8-8H360c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8zm-168-32c44.2 0 80-35.8 80-80s-35.8-80-80-80-80 35.8-80 80 35.8 80 80 80zm0-128c26.5 0 48 21.5 48 48s-21.5 48-48 48-48-21.5-48-48 21.5-48 48-48zM512 32H64C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64zM272 448H112v-15.1c0-7 2.1-13.8 6-19.6 5.6-8.3 15.8-13.2 27.3-13.2 12.4 0 20.8 7 46.8 7 25.9 0 34.3-7 46.8-7 11.5 0 21.7 5 27.3 13.2 3.9 5.8 6 12.6 6 19.6V448h-.2zm272-32c0 17.6-14.4 32-32 32H304v-15.1c0-13.9-4.2-26.8-11.4-37.5-12.1-17.9-32.7-27.4-53.8-27.4-19.5 0-24.4 7-46.8 7s-27.3-7-46.8-7c-21.2 0-41.8 9.4-53.8 27.4C84.2 406.1 80 419 80 432.9V448H64c-17.6 0-32-14.4-32-32V160h512v256zm0-288H32V96c0-17.6 14.4-32 32-32h448c17.6 0 32 14.4 32 32v32z" class=""></path></svg>
                                     <p class="ml-4">Profile</p>
                                 </menu-item-hoverable>
@@ -121,6 +121,31 @@
                             </div>
                         </div>
                     </splide-slide>
+                    <splide-slide>
+                        <form @submit.prevent="updateUser" class="px-3 py-5 flex flex-col space-y-4 justify-center" :class="{'hidden': sidebarIndex !== 4}">
+                            <div class="flex flex-col">
+                                <label for="phoneUpdate" class="text-xs text-gray-700">Phone</label>
+                                <input type="text" id="phoneUpdate" class="rounded-md" v-model="formUpdate.phone">
+                                <p class="text-xs text-red-600" v-if="formUpdate.errors.phone">{{formUpdate.errors.phone}}</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="nameRegister" class="text-xs text-gray-700">Name</label>
+                                <input type="text" id="nameUpdate" class="rounded-md" v-model="formUpdate.name">
+                                <p class="text-xs text-red-600" v-if="formUpdate.errors.name">{{formUpdate.errors.name}}</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="cityUpdate" class="text-xs text-gray-700">City</label>
+                                <input type="text" id="cityUpdate" class="rounded-md" v-model="formUpdate.city">
+                                <p class="text-xs text-red-600" v-if="formUpdate.errors.city">{{formUpdate.errors.city}}</p>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="addressUpdate" class="text-xs text-gray-700">Address</label>
+                                <input type="text" id="addressUpdate" class="rounded-md" v-model="formUpdate.address">
+                                <p class="text-xs text-red-600" v-if="formUpdate.errors.address">{{formUpdate.errors.address}}</p>
+                            </div>
+                            <button class="bg-gray-800 text-white py-2 rounded-md disabled:opacity-50" :disabled="formUpdate.processing" type="submit">Update</button>
+                        </form>
+                    </splide-slide>
                 </splide>
             </div>
 
@@ -153,6 +178,12 @@
                     password: null,
                     password_confirmation: null,
                 }),
+                formUpdate: this.$inertia.form({
+                    city: this.$page.props.user ? this.$page.props.user.city : null,
+                    name: this.$page.props.user ? this.$page.props.user.name : null,
+                    phone: this.$page.props.user ? this.$page.props.user.phone : null,
+                    address: this.$page.props.user ? this.$page.props.user.address : null,
+                }),
                 sliderOptions: {
                     perPage: 1,
                     arrows: false,
@@ -182,6 +213,10 @@
                 this.$refs.sidebarslider.go(3);
                 this.sidebarIndex = 3;
             },
+            toProfile() {
+                this.$refs.sidebarslider.go(4);
+                this.sidebarIndex = 4;
+            },
             register() {
                 this.formRegister.post('/register', {
                     onSuccess: (data) => {
@@ -197,8 +232,32 @@
                     onSuccess: (data) => {
                         if (this.formLogin.wasSuccessful) {
                             this.formLogin.reset();
+                            this.formUpdate = this.$inertia.form({
+                                ...this.formUpdate,
+                                city: this.$page.props.user.city,
+                                name: this.$page.props.user.name,
+                                address: this.$page.props.user.address,
+                                phone: this.$page.props.user.phone,
+                            });
                             this.toMain();
                         }
+                    }
+                })
+            },
+            updateUser() {
+                let self = this;
+                this.formUpdate.put(this.route('users.update', {user: this.$page.props.user.id}), {
+                    preserveState: true,
+                    onSuccess: (data) => {
+                        self.$notify({
+                            group: 'announcements',
+                            title: self.$page.props.flash.message,
+                            type: 'success',
+                            position: 'top-center',
+                        });
+                    },
+                    onError: (data) => {
+                        console.log(data);
                     }
                 })
             },
@@ -210,6 +269,9 @@
                 }
             }
         },
+        updated() {
+
+        }
     }
 </script>
 
